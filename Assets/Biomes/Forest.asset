@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ae694b5b0c0454086e33f89fdd51a0, type: 3}
+  m_Name: Forest
+  m_EditorClassIdentifier: 
+  type: forest
+  tiles:
+  - {fileID: -2717450498524267581, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 6290695822058842034, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 6448767414550720792, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -1085124978870774764, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 6505647602457501716, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  edgeTiles:
+  - name: test
+    walkable: 0
+    sprite: {fileID: -2709461165805195088, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: beach_bot_left
+    walkable: 1
+    sprite: {fileID: -5779818596355210837, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: beach_top_left
+    walkable: 1
+    sprite: {fileID: 3817795707249438717, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: beach_top_right
+    walkable: 1
+    sprite: {fileID: 8084011906968031482, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: beach_bot_right
+    walkable: 1
+    sprite: {fileID: 9095793685605170676, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_left
+    walkable: 1
+    sprite: {fileID: -3743161505415450802, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_right
+    walkable: 1
+    sprite: {fileID: -4167810419782708910, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_top
+    walkable: 1
+    sprite: {fileID: 1071435680186933499, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_bot
+    walkable: 1
+    sprite: {fileID: 6792097656254817228, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_bot_left
+    walkable: 1
+    sprite: {fileID: -4654820930330346818, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_bot_right
+    walkable: 1
+    sprite: {fileID: -2440354227278447997, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_top_right
+    walkable: 1
+    sprite: {fileID: 647255290697943504, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_top_left
+    walkable: 1
+    sprite: {fileID: 5998763092967344434, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_corner_top_left
+    walkable: 1
+    sprite: {fileID: -116880263020421452, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_corner_bot_left
+    walkable: 1
+    sprite: {fileID: -8818755761628474115, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_corner_bot_right
+    walkable: 1
+    sprite: {fileID: 5937326819346036756, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: rainforest_corner_top_right
+    walkable: 1
+    sprite: {fileID: -8567595743095328824, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff
+    walkable: 0
+    sprite: {fileID: -6784127288586099988, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_left
+    walkable: 0
+    sprite: {fileID: 9163032341034418253, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_right
+    walkable: 0
+    sprite: {fileID: 1367746418338624055, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_bot
+    walkable: 0
+    sprite: {fileID: -4240321282380757892, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_botLeft
+    walkable: 0
+    sprite: {fileID: 4202815109139220647, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_botRight
+    walkable: 0
+    sprite: {fileID: 2540583261330871055, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_topLeft
+    walkable: 0
+    sprite: {fileID: 6449778831811146454, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_topRight
+    walkable: 0
+    sprite: {fileID: 3250774613529036196, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_end_botRight
+    walkable: 0
+    sprite: {fileID: 1697247181275460622, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_end_botLeft
+    walkable: 0
+    sprite: {fileID: -4383770901457583485, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_end_bot
+    walkable: 0
+    sprite: {fileID: 5608230515429332557, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_end_left
+    walkable: 0
+    sprite: {fileID: 6595398380626538766, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_end_right
+    walkable: 0
+    sprite: {fileID: 1130092461335739887, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: cliff_end_top
+    walkable: 0
+    sprite: {fileID: 1889397922123656321, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  height: 0.3
+  temperature: 0.25
+  maxTemperature: 0.65
+  precipitation: 0.25
+  maxPrecipitation: 0.65
