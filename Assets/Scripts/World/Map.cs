@@ -24,7 +24,7 @@ public class Map : MonoBehaviour
     ChunkGenerator chunkGenerator = null;
     ChunkLoader chunkLoader = null;
 
-    [SerializeField] GameObject player;
+    [SerializeField] protected GameObject player;
 
     //store all biomes and prefabs for each tile
     //public BiomePreset[] biomes;
@@ -33,8 +33,8 @@ public class Map : MonoBehaviour
     //Map dimensions
     [Header("Dimensions")]
     public bool chunkLoading; //checkbox
-    public int width;
-    public int height;
+    public int width = 32;
+    public int height = 32;
     public float scale = 1.0f; 
     public int seed;
     public int heightSeed;
@@ -42,7 +42,7 @@ public class Map : MonoBehaviour
     /*
         Loaded chunks
     */
-    private int chunkSize = 32;
+    protected int chunkSize = 32;
     
     // updating in inspector nogthing more
     public bool autoUpdate;
@@ -59,39 +59,39 @@ public class Map : MonoBehaviour
     public float precipitationPersistance;
     public float precipitationLacunarity;
 
-    private Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>();
-    private List<int2> loaded = new List<int2>();
+    protected Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>();
+    //displayed chunks
+    protected Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
 
-
-
-    /*
-        @function MapGeneration
-        ----------------------
-        This function handles whole map creation process.Three dictionaries each holding chunks of different types
-        are being used to determine which biome and what exact type should be picked for each coodinate of map.
-    */
+    /// <summary>
+    ///  This function handles whole map creation process.Three dictionaries each holding chunks of different types
+    ///  are being used to determine which biome and what exact type should be picked for each coodinate of map.
+    /// </summary>
     public void MapGeneration(){
         /* for inspector because global initialization does not affect inspector in this case */
         chunks = new Dictionary<int2, WorldChunk>();
 
         /* remove later */
         //initialization for inspector mode
-        if (chunkGenerator == null){
-            chunkGenerator = GetComponent<ChunkGenerator>();
-        }
-        
+        if (chunkGenerator == null) chunkGenerator = GetComponent<ChunkGenerator>();
+
+        /* get perlin values in advance ( doing this when loading chunks is irrelevant generating values is fast ) */
         for (int x = 0; x < width; x+=chunkSize)
         {
             for (int y = 0; y < height; y+=chunkSize)
             {
-                chunks = chunkGenerator.GenerateChunk(x,y,chunks,seed,heightSeed,scale,heightOctaves ,heightFrequency,heightExp,"height", new int2(width,height)); 
-                chunks = chunkGenerator.GenerateChunk(x,y,chunks,0,0, scale,0,temperatureMultiplier,temperatureLoss,"temperature", new int2(width,height)); 
-                chunks = chunkGenerator.GenerateChunk(x,y,chunks,seed, precipitationSeed, scale, precipitationOctaves, precipitationPersistance, precipitationLacunarity,"precipitation", new int2(width,height));
+
+                chunks = chunkGenerator.GenerateChunks(     x,y,chunks,
+                                                            seed, heightSeed, precipitationSeed,
+                                                            scale, heightOctaves, precipitationOctaves,
+                                                            heightFrequency, precipitationPersistance, temperatureMultiplier,
+                                                            heightExp, precipitationLacunarity, temperatureLoss,
+                                                            new int2(width,height));
             }
         }
 
-
-        // loop through every chunk in the map
+        /* loading all chunks */
+        //all at once (only during testing remove later.)
         if (!chunkLoading){
             foreach ( var chunk in chunks )
             {
@@ -106,23 +106,25 @@ public class Map : MonoBehaviour
             //loading chunks
             LoadChunks(player.transform.position, 64,70);
         }
-
-
-
     }
-    
-    private void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload){
+
+    /// <summary>
+    /// Loop through all chunks, and determine whenever chunk should be loaded or 
+    /// unloaded by calculating distance and checking treshold.
+    /// </summary>
+    /// <param name="PlayerPos">Position of player in the world</param>
+    /// <param name="distToLoad">Distance treshold to load chunk</param>
+    /// <param name="distToUnload">Distance treshold to unload chunk</param>
+    public void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload){
 		for(int x = 0; x < width; x+=chunkSize){
 			for(int y = 0; y < height ; y+=chunkSize){
-				
-				float dist=Vector2.Distance(new Vector2(x,y),new Vector2(player.transform.position.x,player.transform.position.y));
+				float dist=Vector2.Distance(new Vector2(x,y),new Vector2(PlayerPos.x,PlayerPos.y));
                 if(dist<distToLoad){
-                    
-					if(!loaded.Contains(new int2(x,y))){
-						DisplayChunk(x,y);
+                    if(!renderedChunks.ContainsKey(new int2(x,y))){
+						CreateChunk(x,y);
 					}
 				} else if(dist>distToUnload){
-					if(loaded.Contains(new int2(x,y))){
+					if(renderedChunks.ContainsKey(new int2(x,y))){
 						UnloadChunk(x,y);
 					}
 				}
@@ -130,41 +132,74 @@ public class Map : MonoBehaviour
 			}
 		}
     }
-
+    /// <summary>
+    /// Unloads unnecessary chunk from pool, and removes it from rendered chunks dictionary.
+    /// </summary>
+    /// <param name="x">coord x</param>
+    /// <param name="y">coord y</param>
     private void UnloadChunk(int x, int y){
-		Object.Destroy(chunks[new int2(x, y)].chunkMesh);
-        loaded.Remove(new int2(x,y));
+		//Object.Destroy(chunks[new int2(x, y)].chunkMesh);
+        renderedChunks[new int2(x,y)].SetActive(false);
+        renderedChunks.Remove(new int2(x,y));
     }
 
-    private void DisplayChunk(int x, int y){
+     /// <summary>
+    /// Pools chunk from the pool.
+    /// </summary>
+    /// <param name="x">x coord</param>
+    /// <param name="y">y coords</param>
+    private void CreateChunk(int x, int y){
         //create chunk object
-        GameObject chunkP = Instantiate(chunkPrefab, new Vector3(0,0,0), Quaternion.identity);
-        chunkP.transform.parent = gameObject.transform;
-        ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
-        //create mesh (chunk) and save it to structure holding chunk
-        chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, x, y);
-        loaded.Add(new int2(x,y));
+        //GameObject chunkP = Instantiate(chunkPrefab, new Vector3(0,0,0), Quaternion.identity);
+        GameObject chunkP = ObjectPool.instance.GetPooledChunk();
+        if(chunkP != null){
+            chunkP.transform.parent = gameObject.transform;
+            chunkP.SetActive(true);
+            ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
+            //create mesh (chunk) and save it to structure holding chunk
+            chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, x, y);
+            renderedChunks.Add(new int2(x,y), chunkP);
+        }
     }
 
-    /*
-        Getters for heignt, moisture and heat values of tile
-    */
+    /// <summary>
+    /// Height getter
+    /// </summary>
+    /// <param name="key">Chunk key</param>
+    /// <param name="x">x coord</param>
+    /// <param name="y">y coord</param>
+    /// <returns>Height of tile.</returns>
     public float GetHeightValue(int2 key, int x, int y){
         return chunks[key].sample[x,y].height;
     }
+    /// <summary>
+    /// Moisture getter
+    /// </summary>
+    /// <param name="key">Chunk key</param>
+    /// <param name="x">x coord</param>
+    /// <param name="y">y coord</param>
+    /// <returns>Moisture of tile.</returns>
     public float GetPrecipitationValue(int2 key, int x, int y){
         return chunks[key].sample[x,y].precipitation;
     }
+    /// <summary>
+    /// Temperature getter
+    /// </summary>
+    /// <param name="key">Chunk key</param>
+    /// <param name="x">x coord</param>
+    /// <param name="y">y coord</param>
+    /// <returns>Temperature of tile.</returns>
     public float GetTemperatureValue(int2 key, int x, int y){
         return chunks[key].sample[x,y].temperature;
     }
-    /*
-        @function AssignNeighbours
-        --------------------------
-        Finds closes neighbours in 4 directions (bot, top, right, left) and sets reference for each tile to them.
-        If tile is on the edge of the map, references itself. (Similiar concept to linked list)
 
-    */
+    /// <summary>
+    /// Finds closes neighbours in 4 directions (bot, top, right, left) and sets reference for each tile to them.
+    /// If tile is on the edge of the map, references itself. (Similiar concept to linked list)
+    /// </summary>
+    /// <param name="tile">TDTile structure holding information about single tile</param>
+    /// <param name="chunkPos">Key position of chunk (bottom left corner of chunk)</param>
+    /// <returns>Properly set tile with corresponding edge types.</returns>
     public TDTile AssignNeighbours(TDTile tile, int2 chunkPos){
         int2 leftTilePos = new int2(tile.pos.x - 1, tile.pos.y);
         int2 topLeftTilePos = new int2(tile.pos.x - 1, tile.pos.y + 1);
@@ -217,18 +252,15 @@ public class Map : MonoBehaviour
         return tile;
     }
 
-    /*
-        @function SetNeighbours
-        ---------------------------
-        Abstract function, that handles setting correct neighbour for given tile.
-        @param tile -> current tile
-        @param neighbour -> coords of neighbour tile
-        @param condition -> condition that for edges of the map
-        @param overflow -> does neighbour overflows to next chunk?
-        @param side -> which neighbour we are dealing with
 
-        Returns tile with correctly set neighbour.
-    */
+    /// <summary>
+    /// Abstract function, that handles setting correct neighbour for given tile.
+    /// </summary>
+    /// <param name="neighbour">coords of neighbour tile</param>
+    /// <param name="condition">condition that for edges of the map</param>
+    /// <param name="overflow">does neighbour overflows to next chunk?</param>
+    /// <param name="side">which neighbour we are dealing with</param>
+    /// <returns>Returns tile with correctly set neighbour.</returns>
     private TDTile SetNeighbours(int2 neighbour, bool condition, bool overflow, string side){
         /*edgy coords must be handled */
         if (neighbour.x == -1) neighbour.x = 0;
@@ -242,11 +274,11 @@ public class Map : MonoBehaviour
 
     }
 
-    /*
-        @function AssignNeighbour
-        ---------------------------
-        Calcualtes neighbour according to given position and returns it.
-    */
+    /// <summary>
+    ///  Calcualtes neighbour according to given position
+    /// </summary>
+    /// <param name="neighbourPos">Position of neighbour tile within map</param>
+    /// <returns>Neighbour tile with set biome height etc.</returns>
     private TDTile AssignNeighbour(int2 neighbourPos){
         int2 chunkKey = TileChunkPos(neighbourPos);
         int2 relativePos = TileRelativePos(neighbourPos);
@@ -259,22 +291,24 @@ public class Map : MonoBehaviour
 
         return tile;
     }
-    /*
-        @function TileRelativePos
-        ----------------------
-        Transfers given world map position @var absoluteCoords into position within chunk.
-    */
+
+    /// <summary>
+    /// Transfers given world map position @var absoluteCoords into position within chunk.
+    /// </summary>
+    /// <param name="absoluteCoords"></param>
+    /// <returns>int2 relative coords of given absolute coords.</returns>
     public int2 TileRelativePos(int2 absoluteCoords){
         int x = absoluteCoords.x % 32;
         int y =  absoluteCoords.y % 32;
         return new int2(x,y); //tile position relative to chunk
     }
 
-    /*
-        @function TileChunkPos
-        ----------------------
-        From given tile coords, determine what are coords of chunk where tile belongs to.
-    */
+
+    /// <summary>
+    /// From given tile coords, determine what are coords of chunk where tile belongs to.
+    /// </summary>
+    /// <param name="absoluteCoords"></param>
+    /// <returns>Chunk key int2.</returns>
     public int2 TileChunkPos(int2 absoluteCoords){
         int2 relative = TileRelativePos(absoluteCoords);
         int x = absoluteCoords.x - relative.x;
@@ -283,13 +317,12 @@ public class Map : MonoBehaviour
         return new int2(x,y); //tile position relative to chunk
     }
 
-    /*
-        @function GetTile
-        -----------------------
-        Returns reference to tile(TDTile class) according to given coordinates.
-        @param relativePos -> position of tile within chunk
-        @param chunkPos -> key of chunk (bottom left tile of chunk 32x32)
-    */
+    /// <summary>
+    /// Returns reference to tile(TDTile class) according to given coordinates.
+    /// </summary>
+    /// <param name="relativePos"> position of tile within chunk</param>
+    /// <param name="chunkPos">key of chunk (bottom left tile of chunk 32x32)</param>
+    /// <returns></returns>
     public TDTile GetTile(int2 relativePos, int2 chunkPos){
         return chunks[chunkPos].sample[relativePos.x, relativePos.y];
     }
@@ -297,10 +330,23 @@ public class Map : MonoBehaviour
     /*
         @function TextureEdgesConditions
         --------------------------------
-        Check 8 different tiles around given tile whenever they are same as @tile or not. With
-        given parameter_(string) of specific biome, only this biome is being taken into account.
-        @return false if everything around is basically the same, true otherwise.
+ 
     */
+    /// <summary>
+    /// Check 8 different tiles around given tile whenever they are same as @tile or not. With
+    /// given parameter_(string) of specific biome, only this biome is being taken into account.
+    /// </summary>
+    /// <param name="tile">Tile reference</param>
+    /// <param name="isLeftSame">Is left tile same biome</param>
+    /// <param name="isTopLeftSame">Is top-left tile same biome</param>
+    /// <param name="isTopSame">Is top tile same biome</param>
+    /// <param name="isTopRightSame">Is top-right tile same biome</param>
+    /// <param name="isRightSame">Is right tile same biome</param>
+    /// <param name="isBotRightSame">Is bot right tile same biome</param>
+    /// <param name="isBotSame">Is bottom tile same biome</param>
+    /// <param name="isBotLeftSame">Is left bot-left same biome</param>
+    /// <param name="zLevel">Is Z-index same.</param>
+    /// <returns>false if everything around is basically the same, true otherwise.</returns>
     public bool TextureEdgesConditions(TDTile tile, out bool isLeftSame, out bool isTopLeftSame, out bool isTopSame, out bool isTopRightSame, out bool isRightSame, out bool isBotRightSame, out bool isBotSame, out bool isBotLeftSame, bool zLevel){
         //compare Z level of tiles
         if (zLevel)
@@ -331,12 +377,22 @@ public class Map : MonoBehaviour
             return true;
     }
 
-    /*
-        @function GetEdgeTile
-        ---------------------
-        Assigns what type of edge tile given tile is. Whenever it is left only, right only, corner etc.
-        This is used to determine edgy textures later (mostly during generation of mountains).
-    */
+
+    /// <summary>
+    ///  Assigns what type of edge tile given tile is. Whenever it is left only, right only, corner etc.
+    ///  This is used to determine edgy textures later (mostly during generation of mountains).
+    /// </summary>
+    /// <param name="tile">Tile reference</param>
+    /// <param name="isLeftSame">Is left tile same biome</param>
+    /// <param name="isTopLeftSame">Is top-left tile same biome</param>
+    /// <param name="isTopSame">Is top tile same biome</param>
+    /// <param name="isTopRightSame">Is top-right tile same biome</param>
+    /// <param name="isRightSame">Is right tile same biome</param>
+    /// <param name="isBotRightSame">Is bot right tile same biome</param>
+    /// <param name="isBotSame">Is bottom tile same biome</param>
+    /// <param name="isBotLeftSame">Is left bot-left same biome</param>
+    /// <param name="zLevel">Is Z-index same.</param>
+    /// <returns>Tile with correctly determined edging tiles.</returns>
     private TDTile TileEdgeType(TDTile tile, bool IsLeftSame, bool IsTopSame, bool IsRightSame, bool IsBotSame,bool IsBotLeftSame, bool IsTopLeftSame, bool IsTopRightSame, bool IsBotRightSame, bool zLevel){
         bool leftOnly   = !IsLeftSame    && IsTopSame    && IsRightSame     && IsBotSame; 
         bool rightOnly  = IsLeftSame    && IsTopSame   && !IsRightSame     && IsBotSame; 
@@ -427,16 +483,15 @@ public class Map : MonoBehaviour
 
         return tile;
     }
-    /*
-        @function TrimTerrainMalformations
-        ---------------------------------------
-        When generating terrain, malformations may occure. Especially 
-        during creating mountains. If mountain is only 3 tiles high,
-        that means it cannot by properly closed by top edge. This function
-        detect 3 tiles heigh parts of mountains, and eliminates them.
 
-        @return New z-index of given tile.
-    */
+    /// <summary>
+    /// When generating terrain, malformations may occure. Especially 
+    /// during creating mountains. If mountain is only 3 tiles high,
+    /// that means it cannot by properly closed by top edge. This function
+    /// detect 3 tiles heigh parts of mountains, and eliminates them.
+    /// </summary>
+    /// <param name="tile">Tile reference</param>
+    /// <returns>Z-index of tile</returns>
     private int TrimTerrainMalformations(TDTile tile){
         int ret_z_index = tile.z_index;
         int y_pos = tile.pos.y+3;
@@ -458,7 +513,17 @@ public class Map : MonoBehaviour
 
         return ret_z_index;
     }
-
+    /// <summary>
+    /// Based on given elevation determines what biome should be assigned to
+    /// given coordinates. If no conditions are matched, send moisture and temperature
+    /// to GetClosestBiome function to determine biome by euclidean distance.
+    /// </summary>
+    /// <param name="elevation">Perlin elevation value of tile</param>
+    /// <param name="moisture">Perlin moisture value of tile</param>
+    /// <param name="temperature">Perlin heat value of tile</param>
+    /// <param name="key">Key of chunk where tile belongs to.</param>
+    /// <param name="tile_coords">Absolute coordinates of tile.</param>
+    /// <returns>Biome for tile</returns>
     private BiomePreset GetBiome(float elevation, float moisture, float temperature, int2 key, int2 tile_coords){
         BiomePreset biomeToReturn = null;
         TDTile tile = chunks[key].sample[tile_coords.x, tile_coords.y];
@@ -492,7 +557,15 @@ public class Map : MonoBehaviour
 
         return biomeToReturn;
     }
-
+    /// <summary>
+    /// Calculates euclidean distance to every biome excepy beach and ocean. Closest
+    /// one is determined to be correct one.
+    /// </summary>
+    /// <param name="temperature">Temperature value of tile</param>
+    /// <param name="precipitation">Moisture value of tile</param>
+    /// <param name="key">Key of chunk</param>
+    /// <param name="tile_coords">Absolute coords of tile</param>
+    /// <returns>Biome for tile at tile coords.</returns>
     private BiomePreset GetClosestBiome(float temperature, float precipitation, int2 key, int2 tile_coords){
         List<BiomePreset> localBiomes = new List<BiomePreset>(biomes);
         
@@ -536,11 +609,7 @@ public class Map : MonoBehaviour
     void Start(){
         noiseMapGenerator = GetComponent<NoiseMapGenerator>();
         chunkGenerator = GetComponent<ChunkGenerator>();
-        /*chunkLoader = GetComponent<ChunkLoader>();
-        chunkLoader.Initialize( width, height, scale, seed, 
-                                heightSeed, heightOctaves, heightFrequency, heightExp,
-                                precipitationSeed, precipitationOctaves, precipitationPersistance, precipitationLacunarity,
-                                temperatureMultiplier, temperatureLoss);*/
+
         MapGeneration(); //generate map
     }
 

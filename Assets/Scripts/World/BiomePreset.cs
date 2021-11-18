@@ -23,12 +23,11 @@ public class BiomePreset : ScriptableObject
         return tiles[Random.Range(0, tiles.Length)];
     }
 
-    /*
-        @function GetTileSprite
-        ---------------------------
-        Check entire surroundings of given tile, and then determines which tile to pick accordingly.
-        @returns Sprite of given tile
-    */
+    /// <summary>
+    /// Check entire surroundings of given tile, and then determines which tile to pick accordingly.
+    /// </summary>
+    /// <param name="tile">Tile reference</param>
+    /// <returns>Sprite for given tile</returns>
     public Sprite GetTileSprite(TDTile tile){
         Sprite tileToReturn;
         tileToReturn = GetRandomSprite();
@@ -138,13 +137,15 @@ public class BiomePreset : ScriptableObject
             tile.IsWalkable = true;
         }
     }
-    /*
-        Function MountainBiomeRenderer
-        -------------------------------
-        This functions handles problematic mountain biome rendering. It gets rid of problematic tiles,
-        (outside of mountain etc. ..) and set correct edges (cliffs, so on..).
-        Returns correct sprite of given tile.
-    */
+
+    /// <summary>
+    /// This functions handles problematic mountain biome rendering. It gets rid of problematic tiles,
+    /// (outside of mountain etc. ..) and set correct edges (cliffs, so on..).
+    /// </summary>
+    /// <param name="tile">Tile reference</param>
+    /// <param name="tileToReturn">Sprite to return</param>
+    /// <param name="rare">Does tile match specific conditions</param>
+    /// <returns>Returns correct sprite for given tile.</returns>
     private Sprite MountainsRenderer(TDTile tile, Sprite tileToReturn, bool rare){
         //rare occurences are eleminated within mountain biome
         if (rare){
@@ -159,10 +160,17 @@ public class BiomePreset : ScriptableObject
     /*
         @function GetMountainEdgeTile
         ----------------------------------
-        Handles assigning correct texture to mountains. Mountains are 2 tiles high, si edges must be
-        accordingly assigned. Since rendering is done in upwards direction, checking bottom tile is used to
-        determine if current tile should be just cliff or it's already top of the mountain.
+
     */
+    /// <summary>
+    /// Handles assigning correct texture to mountains. Mountains are 2 tiles high, si edges must be
+    /// accordingly assigned. Since rendering is done in upwards direction, checking bottom tile is used to
+    /// determine if current tile should be just cliff or it's already top of the mountain.
+    /// </summary>
+    /// <param name="tile">Tile reference</param>
+    /// <param name="spriteToReturn">Sprite to return</param>
+    /// <param name="recursive">Recursive call flag</param>
+    /// <returns>Sprite for given tile</returns>
     private Sprite GetMountainEdgeTile(TDTile tile, Sprite spriteToReturn, TDTile recursive = null){
 
         string tileName = "";
@@ -272,11 +280,11 @@ public class BiomePreset : ScriptableObject
         return spriteToReturn;
     }
 
-    /*
-        @function GetCliffTile
-        -----------------------------
-        Handles edges of cliffs while generating mountains.
-    */
+    /// <summary>
+    /// Handles edges of cliffs while generating mountains.
+    /// </summary>
+    /// <param name="tile">Tile refetence</param>
+    /// <return>Tile name string.</return>
     private string GetCliffTile(TDTile tile){
         string tileName = "";
         if (tile.bottom.hillEdge == EdgeType.bot && tile.hillEdge == EdgeType.none)
@@ -339,11 +347,12 @@ public class BiomePreset : ScriptableObject
         return tileName;
     }
     
-    /*
-    @function GetWaterType
-    ----------------------
-    Accordingly find type of suiting water to specific biome surrounding it
-    */
+
+    /// <summary>
+    /// Accordingly find type of suiting water to specific biome surrounding it
+    /// </summary>
+    /// <param name="tile">Tile reference</param>
+    /// <returns>Sprite type for water.</returns>
     private Sprite GetWaterType(TDTile tile){
         if (tile.temperature < 0.25)
         {
@@ -359,11 +368,14 @@ public class BiomePreset : ScriptableObject
         }
     }
 
-    /*
-        @function EuclideanDistance
-        Takes 2 arguments, temperature and moisture of given tile. Returns euclidean distance which is 
-        further used in biome picking.
-    */
+
+    /// <summary>
+    /// Takes 2 arguments, temperature and moisture of given tile. Returns euclidean distance which is 
+    /// urther used in biome picking.
+    /// </summary>
+    /// <param name="noiseTemperature">tile temperature value</param>
+    /// <param name="noisePrecipitation">tile precipitation value</param>
+    /// <returns>Euclidean distance to this biome</returns>
     public float EuclideanDistance(float noiseTemperature, float noisePrecipitation){
         float averageTemperature = (temperature + maxTemperature) / 2;
         float averagePrecipitation = (precipitation + maxPrecipitation) / 2;
@@ -372,11 +384,13 @@ public class BiomePreset : ScriptableObject
         return eucVal;
     }
 
-    /*
-        @function MatchCondition
-        Takes 2 arguments(temperature and moisture) of given tile, and check whenever they meet conditions for biome.
-        Returns true or false depending on answer.
-    */
+
+    /// <summary>
+    ///         Takes 2 arguments(temperature and moisture) of given tile, and check whenever they meet conditions for biome.
+    /// </summary>
+    /// <param name="noiseTemperature">tile temperature value</param>
+    /// <param name="noisePrecipitation">tile precipitation value</param>
+    /// <returns>Returns true or false depending on answer.</returns>
     public bool MatchCondition(float noiseTemperature, float noisePrecipitation){
         
         if (noiseTemperature > temperature && noiseTemperature < maxTemperature) //matches biome's temperature
@@ -390,9 +404,10 @@ public class BiomePreset : ScriptableObject
     }
 }
 
-/*
-    Structure holding tiles edging with other biomes.
-*/
+
+/// <summary>
+/// Structure holding tiles edging with other biomes.
+/// </summary>
  [System.Serializable]
  public struct EdgeTile {
      public string name;

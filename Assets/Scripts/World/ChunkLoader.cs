@@ -1,93 +1,70 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-public class ChunkLoader : MonoBehaviour
-{/*
-    int chunkSize = 32;
-    public int width, height;
-    public float scale = 1.0f; 
-    public int seed;
-    //height
-    public int heightSeed;
-    public int heightOctaves;
-    public float heightFrequency;
-    public float heightExp;
-    //precipitation
-    public int  precipitationSeed;
-    public int precipitationOctaves;
-    public float precipitationPersistance;
-    public float precipitationLacunarity;
-    //heat
-    public float temperatureMultiplier; //increasing this will make poles move more further to equator ->default 1.0f
-    public float temperatureLoss; //temperature loss for each height increase
 
-    ChunkGenerator chunkGenerator = null;
-    private int maxLoadedChunks = 9;
-    private List<WorldChunk> loadedChunks;
-    private Dictionary<int2, WorldChunk> chunkStorage = new Dictionary<int2, WorldChunk>();
-
-    public GameObject chunkPrefab;
-
-    void Start(){
-        this.chunkGenerator = GetComponent<ChunkGenerator>();
+// INHERITANCE PROBLEM, DOES NOT SHARE ATTRIBUTES ASSIGNED IN INSPECTOR
+public class ChunkLoader :  Map
+{
+    //problem with inheriting serialized variable, that has been adjusted in inspector
+    private int map_w;
+    private int map_h;
+    private Dictionary<int2, GameObject> pooledChunks; //object pooling storage
+    public ChunkLoader(){
+        Dictionary<int2, GameObject> pooledChunks = new Dictionary<int2,GameObject>(); //list for object pooling
     }
-
-    public void Initialize( int width, int height, float scale, int seed,
-                        int heightSeed, int heightOctaves, float heightFrequency, float heightExp,
-                        int precipitationSeed, int precipitationOctaves, float precipitationPersistance, float precipitationLacunarity,
-                        float temperatureMultiplier, float temperatureLoss, Dictionary<int2, WorldChunk> perlinChunks){
-
-        this.loadedChunks = new List<WorldChunk>(maxLoadedChunks);
-        this.width = width;
-        this.height = height;
-        this.scale = scale;
-        this.seed = seed;
-
-        this.heightSeed = heightSeed;
-        this.heightOctaves = heightOctaves;
-        this.heightFrequency = heightFrequency;
-        this.heightExp = heightExp;
-
-        this.precipitationSeed = precipitationSeed;
-        this.precipitationOctaves = precipitationOctaves;
-        this.precipitationPersistance = precipitationPersistance;
-        this.precipitationLacunarity = precipitationLacunarity;
-
-        this.temperatureLoss = temperatureLoss;
-        this.temperatureMultiplier = temperatureMultiplier;
-
-        this.chunkStorage = perlinChunks;
+    public void Init(int w, int h){
+        this.map_w = w;
+        this.map_h = h;
     }
-
-    public void LoadChunk(Vector3 PlayerPos, int2 chunkKey){
-        this.loadedChunks.Add(this.GenerateChunk(chunkKey));
-        Debug.Log(loadedChunks.Count);
-        foreach ( var chunk in loadedChunks )
-        {
-            //create chunk object
-            GameObject chunkP = Instantiate(chunkPrefab, new Vector3(0,0,0), Quaternion.identity);
-            chunkP.transform.parent = gameObject.transform;
-            ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
-            //create mesh (chunk) and save it to structure holding chunk
-            chunk.chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, chunkKey.x, chunkKey.y);
-        }
+    
+    /// <summary>
+    /// Loop through all chunks, and determine whenever chunk should be loaded or 
+    /// unloaded by calculating distance and checking treshold.
+    /// </summary>
+    /// <param name="PlayerPos">Position of player in the world</param>
+    /// <param name="distToLoad">Distance treshold to load chunk</param>
+    /// <param name="distToUnload">Distance treshold to unload chunk</param>
+    public void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload){
+		for(int x = 0; x < map_w; x+=chunkSize){
+			for(int y = 0; y < map_h ; y+=chunkSize){
+				float dist=Vector2.Distance(new Vector2(x,y),new Vector2(PlayerPos.x,PlayerPos.y));
+                if(dist<distToLoad){
+                    if(!renderedChunks.ContainsKey(new int2(x,y))){
+						CreateChunk(x,y);
+					}
+				} else if(dist>distToUnload){
+					if(renderedChunks.ContainsKey(new int2(x,y))){
+						UnloadChunk(x,y);
+					}
+				}
+				
+			}
+		}
     }
-
-    public void UnloadChunk(WorldChunk chunk){
-        
+    /// <summary>
+    /// Unloads unnecessary chunk from pool, and removes it from rendered chunks dictionary.
+    /// </summary>
+    /// <param name="x">coord x</param>
+    /// <param name="y">coord y</param>
+    private void UnloadChunk(int x, int y){
+		Object.Destroy(chunks[new int2(x, y)].chunkMesh);
+        renderedChunks.Remove(new int2(x,y));
     }
-
-    public WorldChunk GenerateChunk(int2 chunkKey){
-        WorldChunk newChunk = null;
-        newChunk = chunkGenerator.GenerateLandMass(newChunk, heightOctaves, heightFrequency, heightExp, scale, seed, heightSeed, new int2(width,height));
-        newChunk = chunkGenerator.GenerateHeatMap(newChunk, new int2(width,height), temperatureMultiplier, temperatureLoss);
-        newChunk = chunkGenerator.GeneratePrecipitationMap(newChunk, seed, precipitationSeed, scale, precipitationOctaves, precipitationPersistance, precipitationLacunarity, new int2(width,height));
-        
-        return newChunk;
+    /// <summary>
+    /// Pools chunk from the pool.
+    /// </summary>
+    /// <param name="x">x coord</param>
+    /// <param name="y">y coords</param>
+    private void CreateChunk(int x, int y){
+        //create chunk object
+        //GameObject chunkP = Instantiate(chunkPrefab, new Vector3(0,0,0), Quaternion.identity);
+        GameObject chunkP = ObjectPool.instance.GetPooledChunk();
+        chunkP.transform.parent = gameObject.transform;
+        ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
+        //create mesh (chunk) and save it to structure holding chunk
+        chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, x, y);
+        renderedChunks.Add(new int2(x,y), chunkP);
     }
-
-    public void UnloadChunk(){
-
-    }*/
+    
 }
 

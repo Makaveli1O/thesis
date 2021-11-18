@@ -5,15 +5,13 @@ using Unity.Mathematics; //int2 and perlin noise
 public class ChunkGenerator : MonoBehaviour
 {
     private int chunkSize = 32;
-    /*
-        This function requires x,y coords and chunks dictionary. If chunk is already present within
-        dictionary, same dictionary is returned. If it's not, new EMPTY chunk will be added to the dictionary.
 
-        Returns appended (or same) dictionary..
-
-        lowering persistance -> bigger clusters(less detail)
-    */
-    public Dictionary<int2, WorldChunk> GenerateChunk(int x, int y, Dictionary<int2, WorldChunk> chunks, int globalSeed, int seed, float scale, int octaves, float persistance, float lacunarity, string chunksType, int2 dimensions, Dictionary<int2, WorldChunk> heightChunks = null){
+    public Dictionary<int2, WorldChunk> GenerateChunks( int x,int y , Dictionary<int2, WorldChunk> chunks,
+    int globalSeed, int heightSeed, int precipitationSeed,
+    float scale, int heightOctaves, int precipitationOctaves,
+    float heightFrequency, float precipitationPersistance, float temperatureMultiplier,
+    float heightExp, float precipitationLacunarity, float temperatureLoss, int2 dimensions
+    ){
         var key = new int2(x,y);
         //chunk is not yet loaded
         if (!chunks.ContainsKey(key))
@@ -22,19 +20,10 @@ public class ChunkGenerator : MonoBehaviour
             chunks.Add(key, new WorldChunk(chunkSize));
             chunks[key].position = new int2(x,y);
         }
-        switch (chunksType)
-        {
-            case "height":
-                chunks[key] = GenerateLandMass(chunks[key], octaves, persistance,lacunarity, scale,globalSeed, seed, dimensions);
-                break;
-            case "precipitation":
-                chunks[key] = GeneratePrecipitationMap(chunks[key],globalSeed,seed, scale, octaves, persistance, lacunarity, dimensions);
-                break;
-            case "temperature":
-                //persistance is temperatureMultiplier in this case
-                chunks[key] = GenerateHeatMap(chunks[key], dimensions, persistance, lacunarity); 
-                break;
-        }
+
+        chunks[key] = GenerateLandMass(chunks[key], heightOctaves, heightFrequency, heightExp, scale,globalSeed, heightSeed, dimensions);
+        chunks[key] = GeneratePrecipitationMap(chunks[key],globalSeed, precipitationSeed, scale, precipitationOctaves, precipitationPersistance, precipitationLacunarity, dimensions);
+        chunks[key] = GenerateHeatMap(chunks[key], dimensions, temperatureMultiplier, temperatureLoss); 
         
         return chunks;
 
