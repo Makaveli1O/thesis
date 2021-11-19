@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-/*
-    this calss is used for inspector handling map dimensions in real time without
-    initializing and starting the game
-*/
+
+/// <summary>
+/// this calss is used for inspector handling map dimensions in real time without
+/// initializing and starting the game
+/// </summary>
 [CustomEditor (typeof (Map))]
 public class MapGeneratorEditor : Editor
 {

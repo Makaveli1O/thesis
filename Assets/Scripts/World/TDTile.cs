@@ -1,11 +1,9 @@
-/*  *   *   *   *   *   *   *   *   *   *   *   *
-
-TDTile struct is holding intel about each tile.
-This intel is later used to determine it's type,
-position in the world etc.
-
-*  *   *   *   *   *   *   *   *   *   *   *   */
 using Unity.Mathematics; //int2
+/// <summary>
+/// TDTile struct is holding intel about each tile.
+/// This intel is later used to determine it's type,
+/// position in the world etc.
+/// </summary>
 public class TDTile
 {  
     private bool walkable;

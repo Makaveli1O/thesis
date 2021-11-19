@@ -4,15 +4,15 @@ using UnityEngine;
 using Unity.Mathematics;
 using Random=UnityEngine.Random;
 
-/*  *   *   *   *       *   *   *   *   *   *   
-This Class is handling creation of each chunk. Mesh is created on whose is applied texture representing tiles.
-This improves performance a big amount.
-*   *   *   *   *   *   *   *   *   *   *   */
+
+/// <summary>
+/// This Class is handling creation of each chunk. Mesh is created on whose is applied texture representing tiles.
+/// This improves performance a big amount.
+/// </summary>
 public class ChunkCreator : MonoBehaviour
 {
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
-    Texture2D chunkTexture; //this will be appliet on top of the mesh
 
     private float tileSize = 1;
     public Vector3[] vertices;
@@ -25,13 +25,19 @@ public class ChunkCreator : MonoBehaviour
     public int y;
     public int top_y;
 
-    /*
-        Function that creates mesh with given width, height and world space. This tile represents
-        one chunk. Mesh is divided into 32 x 32 quads. Each quad represents 1 world tile. Each tile's
-        UV is set accordingly to match texture desired. Consists of 2 loops throught the map, first one
-        is creating quads for tiles and setting it's biomes, while second one sets each tile it's neighbours
-        (flood filling) and setting textures accordingly.
-    */
+
+    /// <summary>
+    /// Function that creates mesh with given width, height and world space. This tile represents
+    /// one chunk. Mesh is divided into 32 x 32 quads. Each quad represents 1 world tile. Each tile's
+    /// UV is set accordingly to match texture desired. Consists of 2 loops throught the map, first one
+    /// is creating quads for tiles and setting it's biomes, while second one sets each tile it's neighbours
+    /// (flood filling) and setting textures accordingly.
+    /// </summary>
+    /// <param name="width">chunk width</param>
+    /// <param name="height">chunk height</param>
+    /// <param name="chunkX">key x coord(bot left)</param>
+    /// <param name="chunkY">key y coord(bot left)</param>
+    /// <returns></returns>
     public Mesh CreateTileMesh(int width, int height, int chunkX, int chunkY) {
         x= chunkX;
         y=chunkY;
@@ -88,17 +94,28 @@ public class ChunkCreator : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         return mesh;
     }
-
+    /// <summary>
+    /// Sets tile's neighbourhood(pointers in 8 directions) and sets it's biome accordingly.
+    /// </summary>
+    /// <param name="x">x coord</param>
+    /// <param name="y">y coord</param>
+    /// <param name="chunkX">chunk x key</param>
+    /// <param name="chunkY">chunk y key</param>
     private void SetTileBiome(int x, int y, int chunkX, int chunkY){
         //bool isLeftSame, isTopLeftSame, isTopSame, isTopRightSame, isRightSame, isBotRightSame, isBotSame, isBotLeftSame, sameAround = false;
         var mapReference = transform.parent.gameObject.GetComponent<Map>();
-        //convert local chunk coords to world space coords
+
         mapReference.AssignNeighbours(mapReference.GetTile(new int2(x,y), new int2(chunkX, chunkY)), new int2(chunkX, chunkY));
     }
 
-    /*
-        Return texture according to given coordinatite
-    */
+    /// <summary>
+    /// Return texture according to given coordinatite
+    /// </summary>
+    /// <param name="x">x coord</param>
+    /// <param name="y">y coord</param>
+    /// <param name="chunkX">chunk x key</param>
+    /// <param name="chunkY">chunk y key</param>
+    /// <returns>Texture for tile</returns>
     private Sprite GetTileTexture(int x, int y, int chunkX, int chunkY){
         var mapReference = transform.parent.gameObject.GetComponent<Map>();
         // get reference to tile working with
@@ -109,7 +126,12 @@ public class ChunkCreator : MonoBehaviour
         Sprite ret = tile.biome.GetTileSprite(tile);
         return ret;
     }
-
+    /// <summary>
+    /// Sets UV's for quads within meshes for each tile. 
+    /// </summary>
+    /// <param name="corner">Corner of quad that is being processed.</param>
+    /// <param name="tileSprite">Sprite holding texture</param>
+    /// <returns>Vector2 UV for given corner of quad.</returns>
     private Vector2 SetTileTexture(int corner, Sprite tileSprite){
         Rect UVs = tileSprite.rect;
         UVs.x /= tileSprite.texture.width;
@@ -138,17 +160,13 @@ public class ChunkCreator : MonoBehaviour
         
         return retval;
     }
-
+    /// <summary>
+    /// Set material texture holding all tile textures to be used in meshes.
+    /// </summary>
+    /// <param name="texture">Tiles texture</param>
     private void SetMaterialTexture(Texture2D texture){
         GetComponent<MeshRenderer>().sharedMaterials[0].mainTexture = texture;
         return;
     }
-
-    /* collisions */
-
-    void GenerateCollider(int x, int y){
-
-    }
-
 
 }

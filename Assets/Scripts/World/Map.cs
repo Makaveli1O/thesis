@@ -5,24 +5,23 @@ using System.IO;
 using Unity.Mathematics;
 using Random = UnityEngine.Random;
 
-/*
-    Map generating is composed by 3 individual maps that are being generated within NoiseMapGenerator. 
-    Each map has its own meaning. 
-    
-    Height map indicates altitude of each tile within map. 
-    Heat map indicates warmth of the area(tiles in cluster).
-    Moisture indicates humidity within area.
-    Each map differs by a seed.
-*/
 
+/// <summary>
+/// Map generating is composed by 3 individual maps that are being generated within ChunkGenerator. 
+/// Each map has its own meaning. 
+    
+/// Height map indicates altitude of each tile within map. 
+/// Heat map indicates warmth of the area(tiles in cluster).
+/// Moisture indicates humidity within area.
+/// Each map differs by a seed.
+/// </summary>
 public class Map : MonoBehaviour
 {
     /*
         Object references
     */
-    NoiseMapGenerator noiseMapGenerator = null;
     ChunkGenerator chunkGenerator = null;
-    ChunkLoader chunkLoader = null;
+
 
     [SerializeField] protected GameObject player;
 
@@ -59,9 +58,11 @@ public class Map : MonoBehaviour
     public float precipitationPersistance;
     public float precipitationLacunarity;
 
-    protected Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>();
-    //displayed chunks
-    protected Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
+    //chunks stuff
+    private Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>(); //map
+    private Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
+    private int distToLoadCh = 46;    //distance to load chunk
+    private int distToUnloadCh = 48;  //distance to unload chunk
 
     /// <summary>
     ///  This function handles whole map creation process.Three dictionaries each holding chunks of different types
@@ -104,7 +105,7 @@ public class Map : MonoBehaviour
             }
         }else{
             //loading chunks
-            LoadChunks(player.transform.position, 64,70);
+            LoadChunks(player.transform.position, distToLoadCh, distToUnloadCh);
         }
     }
 
@@ -116,22 +117,26 @@ public class Map : MonoBehaviour
     /// <param name="distToLoad">Distance treshold to load chunk</param>
     /// <param name="distToUnload">Distance treshold to unload chunk</param>
     public void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload){
+        int offset = 16; //chunk 32 -> 16, 16 is center
 		for(int x = 0; x < width; x+=chunkSize){
 			for(int y = 0; y < height ; y+=chunkSize){
-				float dist=Vector2.Distance(new Vector2(x,y),new Vector2(PlayerPos.x,PlayerPos.y));
+                //calcualte distance to the middle of chunk
+                int chunkX = x + offset;
+                int chunkY = y + offset;
+				float dist=Vector2.Distance(new Vector2(chunkX,chunkY),new Vector2(PlayerPos.x,PlayerPos.y));
                 if(dist<distToLoad){
                     if(!renderedChunks.ContainsKey(new int2(x,y))){
 						CreateChunk(x,y);
 					}
-				} else if(dist>distToUnload){
+				}else if(dist>distToUnload){
 					if(renderedChunks.ContainsKey(new int2(x,y))){
 						UnloadChunk(x,y);
 					}
 				}
-				
 			}
 		}
     }
+
     /// <summary>
     /// Unloads unnecessary chunk from pool, and removes it from rendered chunks dictionary.
     /// </summary>
@@ -271,7 +276,6 @@ public class Map : MonoBehaviour
         TDTile tile = AssignNeighbour(neighbour);
         
         return tile;
-
     }
 
     /// <summary>
@@ -303,7 +307,6 @@ public class Map : MonoBehaviour
         return new int2(x,y); //tile position relative to chunk
     }
 
-
     /// <summary>
     /// From given tile coords, determine what are coords of chunk where tile belongs to.
     /// </summary>
@@ -327,11 +330,6 @@ public class Map : MonoBehaviour
         return chunks[chunkPos].sample[relativePos.x, relativePos.y];
     }
 
-    /*
-        @function TextureEdgesConditions
-        --------------------------------
- 
-    */
     /// <summary>
     /// Check 8 different tiles around given tile whenever they are same as @tile or not. With
     /// given parameter_(string) of specific biome, only this biome is being taken into account.
@@ -607,7 +605,6 @@ public class Map : MonoBehaviour
     }
 
     void Start(){
-        noiseMapGenerator = GetComponent<NoiseMapGenerator>();
         chunkGenerator = GetComponent<ChunkGenerator>();
 
         MapGeneration(); //generate map
@@ -616,7 +613,7 @@ public class Map : MonoBehaviour
     void Update(){
         if (chunkLoading)
         {
-            LoadChunks(player.transform.position, 64,70);
+            LoadChunks(player.transform.position, distToLoadCh,distToUnloadCh);
         }
     }
     

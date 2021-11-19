@@ -5,7 +5,9 @@ using UnityEditor;
 using System;
 using Random = UnityEngine.Random;
 
-
+/// <summary>
+/// Holds information and functionality for single biome.
+/// </summary>
 [CreateAssetMenu(fileName = "Biome Preset", menuName = "New Biome Preset")]
 public class BiomePreset : ScriptableObject
 {
@@ -18,7 +20,8 @@ public class BiomePreset : ScriptableObject
     public float precipitation;//min
     public float maxPrecipitation;
 
-    //return random sprite of given biome
+
+    /// <returns>Returns random assigned tile to this biome.</returns>
     public Sprite GetRandomSprite(){
         return tiles[Random.Range(0, tiles.Length)];
     }

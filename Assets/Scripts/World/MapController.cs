@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 
-/*  *   *   *   *   *   *   *   *   *   *
-Class that handles interaction between player and generated world.
-Checks player's position every frame, and determines whenever player
-can move to certain tile or not.
-*   *   *   *   *   *   *   *   *   *   */
+
+/// <summary>
+/// Class that handles interaction between player and generated world.
+/// Checks player's position every frame, and determines whenever player
+/// can move to certain tile or not.
+/// </summary>
 public class MapController : MonoBehaviour
 {
     Vector3 playerPos;
@@ -23,7 +24,6 @@ public class MapController : MonoBehaviour
         playerPos = new Vector3(38,50,0);
     }
 
-    // Update is called once per frame
     void Update()
     {
         int xPos = (int)playerObj.transform.position.x;

@@ -413,7 +413,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1795101333}
   - component: {fileID: 1795101332}
-  - component: {fileID: 1795101331}
   - component: {fileID: 1795101334}
   - component: {fileID: 1795101335}
   - component: {fileID: 1795101336}
@@ -424,18 +423,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1795101331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1795101330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1149296337b9cd546927348afe2dda41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1795101332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,7 +445,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f4a588f425eebbe418d15c6f047d108e, type: 2}
   - {fileID: 11400000, guid: e6f0d477a766a6046b140a832621cd67, type: 2}
   chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}
-  chunkLoading: 1
+  chunkLoading: 0
   width: 256
   height: 256
   scale: 0.5
