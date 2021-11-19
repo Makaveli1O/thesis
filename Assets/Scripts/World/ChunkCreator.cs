@@ -11,6 +11,7 @@ using Random=UnityEngine.Random;
 /// </summary>
 public class ChunkCreator : MonoBehaviour
 {
+    public GameObject treePrefab;
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
 
@@ -44,8 +45,6 @@ public class ChunkCreator : MonoBehaviour
         top_x = x+32;
         top_y = y+32;
         Mesh mesh = new Mesh();
-        Vector2 tGrass = new Vector2 (0, 0);
-        Vector2 tSomething = new Vector2 (0, 1);
 
         this.vertices = new Vector3[4 * (width * height)];
         this.uv = new Vector2[4 * (width * height)];
@@ -69,6 +68,7 @@ public class ChunkCreator : MonoBehaviour
   
                 /* set biome for each tile, and pointers to 4 direction neighbours*/
                 SetTileBiome(x,y,chunkX,chunkY);
+                SpawnTree(x,y,chunkX, chunkY);
             }
         }
 
@@ -91,9 +91,40 @@ public class ChunkCreator : MonoBehaviour
         mesh.uv = uv;
         mesh.triangles = triangles;
 
+        
+
         GetComponent<MeshFilter>().mesh = mesh;
         return mesh;
     }
+
+    /// <summary>
+    /// Spawn trees in loaded chunk
+    /// </summary>
+    /// <param name="x">x coordinate</param>
+    /// <param name="y">y coordinate</param>
+    /// <param name="chunkX">Chunk x key</param>
+    /// <param name="chunkY">Chunk y key</param>
+    private void SpawnTree(int x, int y, int chunkX, int chunkY){
+        var mapReference = transform.parent.gameObject.GetComponent<Map>();
+        int2 chunkKey = new int2(chunkX, chunkY);
+        int2 relativePos = new int2(x,y);
+        
+        TDTile tile = mapReference.GetTile(relativePos, chunkKey);
+        WorldChunk chunk = mapReference.GetChunk(chunkKey);
+
+        if (chunk.treeMap[x,y] == 1 
+        && tile.biome.type != "ocean"
+        && tile.biome.type != "beach"
+        && tile.biome.type != "water"
+        && tile.hillEdge == EdgeType.none 
+        && tile.edgeType == EdgeType.none)
+        {
+            GameObject tree = Instantiate(treePrefab, new Vector3(0,0,0), Quaternion.identity);
+            tree.transform.parent = gameObject.transform;
+            tree.transform.position = new Vector3(chunkX+x, chunkY+y, 0);
+        }
+    }
+
     /// <summary>
     /// Sets tile's neighbourhood(pointers in 8 directions) and sets it's biome accordingly.
     /// </summary>

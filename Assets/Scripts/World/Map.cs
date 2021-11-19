@@ -29,6 +29,7 @@ public class Map : MonoBehaviour
     //public BiomePreset[] biomes;
     public List<BiomePreset> biomes = new List<BiomePreset>();
     public GameObject chunkPrefab;
+    public GameObject treePrefab;
     //Map dimensions
     [Header("Dimensions")]
     public bool chunkLoading; //checkbox
@@ -57,6 +58,8 @@ public class Map : MonoBehaviour
     public int precipitationOctaves;
     public float precipitationPersistance;
     public float precipitationLacunarity;
+    [Header("Objects (trees etc)")]
+    public float treeDensity;
 
     //chunks stuff
     private Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>(); //map
@@ -87,7 +90,7 @@ public class Map : MonoBehaviour
                                                             scale, heightOctaves, precipitationOctaves,
                                                             heightFrequency, precipitationPersistance, temperatureMultiplier,
                                                             heightExp, precipitationLacunarity, temperatureLoss,
-                                                            new int2(width,height));
+                                                            new int2(width,height), treeDensity);
             }
         }
 
@@ -331,6 +334,15 @@ public class Map : MonoBehaviour
     }
 
     /// <summary>
+    /// Retrieve chunk based on given key
+    /// </summary>
+    /// <param name="chunkKey">key of chunk</param>
+    /// <returns>Requested chunk</returns>
+    public WorldChunk GetChunk(int2 chunkKey){
+        return chunks[chunkKey];
+    }
+
+    /// <summary>
     /// Check 8 different tiles around given tile whenever they are same as @tile or not. With
     /// given parameter_(string) of specific biome, only this biome is being taken into account.
     /// </summary>
@@ -419,8 +431,6 @@ public class Map : MonoBehaviour
             tile.edgeType = EdgeType.none;
         }
         
-       
-        string tileName = "";
         /* regular edged tiles */
         if (leftOnly){
             if (zLevel) tile.hillEdge = EdgeType.left;

@@ -36,7 +36,8 @@ public class ChunkGenerator : MonoBehaviour
     int globalSeed, int heightSeed, int precipitationSeed,
     float scale, int heightOctaves, int precipitationOctaves,
     float heightFrequency, float precipitationPersistance, float temperatureMultiplier,
-    float heightExp, float precipitationLacunarity, float temperatureLoss, int2 dimensions
+    float heightExp, float precipitationLacunarity, float temperatureLoss, int2 dimensions,
+    float treeDensity
     ){
         var key = new int2(x,y);
         //chunk is not yet loaded
@@ -50,28 +51,41 @@ public class ChunkGenerator : MonoBehaviour
         chunks[key] = GenerateLandMass(chunks[key], heightOctaves, heightFrequency, heightExp, scale,globalSeed, heightSeed, dimensions);
         chunks[key] = GeneratePrecipitationMap(chunks[key],globalSeed, precipitationSeed, scale, precipitationOctaves, precipitationPersistance, precipitationLacunarity, dimensions);
         chunks[key] = GenerateHeatMap(chunks[key], dimensions, temperatureMultiplier, temperatureLoss); 
+        chunks[key] = GenerateTrees(chunks[key], globalSeed, scale, dimensions, treeDensity);
         
         return chunks;
 
     }
-    /*
-        TODO GENERATE TREES
 
-
-    */
-    public WorldChunk GenerateTrees(WorldChunk chunk, int globalSeed, float scale, int2 dimensions){
+    /// <summary>
+    /// Function that creates map holding information of where trees should actually be spawned. Pelin noise
+    /// is used in this method, and if value exceeds treshold, spawn location is marked as 1.
+    /// </summary>
+    /// <param name="chunk">Working chunk</param>
+    /// <param name="globalSeed">World seed</param>
+    /// <param name="scale">World scale</param>
+    /// <param name="dimensions">World dimensions width and height</param>
+    /// <param name="treeDensity">Density of spawning trees</param>
+    /// <returns></returns>
+    public WorldChunk GenerateTrees(WorldChunk chunk, int globalSeed, float scale, int2 dimensions, float treeDensity) {
         for (int x = 0; x < chunkSize; x++)
         {
             for (int y = 0; y < chunkSize; y++)
             {
-                float px = (float)(x + chunk.position.x) / chunkSize * scale;//* 1f + xOffset;
-                float py = (float)(y + chunk.position.y) / chunkSize * scale;//*1f + yOffset;
+                float px = (float)(x + chunk.position.x) / chunkSize * treeDensity;//* 1f + xOffset;
+                float py = (float)(y + chunk.position.y) / chunkSize * treeDensity;//*1f + yOffset;
                 float perlinValue = Mathf.PerlinNoise(px + globalSeed,py + globalSeed);
 
-                chunk.treeMap[x,y] = perlinValue;
-                
+                if (perlinValue >0.8f)
+                {
+                    chunk.treeMap[x,y] = 1;
+                }else{
+                    chunk.treeMap[x,y] = 0;
+                }
+
             }
         }
+
         return chunk;
     }
 

@@ -113,6 +113,8 @@ MonoBehaviour:
   - name: cliff_end_top
     walkable: 0
     sprite: {fileID: 1889397922123656321, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  trees:
+  - {fileID: 0}
   height: 0.3
   temperature: 0.25
   maxTemperature: 0.65

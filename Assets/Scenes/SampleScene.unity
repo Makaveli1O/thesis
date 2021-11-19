@@ -445,7 +445,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f4a588f425eebbe418d15c6f047d108e, type: 2}
   - {fileID: 11400000, guid: e6f0d477a766a6046b140a832621cd67, type: 2}
   chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}
-  chunkLoading: 0
+  treePrefab: {fileID: 0}
+  chunkLoading: 1
   width: 256
   height: 256
   scale: 0.5
@@ -461,6 +462,7 @@ MonoBehaviour:
   precipitationOctaves: 2
   precipitationPersistance: 0.2
   precipitationLacunarity: 1.58
+  treeDensity: 10
 --- !u!4 &1795101333
 Transform:
   m_ObjectHideFlags: 0

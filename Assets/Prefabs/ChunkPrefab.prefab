@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c6bed92b0ad3149bb8b8d5948789d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treePrefab: {fileID: 1698547570646332818, guid: 3d7b68404acb22d429908dad9f62e062, type: 3}
   vertices: []
   uv: []
   triangles: 
