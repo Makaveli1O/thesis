@@ -29,7 +29,6 @@ public class Map : MonoBehaviour
     //public BiomePreset[] biomes;
     public List<BiomePreset> biomes = new List<BiomePreset>();
     public GameObject chunkPrefab;
-    public GameObject treePrefab;
     //Map dimensions
     [Header("Dimensions")]
     public bool chunkLoading; //checkbox
@@ -64,8 +63,9 @@ public class Map : MonoBehaviour
     //chunks stuff
     private Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>(); //map
     private Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
-    private int distToLoadCh = 46;    //distance to load chunk
-    private int distToUnloadCh = 48;  //distance to unload chunk
+    private int renderDistance = 42;    //distance to load chunk
+
+
 
     /// <summary>
     ///  This function handles whole map creation process.Three dictionaries each holding chunks of different types
@@ -96,7 +96,7 @@ public class Map : MonoBehaviour
 
         /* loading all chunks */
         //all at once (only during testing remove later.)
-        if (!chunkLoading){
+        /*if (!chunkLoading){
             foreach ( var chunk in chunks )
             {
                 //create chunk object
@@ -106,10 +106,7 @@ public class Map : MonoBehaviour
                 //create mesh (chunk) and save it to structure holding chunk
                 chunks[chunk.Key].chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, chunk.Key.x, chunk.Key.y);
             }
-        }else{
-            //loading chunks
-            LoadChunks(player.transform.position, distToLoadCh, distToUnloadCh);
-        }
+        }*/
     }
 
     /// <summary>
@@ -146,7 +143,10 @@ public class Map : MonoBehaviour
     /// <param name="x">coord x</param>
     /// <param name="y">coord y</param>
     private void UnloadChunk(int x, int y){
-		//Object.Destroy(chunks[new int2(x, y)].chunkMesh);
+        //reference to the script, attached to chunk about to remove
+        ChunkCreator chunkCreator = renderedChunks[new int2(x,y)].GetComponent<ChunkCreator>(); 
+        chunkCreator.UnloadTrees();
+        //deactivate chunk
         renderedChunks[new int2(x,y)].SetActive(false);
         renderedChunks.Remove(new int2(x,y));
     }
@@ -159,13 +159,13 @@ public class Map : MonoBehaviour
     private void CreateChunk(int x, int y){
         //create chunk object
         //GameObject chunkP = Instantiate(chunkPrefab, new Vector3(0,0,0), Quaternion.identity);
-        GameObject chunkP = ObjectPool.instance.GetPooledChunk();
+        GameObject chunkP = ChunkPool.instance.GetPooledObject();
         if(chunkP != null){
             chunkP.transform.parent = gameObject.transform;
             chunkP.SetActive(true);
             ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
             //create mesh (chunk) and save it to structure holding chunk
-            chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, x, y);
+            chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, x, y, renderDistance);
             renderedChunks.Add(new int2(x,y), chunkP);
         }
     }
@@ -616,14 +616,13 @@ public class Map : MonoBehaviour
 
     void Start(){
         chunkGenerator = GetComponent<ChunkGenerator>();
-
         MapGeneration(); //generate map
     }
 
     void Update(){
         if (chunkLoading)
         {
-            LoadChunks(player.transform.position, distToLoadCh,distToUnloadCh);
+            LoadChunks(player.transform.position, renderDistance,renderDistance + 15);
         }
     }
     

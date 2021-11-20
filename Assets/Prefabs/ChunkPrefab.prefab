@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -2510295760561973160}
   - component: {fileID: -5765618687131722424}
   - component: {fileID: -6027018456858460948}
+  - component: {fileID: 4152213939299624573}
   m_Layer: 0
   m_Name: ChunkPrefab
   m_TagString: Untagged
@@ -45,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c6bed92b0ad3149bb8b8d5948789d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treePrefab: {fileID: 1698547570646332818, guid: 3d7b68404acb22d429908dad9f62e062, type: 3}
   vertices: []
   uv: []
   triangles: 
@@ -102,3 +102,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4152213939299624573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852746837773331530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3481442550001e4aa38db9c9c6c2c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amountToPool: 20
+  treePrefab: {fileID: 1698547570646332818, guid: 3d7b68404acb22d429908dad9f62e062, type: 3}

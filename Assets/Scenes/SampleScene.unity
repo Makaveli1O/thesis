@@ -445,7 +445,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f4a588f425eebbe418d15c6f047d108e, type: 2}
   - {fileID: 11400000, guid: e6f0d477a766a6046b140a832621cd67, type: 2}
   chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}
-  treePrefab: {fileID: 0}
   chunkLoading: 1
   width: 256
   height: 256
@@ -513,4 +512,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732410b8cb17b404ebe9ef1d77eff819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amountToPool: 7
   chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}

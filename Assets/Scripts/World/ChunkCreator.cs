@@ -11,7 +11,7 @@ using Random=UnityEngine.Random;
 /// </summary>
 public class ChunkCreator : MonoBehaviour
 {
-    public GameObject treePrefab;
+    [SerializeField] protected GameObject player;
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
 
@@ -20,11 +20,14 @@ public class ChunkCreator : MonoBehaviour
     public Vector2[] uv;
     public int[] triangles;
     public TDTile[,] tiles;
-    //debug values
     public int x;
     public int top_x;
     public int y;
     public int top_y;
+    private int chunkSize;
+    private int renderDistance;
+    private List<GameObject> renderedTrees = new List<GameObject>();
+
 
 
     /// <summary>
@@ -39,8 +42,10 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="chunkX">key x coord(bot left)</param>
     /// <param name="chunkY">key y coord(bot left)</param>
     /// <returns></returns>
-    public Mesh CreateTileMesh(int width, int height, int chunkX, int chunkY) {
-        x= chunkX;
+    public Mesh CreateTileMesh(int width, int height, int chunkX, int chunkY, int renderDistance) {
+        this.chunkSize = width;
+        this.renderDistance = renderDistance;
+        x=chunkX;
         y=chunkY;
         top_x = x+32;
         top_y = y+32;
@@ -68,7 +73,6 @@ public class ChunkCreator : MonoBehaviour
   
                 /* set biome for each tile, and pointers to 4 direction neighbours*/
                 SetTileBiome(x,y,chunkX,chunkY);
-                SpawnTree(x,y,chunkX, chunkY);
             }
         }
 
@@ -92,7 +96,6 @@ public class ChunkCreator : MonoBehaviour
         mesh.triangles = triangles;
 
         
-
         GetComponent<MeshFilter>().mesh = mesh;
         return mesh;
     }
@@ -104,25 +107,46 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="y">y coordinate</param>
     /// <param name="chunkX">Chunk x key</param>
     /// <param name="chunkY">Chunk y key</param>
-    private void SpawnTree(int x, int y, int chunkX, int chunkY){
+    private void LoadTrees(int chunkX, int chunkY){
         var mapReference = transform.parent.gameObject.GetComponent<Map>();
+        TreePool treePool = GetComponent<TreePool>();
         int2 chunkKey = new int2(chunkX, chunkY);
-        int2 relativePos = new int2(x,y);
-        
-        TDTile tile = mapReference.GetTile(relativePos, chunkKey);
-        WorldChunk chunk = mapReference.GetChunk(chunkKey);
-
-        if (chunk.treeMap[x,y] == 1 
-        && tile.biome.type != "ocean"
-        && tile.biome.type != "beach"
-        && tile.biome.type != "water"
-        && tile.hillEdge == EdgeType.none 
-        && tile.edgeType == EdgeType.none)
+        WorldChunk chunk = mapReference.GetChunk(chunkKey);       
+        for (int x = 0; x < chunkSize; x++)
         {
-            GameObject tree = Instantiate(treePrefab, new Vector3(0,0,0), Quaternion.identity);
-            tree.transform.parent = gameObject.transform;
-            tree.transform.position = new Vector3(chunkX+x, chunkY+y, 0);
+            for (int y = 0; y < chunkSize; y++)
+            {
+                int2 relativePos = new int2(x,y);
+                TDTile tile = mapReference.GetTile(relativePos, chunkKey);
+                if (chunk.treeMap[x,y] == 1 
+                && tile.biome.type != "ocean"
+                && tile.biome.type != "beach"
+                && tile.biome.type != "water"
+                && tile.hillEdge == EdgeType.none 
+                && tile.edgeType == EdgeType.none)
+                {
+                    GameObject treeP = treePool.GetPooledObject();
+                    if (treeP != null){
+                        int xcoord = chunkX+x;
+                        int ycoord = chunkY+y;
+                        treeP.transform.parent = gameObject.transform;
+                        treeP.transform.position = new Vector3(chunkX+x, chunkY+y, 0);
+                        treeP.SetActive(true);
+                        renderedTrees.Add(treeP);
+                    }
+                } 
+            }
+        } 
+    }
+
+    /// <summary>
+    /// Unload all trees and clear rendered list.
+    /// </summary>
+    public void UnloadTrees(){
+        foreach ( GameObject tree in renderedTrees){
+            tree.SetActive(false);
         }
+        renderedTrees.Clear();
     }
 
     /// <summary>
@@ -198,6 +222,10 @@ public class ChunkCreator : MonoBehaviour
     private void SetMaterialTexture(Texture2D texture){
         GetComponent<MeshRenderer>().sharedMaterials[0].mainTexture = texture;
         return;
+    }
+
+    void Update(){
+       LoadTrees(x,y);
     }
 
 }
