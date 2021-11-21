@@ -114,5 +114,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3481442550001e4aa38db9c9c6c2c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountToPool: 20
-  treePrefab: {fileID: 1698547570646332818, guid: 3d7b68404acb22d429908dad9f62e062, type: 3}
+  amountToPool: 10
+  treePrefab: {fileID: 2289772203582593006, guid: 40546cce1c673a74f82576311d6e5d95, type: 3}

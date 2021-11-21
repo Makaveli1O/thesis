@@ -60,10 +60,11 @@ public class Map : MonoBehaviour
     [Header("Objects (trees etc)")]
     public float treeDensity;
 
+    public int renderDistance = 42;    //distance to load chunk
     //chunks stuff
     private Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>(); //map
     private Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
-    private int renderDistance = 42;    //distance to load chunk
+    
 
 
 

@@ -461,7 +461,8 @@ MonoBehaviour:
   precipitationOctaves: 2
   precipitationPersistance: 0.2
   precipitationLacunarity: 1.58
-  treeDensity: 10
+  treeDensity: 1000
+  renderDistance: 38
 --- !u!4 &1795101333
 Transform:
   m_ObjectHideFlags: 0
@@ -512,5 +513,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732410b8cb17b404ebe9ef1d77eff819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountToPool: 7
+  amountToPool: 8
   chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}

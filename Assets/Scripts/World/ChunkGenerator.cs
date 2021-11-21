@@ -76,7 +76,7 @@ public class ChunkGenerator : MonoBehaviour
                 float py = (float)(y + chunk.position.y) / chunkSize * treeDensity;//*1f + yOffset;
                 float perlinValue = Mathf.PerlinNoise(px + globalSeed,py + globalSeed);
 
-                if (perlinValue >0.8f)
+                if (perlinValue >0.85f)
                 {
                     chunk.treeMap[x,y] = 1;
                 }else{

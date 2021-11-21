@@ -11,7 +11,6 @@ using Random=UnityEngine.Random;
 /// </summary>
 public class ChunkCreator : MonoBehaviour
 {
-    [SerializeField] protected GameObject player;
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
 
@@ -127,12 +126,12 @@ public class ChunkCreator : MonoBehaviour
                 {
                     GameObject treeP = treePool.GetPooledObject();
                     if (treeP != null){
-                        int xcoord = chunkX+x;
-                        int ycoord = chunkY+y;
                         treeP.transform.parent = gameObject.transform;
                         treeP.transform.position = new Vector3(chunkX+x, chunkY+y, 0);
                         treeP.SetActive(true);
                         renderedTrees.Add(treeP);
+                        //set correct sprite
+                        SetTreeSprite(treeP, tile);
                     }
                 } 
             }
@@ -140,13 +139,25 @@ public class ChunkCreator : MonoBehaviour
     }
 
     /// <summary>
-    /// Unload all trees and clear rendered list.
+    /// Unload all trees and clear renderedTree list.
     /// </summary>
     public void UnloadTrees(){
         foreach ( GameObject tree in renderedTrees){
             tree.SetActive(false);
         }
         renderedTrees.Clear();
+    }
+
+    public void SetTreeSprite(GameObject tree, TDTile tile){
+        var scriptCreator = tree.GetComponent<TreeCreator>();
+        SpriteRenderer treeRenderer = tree.GetComponent<SpriteRenderer>();
+        switch (tile.biome.type){
+            case "forest":
+                treeRenderer.sprite = scriptCreator.GetForestTree();
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
@@ -181,6 +192,7 @@ public class ChunkCreator : MonoBehaviour
         Sprite ret = tile.biome.GetTileSprite(tile);
         return ret;
     }
+
     /// <summary>
     /// Sets UV's for quads within meshes for each tile. 
     /// </summary>
