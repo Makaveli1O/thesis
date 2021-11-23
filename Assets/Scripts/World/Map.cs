@@ -65,9 +65,6 @@ public class Map : MonoBehaviour
     private Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>(); //map
     private Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
     
-
-
-
     /// <summary>
     ///  This function handles whole map creation process.Three dictionaries each holding chunks of different types
     ///  are being used to determine which biome and what exact type should be picked for each coodinate of map.

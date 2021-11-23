@@ -26,6 +26,7 @@ public class ChunkCreator : MonoBehaviour
     private int chunkSize;
     private int renderDistance;
     private List<GameObject> renderedTrees = new List<GameObject>();
+    private HashSet<int2> treeCoords = new HashSet<int2>();
 
 
 
@@ -89,11 +90,9 @@ public class ChunkCreator : MonoBehaviour
             }
         }
         
-        
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
-
         
         GetComponent<MeshFilter>().mesh = mesh;
         return mesh;
@@ -124,12 +123,17 @@ public class ChunkCreator : MonoBehaviour
                 && tile.hillEdge == EdgeType.none 
                 && tile.edgeType == EdgeType.none)
                 {
+                    int x_coord= chunkX + x;
+                    int y_coord = chunkY + y;
+
                     GameObject treeP = treePool.GetPooledObject();
-                    if (treeP != null){
+                    if (treeP != null && TreeRadius(new int2(x_coord, y_coord))){
                         treeP.transform.parent = gameObject.transform;
                         treeP.transform.position = new Vector3(chunkX+x, chunkY+y, 0);
+                        
                         treeP.SetActive(true);
                         renderedTrees.Add(treeP);
+                        treeCoords.Add(new int2(x_coord, y_coord));
                         //set correct sprite
                         SetTreeSprite(treeP, tile);
                     }
@@ -146,6 +150,36 @@ public class ChunkCreator : MonoBehaviour
             tree.SetActive(false);
         }
         renderedTrees.Clear();
+    }
+
+    /// <summary>
+    /// Check if tree about to spawn can be actually spawner. If another tree is already
+    /// spawned in radius 2, tree wort spawn.
+    /// </summary>
+    /// <param name="coords">Coords of root points.</param>
+    /// <returns>Boolean value whenever tree can or can not be spawned.</returns>
+    private bool TreeRadius(int2 coords){
+        foreach( int2 tree in treeCoords){
+            if (EuclideanDistance(coords, tree) < 2f)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /// <summary>
+    /// Calculates distance between two points.
+    /// </summary>
+    /// <param name="p1">Point 1</param>
+    /// <param name="p2">Point 2</param>
+    /// <returns>Float distance between them.</returns>
+    private float EuclideanDistance(int2 p1, int2 p2)
+    {
+        Vector2 v1 = new Vector2(p1.x, p1.y);
+        Vector2 v2 = new Vector2(p2.x, p2.y);
+        return Vector2.Distance(v1, v2);
     }
 
     public void SetTreeSprite(GameObject tree, TDTile tile){
@@ -236,8 +270,11 @@ public class ChunkCreator : MonoBehaviour
         return;
     }
 
-    void Update(){
-       LoadTrees(x,y);
+    void Update(){  
+        //TODO 
+        //optimalization so this wont call every frame(when all rendered no need, or if player stands)
+        LoadTrees(x,y);
+       
     }
 
 }
