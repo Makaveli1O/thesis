@@ -21,10 +21,10 @@ public class TreePool : MonoBehaviour, ObjectPoolInterface
     {
         for (int i = 0; i < amountToPool; i++)
         {
-            GameObject chunkP = Instantiate(treePrefab, new Vector3(0,0,0), Quaternion.identity);
-            chunkP.transform.parent = gameObject.transform;
-            chunkP.SetActive(false);
-            pooledObjects.Add(chunkP);
+            GameObject treeP = Instantiate(treePrefab, new Vector3(0,0,0), Quaternion.identity);
+            treeP.transform.parent = gameObject.transform;
+            treeP.SetActive(false);
+            pooledObjects.Add(treeP);
         }
     }
     /// <summary>

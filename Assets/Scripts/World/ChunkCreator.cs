@@ -99,117 +99,6 @@ public class ChunkCreator : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawn trees in loaded chunk
-    /// </summary>
-    /// <param name="x">x coordinate</param>
-    /// <param name="y">y coordinate</param>
-    /// <param name="chunkX">Chunk x key</param>
-    /// <param name="chunkY">Chunk y key</param>
-    private void LoadTrees(int chunkX, int chunkY){
-        var mapReference = transform.parent.gameObject.GetComponent<Map>();
-        TreePool treePool = GetComponent<TreePool>();
-        int2 chunkKey = new int2(chunkX, chunkY);
-        WorldChunk chunk = mapReference.GetChunk(chunkKey);       
-        for (int x = 0; x < chunkSize; x++)
-        {
-            for (int y = 0; y < chunkSize; y++)
-            {
-                int2 relativePos = new int2(x,y);
-                TDTile tile = mapReference.GetTile(relativePos, chunkKey);
-                if (chunk.treeMap[x,y] == 1 
-                && tile.biome.type != "ocean"
-                && tile.biome.type != "water"
-                && tile.hillEdge == EdgeType.none 
-                && tile.edgeType == EdgeType.none)
-                {
-                    int x_coord= chunkX + x;
-                    int y_coord = chunkY + y;
-
-                    GameObject treeP = treePool.GetPooledObject();
-                    if (treeP != null && TreeRadius(new int2(x_coord, y_coord))){
-                        treeP.transform.parent = gameObject.transform;
-                        treeP.transform.position = new Vector3(chunkX+x, chunkY+y, 0);
-                        
-                        treeP.SetActive(true);
-                        renderedTrees.Add(treeP);
-                        treeCoords.Add(new int2(x_coord, y_coord));
-                        //set correct sprite
-                        SetTreeSprite(treeP, tile);
-                    }
-                } 
-            }
-        } 
-    }
-
-    /// <summary>
-    /// Unload all trees and clear renderedTree list.
-    /// </summary>
-    public void UnloadTrees(){
-        foreach ( GameObject tree in renderedTrees){
-            tree.SetActive(false);
-        }
-        renderedTrees.Clear();
-    }
-
-    /// <summary>
-    /// Check if tree about to spawn can be actually spawner. If another tree is already
-    /// spawned in radius 2, tree wort spawn. Tree radius from chunk generator works, however
-    /// multiple trees spawn on 1 location. This function handles that problem
-    /// </summary>
-    /// <param name="coords">Coords of root points.</param>
-    /// <returns>Boolean value whenever tree can or can not be spawned.</returns>
-    private bool TreeRadius(int2 coords){
-        foreach( int2 tree in treeCoords){
-            if (EuclideanDistance(coords, tree) < 2f)
-            {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-
-    /// <summary>
-    /// Calculates distance between two points.
-    /// </summary>
-    /// <param name="p1">Point 1</param>
-    /// <param name="p2">Point 2</param>
-    /// <returns>Float distance between them.</returns>
-    private float EuclideanDistance(int2 p1, int2 p2)
-    {
-        Vector2 v1 = new Vector2(p1.x, p1.y);
-        Vector2 v2 = new Vector2(p2.x, p2.y);
-        return Vector2.Distance(v1, v2);
-    }
-
-    /// <summary>
-    /// Set correct tree sprite for given tile and edit given gameobject to that.
-    /// </summary>
-    /// <param name="tree">Tree gameobject</param>
-    /// <param name="tile">Processed tile</param>
-    public void SetTreeSprite(GameObject tree, TDTile tile){
-        var scriptCreator = tree.GetComponent<TreeCreator>();
-        SpriteRenderer treeRenderer = tree.GetComponent<SpriteRenderer>();
-        switch (tile.biome.type){
-            case "forest":
-                treeRenderer.sprite = scriptCreator.GetRandomForestTree();
-                break;
-            case "ashland":
-                treeRenderer.sprite = scriptCreator.GetRandomAshlandTree();
-                break;
-            case "rainforest":
-                treeRenderer.sprite = scriptCreator.GetRandomJungleTree();
-                break;
-            case "beach":
-                treeRenderer.sprite = scriptCreator.GetRandomBeachTree();
-                break;
-            case "desert":
-                treeRenderer.sprite = scriptCreator.GetRandomDesertTree();
-                break;
-        }
-    }
-
-    /// <summary>
     /// Sets tile's neighbourhood(pointers in 8 directions) and sets it's biome accordingly.
     /// </summary>
     /// <param name="x">x coord</param>
@@ -285,6 +174,125 @@ public class ChunkCreator : MonoBehaviour
         return;
     }
 
+    /// <summary>
+    /// Spawn trees in loaded chunk
+    /// </summary>
+    /// <param name="x">x coordinate</param>
+    /// <param name="y">y coordinate</param>
+    /// <param name="chunkX">Chunk x key</param>
+    /// <param name="chunkY">Chunk y key</param>
+    private void LoadTrees(int chunkX, int chunkY){
+        var mapReference = transform.parent.gameObject.GetComponent<Map>();
+        TreePool treePool = GetComponent<TreePool>();
+        int2 chunkKey = new int2(chunkX, chunkY);
+        WorldChunk chunk = mapReference.GetChunk(chunkKey);       
+        for (int x = 0; x < chunkSize; x++)
+        {
+            for (int y = 0; y < chunkSize; y++)
+            {
+                int2 relativePos = new int2(x,y);
+                TDTile tile = mapReference.GetTile(relativePos, chunkKey);
+                if (chunk.treeMap[x,y] == 1 
+                && tile.biome.type != "ocean"
+                && tile.biome.type != "water"
+                && tile.hillEdge == EdgeType.none 
+                && tile.edgeType == EdgeType.none)
+                {
+                    int x_coord= chunkX + x;
+                    int y_coord = chunkY + y;
+
+                    GameObject treeP = treePool.GetPooledObject();
+                    if (treeP != null && TreeRadius(new int2(x_coord, y_coord))){
+                        treeP.transform.parent = gameObject.transform;
+                        treeP.transform.position = new Vector3(chunkX+x, chunkY+y, 0);
+                        
+                        treeP.SetActive(true);
+                        renderedTrees.Add(treeP);
+                        treeCoords.Add(new int2(x_coord, y_coord));
+                        //set correct sprite
+                        Sprite treeSprite = SetTreeSprite(treeP, tile);
+                        AdjustTreeCollider(treeP.GetComponent<CapsuleCollider2D>(), treeSprite.bounds);
+                    }
+                } 
+            }
+        } 
+    }
+
+    /// <summary>
+    /// Unload all trees and clear renderedTree list.
+    /// </summary>
+    public void UnloadTrees(){
+        foreach ( GameObject tree in renderedTrees){
+            tree.SetActive(false);
+        }
+        renderedTrees.Clear();
+    }
+
+    /// <summary>
+    /// Check if tree about to spawn can be actually spawner. If another tree is already
+    /// spawned in radius 2, tree wort spawn. Tree radius from chunk generator works, however
+    /// multiple trees spawn on 1 location. This function handles that problem
+    /// </summary>
+    /// <param name="coords">Coords of root points.</param>
+    /// <returns>Boolean value whenever tree can or can not be spawned.</returns>
+    private bool TreeRadius(int2 coords){
+        foreach( int2 tree in treeCoords){
+            if (EuclideanDistance(coords, tree) < 2f)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /// <summary>
+    /// Calculates distance between two points.
+    /// </summary>
+    /// <param name="p1">Point 1</param>
+    /// <param name="p2">Point 2</param>
+    /// <returns>Float distance between them.</returns>
+    private float EuclideanDistance(int2 p1, int2 p2)
+    {
+        Vector2 v1 = new Vector2(p1.x, p1.y);
+        Vector2 v2 = new Vector2(p2.x, p2.y);
+        return Vector2.Distance(v1, v2);
+    }
+
+    /// <summary>
+    /// Set correct tree sprite for given tile and edit given gameobject to that.
+    /// </summary>
+    /// <param name="tree">Tree gameobject</param>
+    /// <param name="tile">Processed tile</param>
+    /// <returns>Sprite that was assigned to tree</returns>
+    public Sprite SetTreeSprite(GameObject tree, TDTile tile){
+        var scriptCreator = tree.GetComponent<TreeCreator>();
+        SpriteRenderer treeRenderer = tree.GetComponent<SpriteRenderer>();
+        switch (tile.biome.type){
+            case "forest":
+                treeRenderer.sprite = scriptCreator.GetRandomForestTree();
+                break;
+            case "ashland":
+                treeRenderer.sprite = scriptCreator.GetRandomAshlandTree();
+                break;
+            case "rainforest":
+                treeRenderer.sprite = scriptCreator.GetRandomJungleTree();
+                break;
+            case "beach":
+                treeRenderer.sprite = scriptCreator.GetRandomBeachTree();
+                break;
+            case "desert":
+                treeRenderer.sprite = scriptCreator.GetRandomDesertTree();
+                break;
+        }
+
+        return treeRenderer.sprite;
+    }
+
+    private void AdjustTreeCollider(CapsuleCollider2D collider2D, Bounds boundingBox){
+
+        collider2D.size = new Vector2(boundingBox.size.x/2,collider2D.size.y);
+    }
     void Update(){  
         //TODO 
         //optimalization so this wont call every frame(when all rendered no need, or if player stands)
