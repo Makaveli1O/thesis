@@ -118,7 +118,6 @@ public class ChunkCreator : MonoBehaviour
                 TDTile tile = mapReference.GetTile(relativePos, chunkKey);
                 if (chunk.treeMap[x,y] == 1 
                 && tile.biome.type != "ocean"
-                && tile.biome.type != "beach"
                 && tile.biome.type != "water"
                 && tile.hillEdge == EdgeType.none 
                 && tile.edgeType == EdgeType.none)
@@ -154,7 +153,8 @@ public class ChunkCreator : MonoBehaviour
 
     /// <summary>
     /// Check if tree about to spawn can be actually spawner. If another tree is already
-    /// spawned in radius 2, tree wort spawn.
+    /// spawned in radius 2, tree wort spawn. Tree radius from chunk generator works, however
+    /// multiple trees spawn on 1 location. This function handles that problem
     /// </summary>
     /// <param name="coords">Coords of root points.</param>
     /// <returns>Boolean value whenever tree can or can not be spawned.</returns>
@@ -182,14 +182,29 @@ public class ChunkCreator : MonoBehaviour
         return Vector2.Distance(v1, v2);
     }
 
+    /// <summary>
+    /// Set correct tree sprite for given tile and edit given gameobject to that.
+    /// </summary>
+    /// <param name="tree">Tree gameobject</param>
+    /// <param name="tile">Processed tile</param>
     public void SetTreeSprite(GameObject tree, TDTile tile){
         var scriptCreator = tree.GetComponent<TreeCreator>();
         SpriteRenderer treeRenderer = tree.GetComponent<SpriteRenderer>();
         switch (tile.biome.type){
             case "forest":
-                treeRenderer.sprite = scriptCreator.GetForestTree();
+                treeRenderer.sprite = scriptCreator.GetRandomForestTree();
                 break;
-            default:
+            case "ashland":
+                treeRenderer.sprite = scriptCreator.GetRandomAshlandTree();
+                break;
+            case "rainforest":
+                treeRenderer.sprite = scriptCreator.GetRandomJungleTree();
+                break;
+            case "beach":
+                treeRenderer.sprite = scriptCreator.GetRandomBeachTree();
+                break;
+            case "desert":
+                treeRenderer.sprite = scriptCreator.GetRandomDesertTree();
                 break;
         }
     }
@@ -274,7 +289,6 @@ public class ChunkCreator : MonoBehaviour
         //TODO 
         //optimalization so this wont call every frame(when all rendered no need, or if player stands)
         LoadTrees(x,y);
-       
     }
 
 }

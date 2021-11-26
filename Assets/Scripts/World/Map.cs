@@ -58,7 +58,7 @@ public class Map : MonoBehaviour
     public float precipitationPersistance;
     public float precipitationLacunarity;
     [Header("Objects (trees etc)")]
-    public float treeDensity;
+    public float treeScale;
 
     public int renderDistance = 42;    //distance to load chunk
     //chunks stuff
@@ -88,7 +88,7 @@ public class Map : MonoBehaviour
                                                             scale, heightOctaves, precipitationOctaves,
                                                             heightFrequency, precipitationPersistance, temperatureMultiplier,
                                                             heightExp, precipitationLacunarity, temperatureLoss,
-                                                            new int2(width,height), treeDensity);
+                                                            new int2(width,height), treeScale);
             }
         }
 
@@ -530,7 +530,7 @@ public class Map : MonoBehaviour
     /// <param name="key">Key of chunk where tile belongs to.</param>
     /// <param name="tile_coords">Absolute coordinates of tile.</param>
     /// <returns>Biome for tile</returns>
-    private BiomePreset GetBiome(float elevation, float moisture, float temperature, int2 key, int2 tile_coords){
+    public BiomePreset GetBiome(float elevation, float moisture, float temperature, int2 key, int2 tile_coords){
         BiomePreset biomeToReturn = null;
         TDTile tile = chunks[key].sample[tile_coords.x, tile_coords.y];
 

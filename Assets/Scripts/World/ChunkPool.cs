@@ -15,13 +15,13 @@ public class ChunkPool : MonoBehaviour, ObjectPoolInterface
     [SerializeField] private GameObject chunkPrefab;
 
     public void Awake(){
+        //singleton
         if (instance == null)
         {
             instance = this;
         }
-
-        
     }
+
     /// <summary>
     /// Initialize inactive gameobjects in pool to begin with.
     /// </summary>

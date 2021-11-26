@@ -114,9 +114,16 @@ MonoBehaviour:
     walkable: 0
     sprite: {fileID: 1889397922123656321, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   trees:
-  - {fileID: 0}
+  - name: basic
+    sprites:
+    - {fileID: 254674344468116649, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 2383469580931093179, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 5515971717279759826, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 5286794986675040139, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -3299478468369600314, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   height: 0.3
   temperature: 0.25
   maxTemperature: 0.65
   precipitation: 0.25
   maxPrecipitation: 0.65
+  treeRadius: 3

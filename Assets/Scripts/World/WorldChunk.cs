@@ -9,7 +9,8 @@ public class WorldChunk
     public int2 position; //start corner of chunk
     public TDTile[,] sample; //2d tile map for chunk
     public int[,] treeMap; //2d tree map
-    public Mesh chunkMesh;
+    public Mesh chunkMesh; //mesh object attached to chunk
+    public BiomePreset chunkBiome; //biome that chunk is most covered in
     public WorldChunk(int chunkSize = 32){
         sample = new TDTile[chunkSize, chunkSize];
         treeMap = new int[chunkSize, chunkSize];

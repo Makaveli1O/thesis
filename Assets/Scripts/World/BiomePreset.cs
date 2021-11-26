@@ -14,12 +14,13 @@ public class BiomePreset : ScriptableObject
     public string type;
     public Sprite[] tiles;
     public EdgeTile[] edgeTiles;
-    public Sprite[] trees;
+    public TreeCategory[] trees;
     public float height;
     public float temperature; //min
     public float maxTemperature;
     public float precipitation;//min
     public float maxPrecipitation;
+    public float treeRadius; //bigger radius - > less dense
 
 
     /// <returns>Returns random assigned tile to this biome.</returns>
@@ -417,4 +418,10 @@ public class BiomePreset : ScriptableObject
      public string name;
      public bool walkable;
      public Sprite sprite;
+ }
+
+[System.Serializable]
+ public struct TreeCategory {
+     public string name;
+     public Sprite[] sprites;
  }

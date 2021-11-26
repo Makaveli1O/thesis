@@ -22,40 +22,63 @@ MonoBehaviour:
   - {fileID: -3024437051866401289, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   edgeTiles:
   - name: test
+    walkable: 0
     sprite: {fileID: -2709461165805195088, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff
+    walkable: 0
     sprite: {fileID: -8005594841164907741, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_left
+    walkable: 0
     sprite: {fileID: 1060968137513920094, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_right
+    walkable: 0
     sprite: {fileID: -8049501341871849147, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_bot
+    walkable: 0
     sprite: {fileID: -2490217678817096868, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_botLeft
+    walkable: 0
     sprite: {fileID: 5694302723028502509, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_botRight
+    walkable: 0
     sprite: {fileID: 4968725515661499749, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_top
+    walkable: 0
     sprite: {fileID: -6853285977031726786, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_topLeft
+    walkable: 0
     sprite: {fileID: -4107142496516835872, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_topRight
+    walkable: 0
     sprite: {fileID: -251897303326212112, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_end_bot
+    walkable: 0
     sprite: {fileID: 2034553186029055258, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_end_botLeft
+    walkable: 0
     sprite: {fileID: -3163619114640030246, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_end_botRight
+    walkable: 0
     sprite: {fileID: 620757738664374926, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_end_left
+    walkable: 0
     sprite: {fileID: 3855580560997502314, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_end_top
+    walkable: 0
     sprite: {fileID: -6853285977031726786, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - name: cliff_end_right
+    walkable: 0
     sprite: {fileID: 7583636455865192959, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  trees:
+  - name: basic
+    sprites:
+    - {fileID: -3445783352195526334, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -6138741471602438615, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -3816249094409271487, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -2621441243213947836, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   height: 0.5
   temperature: 0.6
   maxTemperature: 1
   precipitation: 0.65
   maxPrecipitation: 1
-  walkable: 1
+  treeRadius: 1

@@ -153,8 +153,15 @@ MonoBehaviour:
   - name: cliff_end_bot
     walkable: 0
     sprite: {fileID: -1039590006925118790, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  trees:
+  - name: basic
+    sprites:
+    - {fileID: 2602920591679002497, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -5323861698567946487, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 8269295790920976509, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   height: 0
   temperature: 0.5
   maxTemperature: 1
   precipitation: 0
   maxPrecipitation: 0.45
+  treeRadius: 10

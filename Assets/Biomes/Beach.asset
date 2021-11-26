@@ -108,8 +108,16 @@ MonoBehaviour:
   - name: rainforest_corner_bot_left
     walkable: 1
     sprite: {fileID: -2503072599624078322, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  trees:
+  - name: basic
+    sprites:
+    - {fileID: -3138178658910154834, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 3394601711945805641, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -3251864339911784303, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 7295838373557104324, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   height: 0
   temperature: 10
   maxTemperature: 1010
   precipitation: 10
   maxPrecipitation: 10
+  treeRadius: 10

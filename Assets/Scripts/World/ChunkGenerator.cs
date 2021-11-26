@@ -37,7 +37,7 @@ public class ChunkGenerator : MonoBehaviour
     float scale, int heightOctaves, int precipitationOctaves,
     float heightFrequency, float precipitationPersistance, float temperatureMultiplier,
     float heightExp, float precipitationLacunarity, float temperatureLoss, int2 dimensions,
-    float treeDensity
+    float treeScale
     ){
         var key = new int2(x,y);
         //chunk is not yet loaded
@@ -51,7 +51,7 @@ public class ChunkGenerator : MonoBehaviour
         chunks[key] = GenerateLandMass(chunks[key], heightOctaves, heightFrequency, heightExp, scale,globalSeed, heightSeed, dimensions);
         chunks[key] = GeneratePrecipitationMap(chunks[key],globalSeed, precipitationSeed, scale, precipitationOctaves, precipitationPersistance, precipitationLacunarity, dimensions);
         chunks[key] = GenerateHeatMap(chunks[key], dimensions, temperatureMultiplier, temperatureLoss); 
-        chunks[key] = GenerateTrees(chunks[key], globalSeed, scale, dimensions, treeDensity);
+        chunks[key] = GenerateTrees(chunks[key], globalSeed, scale, treeScale);
         
         return chunks;
 
@@ -65,24 +65,45 @@ public class ChunkGenerator : MonoBehaviour
     /// <param name="globalSeed">World seed</param>
     /// <param name="scale">World scale</param>
     /// <param name="dimensions">World dimensions width and height</param>
-    /// <param name="treeDensity">Density of spawning trees</param>
+    /// <param name="treeScale">Scale for perlin noise map</param>
     /// <returns></returns>
-    public WorldChunk GenerateTrees(WorldChunk chunk, int globalSeed, float scale, int2 dimensions, float treeDensity) {
+    public WorldChunk GenerateTrees(WorldChunk chunk, int globalSeed, float scale, float treeScale) {
+        Map map = GetComponent<Map>();
+        float [,] treeMap = GenerateNoiseMap(chunk, globalSeed, treeScale);
+
         for (int x = 0; x < chunkSize; x++)
         {
             for (int y = 0; y < chunkSize; y++)
             {
-                float px = (float)(x + chunk.position.x) / chunkSize * treeDensity;//* 1f + xOffset;
-                float py = (float)(y + chunk.position.y) / chunkSize * treeDensity;//*1f + yOffset;
-                float perlinValue = Mathf.PerlinNoise(px + globalSeed,py + globalSeed);
+                float treeValue = treeMap[x,y];
+                TDTile tile = map.GetTile(new int2(x,y), chunk.position);
+                //get tree radius specified for this biome
+                float neighborRadius = map.GetBiome(tile.height, tile.precipitation, tile.temperature, chunk.position, new int2(x,y)).treeRadius;
 
-                if (perlinValue >0.85f)
-                {
-                    chunk.treeMap[x,y] = 1;
-                }else{
-                    chunk.treeMap[x,y] = 0;
+                // compares the current tree noise value to the neighbours
+                int neighbourYBegin = (int)Mathf.Max (0, y - neighborRadius);
+                int neighbourYEnd = (int)Mathf.Min (chunkSize-1, y + neighborRadius);
+                int neighbourXBegin = (int)Mathf.Max (0, x - neighborRadius);
+                int neighbourXEnd = (int)Mathf.Min (chunkSize-1, x + neighborRadius);
+
+                //find maximum value for radius neighbourhood
+                float maxValue = 0f;
+                for (int neighbourY = neighbourYBegin; neighbourY <= neighbourYEnd; neighbourY++) {
+                    for (int neighbourX = neighbourXBegin; neighbourX <= neighbourXEnd; neighbourX++) {
+
+                        float neighbourValue = treeMap [neighbourY, neighbourX];
+
+                        // saves the maximum tree noise value in the radius
+                        if (neighbourValue >= maxValue) {
+                            maxValue = neighbourValue;
+                        }
+
+                    }
                 }
-
+                // if the current tree noise value is the maximum one, place a tree mark
+                if (treeValue == maxValue) {
+                    chunk.treeMap[x,y] = 1;
+                }
             }
         }
 
@@ -127,19 +148,6 @@ public class ChunkGenerator : MonoBehaviour
         return chunk;
     }
 
-    /*
-        
-
-        @chunk -> current generated chunk (32x32)
-        @octaves -> number of octaves for perlin noise to merge
-        @frequency -> frequency of the noise (higher frequency more distanced the values)
-        @exp -> exponential of the noise (higher means less land and more water)
-        @scale -> scale of the world generated
-        @globalSeed -> global seed of each map
-        @seed -> seed only for height map
-
-        Returns altered chunk within chunks dictionary.
-    */
     /// <summary>
     /// This function generates landmass(island like structure) with perlin noise. First whole map is land
     /// generated. After that rectangle in the middle is calculated, and based on theshold land is subtracted
@@ -354,5 +362,28 @@ public class ChunkGenerator : MonoBehaviour
             }
         }
         return min;
+    }
+
+    /// <summary>
+    /// Generate basic perlin noise 2d map, with given seed and scale for 1 chunk.
+    /// </summary>
+    /// <param name="chunk">Processed chunk</param>
+    /// <param name="globalSeed">World seed</param>
+    /// <param name="scale">World scale</param>
+    /// <returns></returns>
+    private float[,] GenerateNoiseMap(WorldChunk chunk, int globalSeed, float scale){
+        float[,] noiseMap = new float[chunkSize,chunkSize];
+        for (int x = 0; x < chunkSize; x++)
+        {
+            for (int y = 0; y < chunkSize; y++)
+            {
+                float px = (float)(x + chunk.position.x) / chunkSize * scale;//* 1f + xOffset;
+                float py = (float)(y + chunk.position.y) / chunkSize * scale;//*1f + yOffset;
+                float perlinValue = Mathf.PerlinNoise(px + globalSeed,py + globalSeed);
+
+                noiseMap[x,y] = perlinValue;
+            }
+        }
+        return noiseMap;
     }
 }
