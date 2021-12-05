@@ -34,6 +34,7 @@ public class BiomePreset : ScriptableObject
     /// <param name="tile">Tile reference</param>
     /// <returns>Sprite for given tile</returns>
     public Sprite GetTileSprite(TDTile tile){
+
         Sprite tileToReturn;
         tileToReturn = GetRandomSprite();
         //assign correct water type

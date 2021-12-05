@@ -53,6 +53,7 @@ MonoBehaviour:
   top_x: 0
   y: 0
   top_y: 0
+  testSprite: {fileID: -2717450498524267581, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
 --- !u!33 &-5765618687131722424
 MeshFilter:
   m_ObjectHideFlags: 0

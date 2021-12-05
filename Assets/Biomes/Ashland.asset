@@ -145,9 +145,10 @@ MonoBehaviour:
   - name: basic
     sprites:
     - {fileID: 4187409650753250110, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: 4116511663760875567, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 3823109109734298350, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: 386483934509769319, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: -7140352914822402492, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -8409272078778457521, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   height: 0
   temperature: 0
   maxTemperature: 0.25

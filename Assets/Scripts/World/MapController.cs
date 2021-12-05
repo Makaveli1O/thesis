@@ -14,14 +14,18 @@ public class MapController : MonoBehaviour
     Vector3 playerPos;
     Map mapObj;
     private GameObject playerObj = null;
+    private GameHandler gameHandler = null;
     void Start()
     {
         mapObj = GetComponent<Map>();   //get reference to map
+        gameHandler = GetComponent<GameHandler>();
+
         if (playerObj == null)          //get player obj
             playerObj = GameObject.Find("Player");
 
         //beggining position ( spawn )
-        playerPos = new Vector3(38,50,0);
+        SaveObject playerSave = gameHandler.Load();
+        playerPos = playerSave.objPos;
     }
 
     void Update()
@@ -42,5 +46,8 @@ public class MapController : MonoBehaviour
         }else{
             playerObj.transform.position = playerPos;
         }
+    }
+    void OnApplicationQuit() {
+        gameHandler.Save(ObjType.Player,playerPos);
     }
 }

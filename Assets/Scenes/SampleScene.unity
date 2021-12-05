@@ -413,9 +413,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1795101333}
   - component: {fileID: 1795101332}
+  - component: {fileID: 1795101337}
   - component: {fileID: 1795101334}
-  - component: {fileID: 1795101335}
   - component: {fileID: 1795101336}
+  - component: {fileID: 1795101335}
+  - component: {fileID: 1795101331}
   m_Layer: 6
   m_Name: _Map
   m_TagString: Untagged
@@ -423,6 +425,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1795101331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795101330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b86593238804c7469ea0935fd5bbc12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1795101332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,13 +459,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f4a588f425eebbe418d15c6f047d108e, type: 2}
   - {fileID: 11400000, guid: e6f0d477a766a6046b140a832621cd67, type: 2}
   chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}
-  chunkLoading: 1
-  width: 512
-  height: 512
+  map:
+    width: 512
+    height: 512
+    renderDistance: 38
+    chunkSize: 32
   scale: 0.5
   seed: 145
   heightSeed: 2021
   precipitationSeed: 200
+  chunkLoading: 1
   autoUpdate: 0
   heightOctaves: 1
   heightFrequency: 2.12
@@ -462,7 +479,6 @@ MonoBehaviour:
   precipitationPersistance: 0.2
   precipitationLacunarity: 1.58
   treeScale: 1000
-  renderDistance: 38
 --- !u!4 &1795101333
 Transform:
   m_ObjectHideFlags: 0
@@ -515,3 +531,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountToPool: 8
   chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}
+--- !u!114 &1795101337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795101330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11030bce2c285034389f0fb83f58f1dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map:
+    width: 0
+    height: 0
+    renderDistance: 0
+    chunkSize: 0

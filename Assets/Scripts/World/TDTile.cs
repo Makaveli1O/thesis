@@ -71,5 +71,4 @@ public enum EdgeType
     cliffEndRight,
     cliffBot,
     cliffEndBot
-
 }

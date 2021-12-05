@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\World\TDTile.cs" />
+     <Compile Include="Assets\Scripts\World\TreeCreator.cs" />
      <Compile Include="Assets\Scripts\World\ChunkPool.cs" />
      <Compile Include="Assets\Scripts\World\ChunkCreator.cs" />
      <Compile Include="Assets\Scripts\World\TreePool.cs" />
@@ -46,13 +47,16 @@
      <Compile Include="Assets\Scripts\Characters\PlayerController.cs" />
      <Compile Include="Assets\Scripts\World\ObjectPoolInterface.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
+     <Compile Include="Assets\Scripts\GameHandler.cs" />
      <Compile Include="Assets\Scripts\World\WorldChunk.cs" />
      <Compile Include="Assets\Scripts\World\MapGeneratorEditor.cs" />
      <Compile Include="Assets\Scripts\World\BiomePreset.cs" />
      <Compile Include="Assets\Scripts\Characters\CharacterAnimationController.cs" />
+     <Compile Include="Assets\Scripts\SaveSystem.cs" />
      <Compile Include="Assets\Scripts\World\ChunkGenerator.cs" />
      <Compile Include="Assets\Scripts\Characters\CharacterMovementController.cs" />
-     <Compile Include="Assets\Scripts\World\TreeCreator.cs" />
+     <Compile Include="Assets\Scripts\World\ChunkLoader.cs" />
+     <Compile Include="Assets\Scripts\World\TDMap.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Programy\unity\2020.3.12f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

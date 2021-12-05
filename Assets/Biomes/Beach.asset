@@ -113,8 +113,8 @@ MonoBehaviour:
     sprites:
     - {fileID: -3138178658910154834, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: 3394601711945805641, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -3251864339911784303, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: 7295838373557104324, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -7139336379900549185, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 642748217232836133, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   height: 0
   temperature: 10
   maxTemperature: 1010

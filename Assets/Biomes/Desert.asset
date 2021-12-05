@@ -156,9 +156,12 @@ MonoBehaviour:
   trees:
   - name: basic
     sprites:
-    - {fileID: 2602920591679002497, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -5323861698567946487, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: 8269295790920976509, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -5791472574722978375, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -566806900035736170, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -1070589746182049760, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -3589712970709780248, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -2316609668455535599, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -8280493721304069615, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   height: 0
   temperature: 0.5
   maxTemperature: 1

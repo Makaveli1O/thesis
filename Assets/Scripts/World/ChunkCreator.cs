@@ -14,6 +14,8 @@ public class ChunkCreator : MonoBehaviour
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
 
+    GameHandler gameHandler;
+
     private float tileSize = 1;
     public Vector3[] vertices;
     public Vector2[] uv;
@@ -28,6 +30,7 @@ public class ChunkCreator : MonoBehaviour
     private List<GameObject> renderedTrees = new List<GameObject>();
     private HashSet<int2> treeCoords = new HashSet<int2>();
 
+    [SerializeField] public Sprite testSprite;
 
 
     /// <summary>
@@ -211,7 +214,7 @@ public class ChunkCreator : MonoBehaviour
                         treeCoords.Add(new int2(x_coord, y_coord));
                         //set correct sprite
                         Sprite treeSprite = SetTreeSprite(treeP, tile);
-                        AdjustTreeCollider(treeP.GetComponent<CapsuleCollider2D>(), treeSprite.bounds);
+                        AdjustTreeCollider(treeP.GetComponent<CapsuleCollider2D>(), treeSprite.bounds, treeSprite.name);
                     }
                 } 
             }
@@ -289,9 +292,31 @@ public class ChunkCreator : MonoBehaviour
         return treeRenderer.sprite;
     }
 
-    private void AdjustTreeCollider(CapsuleCollider2D collider2D, Bounds boundingBox){
-
-        collider2D.size = new Vector2(boundingBox.size.x/2,collider2D.size.y);
+    /// <summary>
+    /// Determines size of tree collider. Depending on sprite prefix name, bounding box
+    /// is calculated differently.
+    /// </summary>
+    /// <param name="collider2D">colldier object</param>
+    /// <param name="boundingBox">bounding box around sprite</param>
+    private void AdjustTreeCollider(CapsuleCollider2D collider2D, Bounds boundingBox, string name){
+        int index = name.IndexOf("_");
+        string prefix = name.Substring(0, index);
+        switch(prefix){
+            case "regular":
+                collider2D.size = new Vector2(boundingBox.size.x/2f,collider2D.size.y);
+                break;
+            case "big":
+                collider2D.size = new Vector2(boundingBox.size.x/1.2f,collider2D.size.y);
+                break;
+            case "small":
+                collider2D.size = new Vector2(boundingBox.size.x/5f,collider2D.size.y);
+                break;
+            default:
+                collider2D.size = new Vector2(boundingBox.size.x/2f,collider2D.size.y);
+                break;
+        }
+        return;
+        
     }
     void Update(){  
         //TODO 

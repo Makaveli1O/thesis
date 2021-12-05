@@ -21,8 +21,7 @@ public class Map : MonoBehaviour
         Object references
     */
     ChunkGenerator chunkGenerator = null;
-
-
+    ChunkLoader chunkLoader = null;
     [SerializeField] protected GameObject player;
 
     //store all biomes and prefabs for each tile
@@ -31,17 +30,16 @@ public class Map : MonoBehaviour
     public GameObject chunkPrefab;
     //Map dimensions
     [Header("Dimensions")]
-    public bool chunkLoading; //checkbox
-    public int width = 32;
-    public int height = 32;
+    public TDMap map;
+    [Header("Map seed settings")]
     public float scale = 1.0f; 
     public int seed;
     public int heightSeed;
     public int precipitationSeed;
+    public bool chunkLoading; //checkbox
     /*
         Loaded chunks
     */
-    protected int chunkSize = 32;
     
     // updating in inspector nogthing more
     public bool autoUpdate;
@@ -59,11 +57,6 @@ public class Map : MonoBehaviour
     public float precipitationLacunarity;
     [Header("Objects (trees etc)")]
     public float treeScale;
-
-    public int renderDistance = 42;    //distance to load chunk
-    //chunks stuff
-    private Dictionary<int2, WorldChunk> chunks = new Dictionary<int2, WorldChunk>(); //map
-    private Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
     
     /// <summary>
     ///  This function handles whole map creation process.Three dictionaries each holding chunks of different types
@@ -71,27 +64,29 @@ public class Map : MonoBehaviour
     /// </summary>
     public void MapGeneration(){
         /* for inspector because global initialization does not affect inspector in this case */
-        chunks = new Dictionary<int2, WorldChunk>();
+        map.chunks = new Dictionary<int2, WorldChunk>();
 
         /* remove later */
         //initialization for inspector mode
         if (chunkGenerator == null) chunkGenerator = GetComponent<ChunkGenerator>();
 
         /* get perlin values in advance ( doing this when loading chunks is irrelevant generating values is fast ) */
-        for (int x = 0; x < width; x+=chunkSize)
+        for (int x = 0; x < map.width; x+=map.chunkSize)
         {
-            for (int y = 0; y < height; y+=chunkSize)
+            for (int y = 0; y < map.height; y+=map.chunkSize)
             {
 
-                chunks = chunkGenerator.GenerateChunks(     x,y,chunks,
+                map.chunks = chunkGenerator.GenerateChunks(     x,y,map.chunks,
                                                             seed, heightSeed, precipitationSeed,
                                                             scale, heightOctaves, precipitationOctaves,
                                                             heightFrequency, precipitationPersistance, temperatureMultiplier,
                                                             heightExp, precipitationLacunarity, temperatureLoss,
-                                                            new int2(width,height), treeScale);
+                                                            new int2(map.width,map.height), treeScale);
             }
         }
 
+        //pass generated chunks to chunk loader
+        chunkLoader.map = map;
         /* loading all chunks */
         //all at once (only during testing remove later.)
         /*if (!chunkLoading){
@@ -108,67 +103,6 @@ public class Map : MonoBehaviour
     }
 
     /// <summary>
-    /// Loop through all chunks, and determine whenever chunk should be loaded or 
-    /// unloaded by calculating distance and checking treshold.
-    /// </summary>
-    /// <param name="PlayerPos">Position of player in the world</param>
-    /// <param name="distToLoad">Distance treshold to load chunk</param>
-    /// <param name="distToUnload">Distance treshold to unload chunk</param>
-    public void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload){
-        int offset = 16; //chunk 32 -> 16, 16 is center
-		for(int x = 0; x < width; x+=chunkSize){
-			for(int y = 0; y < height ; y+=chunkSize){
-                //calcualte distance to the middle of chunk
-                int chunkX = x + offset;
-                int chunkY = y + offset;
-				float dist=Vector2.Distance(new Vector2(chunkX,chunkY),new Vector2(PlayerPos.x,PlayerPos.y));
-                if(dist<distToLoad){
-                    if(!renderedChunks.ContainsKey(new int2(x,y))){
-						CreateChunk(x,y);
-					}
-				}else if(dist>distToUnload){
-					if(renderedChunks.ContainsKey(new int2(x,y))){
-						UnloadChunk(x,y);
-					}
-				}
-			}
-		}
-    }
-
-    /// <summary>
-    /// Unloads unnecessary chunk from pool, and removes it from rendered chunks dictionary.
-    /// </summary>
-    /// <param name="x">coord x</param>
-    /// <param name="y">coord y</param>
-    private void UnloadChunk(int x, int y){
-        //reference to the script, attached to chunk about to remove
-        ChunkCreator chunkCreator = renderedChunks[new int2(x,y)].GetComponent<ChunkCreator>(); 
-        chunkCreator.UnloadTrees();
-        //deactivate chunk
-        renderedChunks[new int2(x,y)].SetActive(false);
-        renderedChunks.Remove(new int2(x,y));
-    }
-
-     /// <summary>
-    /// Pools chunk from the pool.
-    /// </summary>
-    /// <param name="x">x coord</param>
-    /// <param name="y">y coords</param>
-    private void CreateChunk(int x, int y){
-        //create chunk object
-        //GameObject chunkP = Instantiate(chunkPrefab, new Vector3(0,0,0), Quaternion.identity);
-        GameObject chunkP = ChunkPool.instance.GetPooledObject();
-        if(chunkP != null){
-            chunkP.transform.parent = gameObject.transform;
-            chunkP.SetActive(true);
-            ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
-            //create mesh (chunk) and save it to structure holding chunk
-            chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, x, y, renderDistance);
-            renderedChunks.Add(new int2(x,y), chunkP);
-        }
-    }
-
-    /// <summary>
     /// Height getter
     /// </summary>
     /// <param name="key">Chunk key</param>
@@ -176,7 +110,7 @@ public class Map : MonoBehaviour
     /// <param name="y">y coord</param>
     /// <returns>Height of tile.</returns>
     public float GetHeightValue(int2 key, int x, int y){
-        return chunks[key].sample[x,y].height;
+        return map.chunks[key].sample[x,y].height;
     }
     /// <summary>
     /// Moisture getter
@@ -186,7 +120,7 @@ public class Map : MonoBehaviour
     /// <param name="y">y coord</param>
     /// <returns>Moisture of tile.</returns>
     public float GetPrecipitationValue(int2 key, int x, int y){
-        return chunks[key].sample[x,y].precipitation;
+        return map.chunks[key].sample[x,y].precipitation;
     }
     /// <summary>
     /// Temperature getter
@@ -196,7 +130,7 @@ public class Map : MonoBehaviour
     /// <param name="y">y coord</param>
     /// <returns>Temperature of tile.</returns>
     public float GetTemperatureValue(int2 key, int x, int y){
-        return chunks[key].sample[x,y].temperature;
+        return map.chunks[key].sample[x,y].temperature;
     }
 
     /// <summary>
@@ -222,8 +156,8 @@ public class Map : MonoBehaviour
         bool botOverflow = false;
 
         if (leftTilePos.x < chunkPos.x)  leftOverflow = true;
-        if (rightTilePos.x >= chunkPos.x + chunkSize) rightOverflow = true;
-        if (topTilePos.y >= chunkPos.y + chunkSize) topOverflow = true;
+        if (rightTilePos.x >= chunkPos.x + map.chunkSize) rightOverflow = true;
+        if (topTilePos.y >= chunkPos.y + map.chunkSize) topOverflow = true;
         if (botTilePos.y < chunkPos.y) botOverflow = true;
         
         int2 relativePos = TileRelativePos(new int2(tile.pos.x, tile.pos.y));
@@ -233,8 +167,8 @@ public class Map : MonoBehaviour
         ---------------------------------------*/
         /* assign left neighbour */
         tile.left   = SetNeighbours(leftTilePos,  tile.pos.x>0,           leftOverflow,   "left");
-        tile.right  = SetNeighbours(rightTilePos, tile.pos.x != width-1,  rightOverflow,  "right");
-        tile.top    = SetNeighbours(topTilePos,   tile.pos.y != height-1, topOverflow,    "top");
+        tile.right  = SetNeighbours(rightTilePos, tile.pos.x != map.width-1,  rightOverflow,  "right");
+        tile.top    = SetNeighbours(topTilePos,   tile.pos.y != map.height-1, topOverflow,    "top");
         tile.bottom = SetNeighbours(botTilePos,   tile.pos.y >0,          botOverflow,    "bot");
 
 
@@ -242,9 +176,9 @@ public class Map : MonoBehaviour
         corners topLeft, topRight, botLeft, botRight 
         ------------------------------------------*/
         tile.bottomLeft = SetNeighbours(botLeftTilePos,true,                                              leftOverflow && botOverflow,   "botLeft");
-        tile.bottomRight= SetNeighbours(botRightTilePos, tile.pos.y != 0 && tile.pos.x != width-1,        botOverflow && rightOverflow,  "botRight");
-        tile.topLeft    = SetNeighbours(topLeftTilePos, tile.pos.y != height-1,                           leftOverflow && topOverflow,    "topLeft");
-        tile.topRight   = SetNeighbours(topRightTilePos, tile.pos.y != height-1 && tile.pos.x != width-1, topOverflow && rightOverflow,    "topRight");
+        tile.bottomRight= SetNeighbours(botRightTilePos, tile.pos.y != 0 && tile.pos.x != map.width-1,        botOverflow && rightOverflow,  "botRight");
+        tile.topLeft    = SetNeighbours(topLeftTilePos, tile.pos.y != map.height-1,                           leftOverflow && topOverflow,    "topLeft");
+        tile.topRight   = SetNeighbours(topRightTilePos, tile.pos.y != map.height-1 && tile.pos.x != map.width-1, topOverflow && rightOverflow,    "topRight");
 
         /* stuff for choosing correct texture for edges of biomes */
         bool isLeftSame, isTopLeftSame, isTopSame, isTopRightSame, isRightSame, isBotRightSame, isBotSame, isBotLeftSame;
@@ -270,9 +204,9 @@ public class Map : MonoBehaviour
     private TDTile SetNeighbours(int2 neighbour, bool condition, bool overflow, string side){
         /*edgy coords must be handled */
         if (neighbour.x == -1) neighbour.x = 0;
-        if (neighbour.x >= width) neighbour.x = width-1;
+        if (neighbour.x >= map.width) neighbour.x = map.width-1;
         if (neighbour.y == -1) neighbour.y = 0;
-        if (neighbour.y >= height) neighbour.y = height-1;
+        if (neighbour.y >= map.height) neighbour.y = map.height-1;
 
         TDTile tile = AssignNeighbour(neighbour);
         
@@ -287,7 +221,7 @@ public class Map : MonoBehaviour
     private TDTile AssignNeighbour(int2 neighbourPos){
         int2 chunkKey = TileChunkPos(neighbourPos);
         int2 relativePos = TileRelativePos(neighbourPos);
-        TDTile tile = chunks[chunkKey].sample[relativePos.x, relativePos.y];
+        TDTile tile = map.chunks[chunkKey].sample[relativePos.x, relativePos.y];
 
         float elevation = GetHeightValue(chunkKey,relativePos.x,relativePos.y);
         float moisture = GetPrecipitationValue(chunkKey,relativePos.x,relativePos.y);
@@ -328,7 +262,7 @@ public class Map : MonoBehaviour
     /// <param name="chunkPos">key of chunk (bottom left tile of chunk 32x32)</param>
     /// <returns></returns>
     public TDTile GetTile(int2 relativePos, int2 chunkPos){
-        return chunks[chunkPos].sample[relativePos.x, relativePos.y];
+        return map.chunks[chunkPos].sample[relativePos.x, relativePos.y];
     }
 
     /// <summary>
@@ -337,7 +271,7 @@ public class Map : MonoBehaviour
     /// <param name="chunkKey">key of chunk</param>
     /// <returns>Requested chunk</returns>
     public WorldChunk GetChunk(int2 chunkKey){
-        return chunks[chunkKey];
+        return map.chunks[chunkKey];
     }
 
     /// <summary>
@@ -532,9 +466,9 @@ public class Map : MonoBehaviour
     /// <returns>Biome for tile</returns>
     public BiomePreset GetBiome(float elevation, float moisture, float temperature, int2 key, int2 tile_coords){
         BiomePreset biomeToReturn = null;
-        TDTile tile = chunks[key].sample[tile_coords.x, tile_coords.y];
+        TDTile tile = map.chunks[key].sample[tile_coords.x, tile_coords.y];
 
-        if (tile_coords.y + 3 < chunkSize)
+        if (tile_coords.y + 3 < map.chunkSize)
         {
             tile.z_index = TrimTerrainMalformations(tile);
         }
@@ -589,7 +523,7 @@ public class Map : MonoBehaviour
             else if (minDistance > euclideanDistance) minDistance = euclideanDistance;
         }
         biomeToReturn = dict[minDistance];
-        chunks[key].sample[tile_coords.x, tile_coords.y].biome = biomeToReturn;
+        map.chunks[key].sample[tile_coords.x, tile_coords.y].biome = biomeToReturn;
         return biomeToReturn;
     }
     
@@ -614,13 +548,14 @@ public class Map : MonoBehaviour
 
     void Start(){
         chunkGenerator = GetComponent<ChunkGenerator>();
+        chunkLoader = GetComponent<ChunkLoader>();
         MapGeneration(); //generate map
     }
 
     void Update(){
         if (chunkLoading)
         {
-            LoadChunks(player.transform.position, renderDistance,renderDistance + 15);
+            chunkLoader.LoadChunks(player.transform.position, map.renderDistance,map.renderDistance + 15);
         }
     }
     
