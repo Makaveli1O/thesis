@@ -4,6 +4,7 @@ using Unity.Mathematics; //int2
 /// This intel is later used to determine it's type,
 /// position in the world etc.
 /// </summary>
+[System.Serializable]
 public class TDTile
 {  
     private bool walkable;
@@ -14,6 +15,7 @@ public class TDTile
     }
     public int z_index;
     public int2 pos;
+    [System.NonSerialized]
     public BiomePreset biome;
     public float temperature;
     public float height;

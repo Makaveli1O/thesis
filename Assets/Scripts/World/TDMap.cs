@@ -11,5 +11,4 @@ public struct TDMap
     public int width;
     public int height;
     public int renderDistance;
-    public int chunkSize;
 }

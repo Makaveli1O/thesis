@@ -8,7 +8,6 @@ using Unity.Mathematics; //int2 and perlin noise
 /// </summary>
 public class ChunkGenerator : MonoBehaviour
 {
-    private int chunkSize = 32;
     /// <summary>
     /// Main function retrieving all neccessary intel about creating perlin maps. From this
     /// method generating of height, heat and moisture maps are called. Each one needs it's own
@@ -44,7 +43,7 @@ public class ChunkGenerator : MonoBehaviour
         if (!chunks.ContainsKey(key))
         {
             //append dictionary
-            chunks.Add(key, new WorldChunk(chunkSize));
+            chunks.Add(key, new WorldChunk());
             chunks[key].position = new int2(x,y);
         }
 
@@ -71,9 +70,9 @@ public class ChunkGenerator : MonoBehaviour
         Map map = GetComponent<Map>();
         float [,] treeMap = GenerateNoiseMap(chunk, globalSeed, treeScale);
 
-        for (int x = 0; x < chunkSize; x++)
+        for (int x = 0; x < Const.CHUNK_SIZE; x++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int y = 0; y < Const.CHUNK_SIZE; y++)
             {
                 float treeValue = treeMap[x,y];
                 TDTile tile = map.GetTile(new int2(x,y), chunk.position);
@@ -82,9 +81,9 @@ public class ChunkGenerator : MonoBehaviour
 
                 // compares the current tree noise value to the neighbours
                 int neighbourYBegin = (int)Mathf.Max (0, y - neighborRadius);
-                int neighbourYEnd = (int)Mathf.Min (chunkSize-1, y + neighborRadius);
+                int neighbourYEnd = (int)Mathf.Min (Const.CHUNK_SIZE-1, y + neighborRadius);
                 int neighbourXBegin = (int)Mathf.Max (0, x - neighborRadius);
-                int neighbourXEnd = (int)Mathf.Min (chunkSize-1, x + neighborRadius);
+                int neighbourXEnd = (int)Mathf.Min (Const.CHUNK_SIZE-1, x + neighborRadius);
 
                 //find maximum value for radius neighbourhood
                 float maxValue = 0f;
@@ -126,17 +125,17 @@ public class ChunkGenerator : MonoBehaviour
     /// <param name="temperature">Temperature is affecting generated moisture.</param>
     /// <returns>Chunk filled with precipitation noise data.</returns>
     public WorldChunk GeneratePrecipitationMap(WorldChunk chunk, int globalSeed, int seed, float scale, int octaves, float persistance, float lacunarity, int2 dimensions, bool temperature = false){
-        for (int x = 0; x < chunkSize; x++)
+        for (int x = 0; x < Const.CHUNK_SIZE; x++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int y = 0; y < Const.CHUNK_SIZE; y++)
             {
                 float frequency = 1f; //higher frequency -> further apart sample points height values will change more rapidly
                 float amplitude = 1f;
                 float noiseHeight = 0f;
 
                 for (int i = 0; i<octaves; i++){
-                    float px = (float)(x + chunk.position.x) / chunkSize * scale * frequency;//* 1f + xOffset;
-                    float py = (float)(y + chunk.position.y) / chunkSize * scale * frequency;//*1f + yOffset;
+                    float px = (float)(x + chunk.position.x) / Const.CHUNK_SIZE * scale * frequency;//* 1f + xOffset;
+                    float py = (float)(y + chunk.position.y) / Const.CHUNK_SIZE * scale * frequency;//*1f + yOffset;
                     float perlinValue = Mathf.PerlinNoise(px + globalSeed + seed,py + globalSeed + seed);
                     noiseHeight += perlinValue * amplitude; 
                     amplitude *= persistance; //decreases
@@ -163,9 +162,9 @@ public class ChunkGenerator : MonoBehaviour
     /// <param name="dimensions">Map widht and height</param>
     /// <returns>Chunk filled with height noise data.</returns>
     public WorldChunk GenerateLandMass(WorldChunk chunk, int octaves, float frequency, float exp, float scale, int globalSeed, int seed, int2 dimensions){
-        for (int x = 0; x < chunkSize; x++)
+        for (int x = 0; x < Const.CHUNK_SIZE; x++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int y = 0; y < Const.CHUNK_SIZE; y++)
             {
                 //create new tdtile instance
                 chunk.sample[x,y] = new TDTile(); //create new tile instance
@@ -174,8 +173,8 @@ public class ChunkGenerator : MonoBehaviour
                 float f = frequency;
                 float amplitudeSum = 0f;
                 for (int i = 0; i<octaves; i++){
-                    float px = (float)(x + chunk.position.x) / chunkSize * scale;
-                    float py = (float)(y + chunk.position.y) / chunkSize * scale;
+                    float px = (float)(x + chunk.position.x) / Const.CHUNK_SIZE * scale;
+                    float py = (float)(y + chunk.position.y) / Const.CHUNK_SIZE * scale;
                     elevation = Mathf.PerlinNoise(px * f+seed+globalSeed,py * f+seed+globalSeed); 
 
                     //run perlin values through function tat will make square island like shape
@@ -234,9 +233,9 @@ public class ChunkGenerator : MonoBehaviour
     /// <param name="temperature_loss">Temperature lowering coefficient for latitude.</param>
     /// <returns>Chunk filled with perlin noise and adjusted with earth like (poles) conditions.</returns>
     public WorldChunk GenerateHeatMap(WorldChunk chunk, int2 dimensions, float temperature_multiplier, float temperature_loss){
-        for (int x = 0; x < chunkSize; x++)
+        for (int x = 0; x < Const.CHUNK_SIZE; x++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int y = 0; y < Const.CHUNK_SIZE; y++)
             {
                 float elevation = chunk.sample[x,y].height;
 
@@ -372,13 +371,13 @@ public class ChunkGenerator : MonoBehaviour
     /// <param name="scale">World scale</param>
     /// <returns></returns>
     private float[,] GenerateNoiseMap(WorldChunk chunk, int globalSeed, float scale){
-        float[,] noiseMap = new float[chunkSize,chunkSize];
-        for (int x = 0; x < chunkSize; x++)
+        float[,] noiseMap = new float[Const.CHUNK_SIZE,Const.CHUNK_SIZE];
+        for (int x = 0; x < Const.CHUNK_SIZE; x++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int y = 0; y < Const.CHUNK_SIZE; y++)
             {
-                float px = (float)(x + chunk.position.x) / chunkSize * scale;//* 1f + xOffset;
-                float py = (float)(y + chunk.position.y) / chunkSize * scale;//*1f + yOffset;
+                float px = (float)(x + chunk.position.x) / Const.CHUNK_SIZE * scale;//* 1f + xOffset;
+                float py = (float)(y + chunk.position.y) / Const.CHUNK_SIZE * scale;//*1f + yOffset;
                 float perlinValue = Mathf.PerlinNoise(px + globalSeed,py + globalSeed);
 
                 noiseMap[x,y] = perlinValue;

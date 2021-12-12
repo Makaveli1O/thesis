@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Unity.Mathematics;
 
@@ -17,8 +18,8 @@ public class ChunkLoader : MonoBehaviour
     /// <param name="distToUnload">Distance treshold to unload chunk</param>
     public void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload){
         int offset = 16; //chunk 32 -> 16, 16 is center
-		for(int x = 0; x < map.width; x+=map.chunkSize){
-			for(int y = 0; y < map.height ; y+=map.chunkSize){
+		for(int x = 0; x < map.width; x+=Const.CHUNK_SIZE){
+			for(int y = 0; y < map.height ; y+=Const.CHUNK_SIZE){
                 //calcualte distance to the middle of chunk
                 int chunkX = x + offset;
                 int chunkY = y + offset;
@@ -56,15 +57,35 @@ public class ChunkLoader : MonoBehaviour
     /// <param name="x">x coord</param>
     /// <param name="y">y coords</param>
     private void CreateChunk(int x, int y){
+        GameHandler gameHandler = transform.GetComponent<GameHandler>();
         //create chunk object
         GameObject chunkP = ChunkPool.instance.GetPooledObject();
         if(chunkP != null){
             chunkP.transform.parent = gameObject.transform;
             chunkP.SetActive(true);
             ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
-            //create mesh (chunk) and save it to structure holding chunk
-            map.chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(map.chunkSize,map.chunkSize, x, y, map.renderDistance);
+            
+           // RequestChunkData(chunkP,map.chunks[new int2(x,y)]);
+            
+            //create mesh (chunk) and save it
+            Mesh mesh = new Mesh();
+            map.chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[new int2(x,y)], mesh);
             renderedChunks.Add(new int2(x,y), chunkP);
+            //cache metadata
+            SaveChunk save = new SaveChunk(new Vector3(x,y,0));
+            gameHandler.Save<SaveChunk>(save, ObjType.Chunk, new Vector3(x,y,0));
+            
         }
+    }
+
+    public void RequestChunkData(GameObject chunkP,WorldChunk chunk){
+        ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
+        Mesh mesh = new Mesh();
+        ThreadStart newThread = delegate{
+            map.chunks[new int2(chunk.position.x,chunk.position.y)].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[new int2(chunk.position.x,chunk.position.y)], mesh);
+            renderedChunks.Add(new int2(chunk.position.x,chunk.position.y), chunkP);
+        };
+        
+        new Thread (newThread).Start();
     }
 }

@@ -16,6 +16,7 @@ public static class SaveSystem
             Directory.CreateDirectory(SAVE_FOLDER);
         }
     }
+
     /// <summary>
     /// Save string into specified file.
     /// </summary>
@@ -24,6 +25,7 @@ public static class SaveSystem
     public static void Save(string saveString, string fileName){
         File.WriteAllText(SAVE_FOLDER + "/"+fileName,saveString);
     }
+    
     /// <summary>
     /// Load string(json serialized) from specified file.
     /// </summary>

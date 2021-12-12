@@ -71,9 +71,9 @@ public class Map : MonoBehaviour
         if (chunkGenerator == null) chunkGenerator = GetComponent<ChunkGenerator>();
 
         /* get perlin values in advance ( doing this when loading chunks is irrelevant generating values is fast ) */
-        for (int x = 0; x < map.width; x+=map.chunkSize)
+        for (int x = 0; x < map.width; x+=Const.CHUNK_SIZE)
         {
-            for (int y = 0; y < map.height; y+=map.chunkSize)
+            for (int y = 0; y < map.height; y+=Const.CHUNK_SIZE)
             {
 
                 map.chunks = chunkGenerator.GenerateChunks(     x,y,map.chunks,
@@ -156,8 +156,8 @@ public class Map : MonoBehaviour
         bool botOverflow = false;
 
         if (leftTilePos.x < chunkPos.x)  leftOverflow = true;
-        if (rightTilePos.x >= chunkPos.x + map.chunkSize) rightOverflow = true;
-        if (topTilePos.y >= chunkPos.y + map.chunkSize) topOverflow = true;
+        if (rightTilePos.x >= chunkPos.x + Const.CHUNK_SIZE) rightOverflow = true;
+        if (topTilePos.y >= chunkPos.y + Const.CHUNK_SIZE) topOverflow = true;
         if (botTilePos.y < chunkPos.y) botOverflow = true;
         
         int2 relativePos = TileRelativePos(new int2(tile.pos.x, tile.pos.y));
@@ -468,7 +468,7 @@ public class Map : MonoBehaviour
         BiomePreset biomeToReturn = null;
         TDTile tile = map.chunks[key].sample[tile_coords.x, tile_coords.y];
 
-        if (tile_coords.y + 3 < map.chunkSize)
+        if (tile_coords.y + 3 < Const.CHUNK_SIZE)
         {
             tile.z_index = TrimTerrainMalformations(tile);
         }

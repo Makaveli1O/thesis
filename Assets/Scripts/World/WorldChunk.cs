@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Mathematics; 
+using System.Runtime.Serialization;
 
 /// <summary>
 /// Class representing single chunk in the map.
@@ -11,8 +12,8 @@ public class WorldChunk
     public int[,] treeMap; //2d tree map
     public Mesh chunkMesh; //mesh object attached to chunk
     public BiomePreset chunkBiome; //biome that chunk is most covered in
-    public WorldChunk(int chunkSize = 32){
-        sample = new TDTile[chunkSize, chunkSize];
-        treeMap = new int[chunkSize, chunkSize];
+    public WorldChunk(){
+        sample = new TDTile[Const.CHUNK_SIZE, Const.CHUNK_SIZE];
+        treeMap = new int[Const.CHUNK_SIZE, Const.CHUNK_SIZE];
     }
 }

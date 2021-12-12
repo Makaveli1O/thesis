@@ -24,8 +24,13 @@ public class MapController : MonoBehaviour
             playerObj = GameObject.Find("Player");
 
         //beggining position ( spawn )
-        SaveObject playerSave = gameHandler.Load();
-        playerPos = playerSave.objPos;
+        try{
+            SavePlayer playerSave = gameHandler.Load<SavePlayer>(ObjType.Player);
+            playerPos = playerSave.pos;
+        }catch{
+            playerPos = new Vector3(50,40,0);
+        }
+
     }
 
     void Update()
@@ -48,6 +53,7 @@ public class MapController : MonoBehaviour
         }
     }
     void OnApplicationQuit() {
-        gameHandler.Save(ObjType.Player,playerPos);
+        SavePlayer savePlayer = new SavePlayer(playerPos);
+        gameHandler.Save<SavePlayer>(savePlayer, ObjType.Player,playerPos);
     }
 }
