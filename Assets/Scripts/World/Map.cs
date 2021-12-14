@@ -57,8 +57,9 @@ public class Map : MonoBehaviour
     public float treeScale;
     
     /// <summary>
-    ///  This function handles whole map creation process.Three dictionaries each holding chunks of different types
-    ///  are being used to determine which biome and what exact type should be picked for each coodinate of map.
+    /// This function generates whole map from noise. Actually 3 types of noise maps are created. Those are
+    /// saved in to Map structure and proper biomes are set in the second cycle throughout the chunks and whole map
+    /// Each tile has now properly set TDTile class assigned to them. Second loop makes sure of that
     /// </summary>
     public void MapGeneration(){
         /* for inspector because global initialization does not affect inspector in this case */
@@ -82,6 +83,21 @@ public class Map : MonoBehaviour
                                                             new int2(map.width,map.height), treeScale);
             }
         }
+
+        //loop through generated map and assign fill TDTile
+        // for each tileand 8 direction neighbour pointers
+        // similiar to flood-fill
+        foreach (WorldChunk chunk in map.chunks.Values)
+        {
+            for (int x = 0; x < Const.CHUNK_SIZE; x++)
+            {
+                for (int y = 0; y < Const.CHUNK_SIZE; y++)
+                {
+                    AssignNeighbours(GetTile(new int2(x, y),chunk.position), chunk.position);
+                }   
+            }
+        }
+
 
         //pass generated chunks to chunk loader
         chunkLoader.map = map;

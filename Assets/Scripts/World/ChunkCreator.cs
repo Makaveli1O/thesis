@@ -33,9 +33,8 @@ public class ChunkCreator : MonoBehaviour
     /// <summary>
     /// Function that creates mesh with given width, height and world space. This tile represents
     /// one chunk. Mesh is divided into 32 x 32 quads. Each quad represents 1 world tile. Each tile's
-    /// UV is set accordingly to match texture desired. Consists of 2 loops throught the map, first one
-    /// is creating quads for tiles and setting it's biomes, while second one sets each tile it's neighbours
-    /// (flood filling) and setting textures accordingly.
+    /// UV is set accordingly to match texture desired. Consists of loop throught the map, that
+    /// is creating quads for tiles and setting it's biomes, and sets uvs and texturing accordingly.
     /// </summary>
     /// <param name="width">chunk width</param>
     /// <param name="height">chunk height</param>
@@ -74,12 +73,29 @@ public class ChunkCreator : MonoBehaviour
                 triangles[index * 6 + 4] = index * 4 + 2;
                 triangles[index * 6 + 5] = index * 4 + 3;
 
-                /* set biome for each tile, and pointers to 4 direction neighbours*/
-                SetTileBiome(x, y, chunk.position);
+                // now set UVs and textures accordingly
+                Sprite tileSprite = GetTileTexture(x, y, chunk.position);
+
+                //map UVs for each tile to specific texture in atlas
+                this.uv[index * 4 + 0] = SetTileTexture(0, tileSprite);
+                this.uv[index * 4 + 1] = SetTileTexture(1, tileSprite);
+                this.uv[index * 4 + 2] = SetTileTexture(2, tileSprite);
+                this.uv[index * 4 + 3] = SetTileTexture(3, tileSprite);
+                
+                
+                /* 
+                DEPRECATED
+                 doing this in MapGeneration now
+                set biome for each tile, and pointers to 8 direction neighbours
+                */
+                //SetTileBiome(x, y, chunk.position);
             }
         }
 
-        /* now set UVs and textures accordingly */
+        /*
+        DEPRECATED
+         now set UVs and textures accordingly */
+        /*
         for (int x = 0; x < Const.CHUNK_SIZE; x++)
         {
             for (int y = 0; y < Const.CHUNK_SIZE; y++)
@@ -93,7 +109,7 @@ public class ChunkCreator : MonoBehaviour
                 this.uv[index * 4 + 2] = SetTileTexture(2, tileSprite);
                 this.uv[index * 4 + 3] = SetTileTexture(3, tileSprite);
             }
-        }
+        }*/
 
         mesh.vertices = vertices;
         mesh.uv = uv;
