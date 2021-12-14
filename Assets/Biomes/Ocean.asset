@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Ocean
   m_EditorClassIdentifier: 
   type: ocean
+  testTile: {fileID: 5689628342021497545, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   tiles:
   - {fileID: 2081479938904590456, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -684258808382079387, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
@@ -44,8 +45,10 @@ MonoBehaviour:
   - name: beach_bot_right
     walkable: 0
     sprite: {fileID: 5427866557742231554, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  trees: []
   height: 0
   temperature: 0
   maxTemperature: 0
   precipitation: 0
   maxPrecipitation: 0
+  treeRadius: 0

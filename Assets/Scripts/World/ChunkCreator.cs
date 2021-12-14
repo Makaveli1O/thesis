@@ -220,6 +220,7 @@ public class ChunkCreator : MonoBehaviour
                             //mark picked sprite to chunk
                             chunk.trees.Add(treeSprite.name);
                         }else{
+                            //pop first sprite from json and assign to tree
                             treeSprite = SetTreeSprite(treeP, tile, loaded.trees[0]);
                             if (loaded.trees.Count != 0)
                             {
@@ -315,16 +316,36 @@ public class ChunkCreator : MonoBehaviour
                 }
                 break;
             case "ashland":
-                treeRenderer.sprite = treeCreator.GetRandomAshlandTree();
+                if (loaded!=null)
+                {
+                    treeRenderer.sprite = treeCreator.GetAshlandTree(loaded);
+                }else{
+                    treeRenderer.sprite = treeCreator.GetRandomAshlandTree();
+                }
                 break;
             case "rainforest":
-                treeRenderer.sprite = treeCreator.GetRandomJungleTree();
+                if (loaded!=null)
+                {
+                    treeRenderer.sprite = treeCreator.GetJungleTree(loaded);
+                }else{
+                    treeRenderer.sprite = treeCreator.GetRandomJungleTree();
+                }
                 break;
             case "beach":
-                treeRenderer.sprite = treeCreator.GetRandomBeachTree();
+                if (loaded!=null)
+                {
+                    treeRenderer.sprite = treeCreator.GetBeachTree(loaded);
+                }else{
+                    treeRenderer.sprite = treeCreator.GetRandomBeachTree();
+                }
                 break;
             case "desert":
-                treeRenderer.sprite = treeCreator.GetRandomDesertTree();
+                if (loaded!=null)
+                {
+                    treeRenderer.sprite = treeCreator.GetDesertTree(loaded);
+                }else{
+                    treeRenderer.sprite = treeCreator.GetRandomDesertTree();
+                }
                 break;
         }
 

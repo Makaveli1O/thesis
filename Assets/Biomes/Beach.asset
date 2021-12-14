@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Beach
   m_EditorClassIdentifier: 
   type: beach
+  testTile: {fileID: 5689628342021497545, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   tiles:
   - {fileID: -903243209138341851, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -5438745927745713648, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}

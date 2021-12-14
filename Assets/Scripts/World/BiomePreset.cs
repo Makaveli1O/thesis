@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class BiomePreset : ScriptableObject
 {
     public string type;
+    public Sprite testTile;
     public Sprite[] tiles;
     public EdgeTile[] edgeTiles;
     public TreeCategory[] trees;
@@ -21,6 +22,9 @@ public class BiomePreset : ScriptableObject
     /// <returns>Returns random assigned tile to this biome.</returns>
     public Sprite GetRandomSprite(){
         return tiles[Random.Range(0,tiles.Length)];
+    }
+    public Sprite GetTestSprite(){
+        return testTile;
     }
 
     /// <summary>

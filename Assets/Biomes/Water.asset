@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: 
   type: water
+  testTile: {fileID: 5689628342021497545, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   tiles:
   - {fileID: -1205509233950452697, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: 2338199756370669517, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}

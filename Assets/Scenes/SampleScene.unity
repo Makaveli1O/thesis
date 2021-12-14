@@ -467,7 +467,7 @@ MonoBehaviour:
   seed: 145
   heightSeed: 2021
   precipitationSeed: 200
-  chunkLoading: 1
+  chunkLoading: 0
   autoUpdate: 0
   heightOctaves: 1
   heightFrequency: 2.12

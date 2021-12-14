@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Ashland
   m_EditorClassIdentifier: 
   type: ashland
+  testTile: {fileID: 5689628342021497545, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   tiles:
   - {fileID: 3713497080627263051, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -495016143587628712, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}

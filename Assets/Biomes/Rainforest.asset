@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Rainforest
   m_EditorClassIdentifier: 
   type: rainforest
+  testTile: {fileID: 5689628342021497545, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   tiles:
   - {fileID: -6873358191685027720, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: 7805126487580538567, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}

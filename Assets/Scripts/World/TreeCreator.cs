@@ -31,16 +31,60 @@ public class TreeCreator : MonoBehaviour
         return ashlandTrees[Random.Range(0, ashlandTrees.Length)];
     }
 
+    public Sprite GetAshlandTree(string name){
+        foreach (Sprite sprite in ashlandTrees)
+        {
+            if (sprite.name == name)
+            {
+                return sprite;
+            }
+        }
+        return null;
+    }
+
     public Sprite GetRandomJungleTree(){
         return jungleTrees[Random.Range(0, jungleTrees.Length)];
+    }
+
+    public Sprite GetJungleTree(string name){
+        foreach (Sprite sprite in jungleTrees)
+        {
+            if (sprite.name == name)
+            {
+                return sprite;
+            }
+        }
+        return null;
     }
 
     public Sprite GetRandomBeachTree(){
         return beachTrees[Random.Range(0, beachTrees.Length)];
     }
 
+    public Sprite GetBeachTree(string name){
+        foreach (Sprite sprite in beachTrees)
+        {
+            if (sprite.name == name)
+            {
+                return sprite;
+            }
+        }
+        return null;
+    }
+
     public Sprite GetRandomDesertTree(){
         return desertTrees[Random.Range(0, desertTrees.Length)];
+    }
+
+    public Sprite GetDesertTree(string name){
+        foreach (Sprite sprite in desertTrees)
+        {
+            if (sprite.name == name)
+            {
+                return sprite;
+            }
+        }
+        return null;
     }
 
     void Awake(){

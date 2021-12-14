@@ -88,14 +88,15 @@ public class Map : MonoBehaviour
         /* loading all chunks */
         //all at once (only during testing remove later.)
         /*if (!chunkLoading){
-            foreach ( var chunk in chunks )
+            foreach ( var chunk in map.chunks )
             {
                 //create chunk object
                 GameObject chunkP = Instantiate(chunkPrefab, new Vector3(0,0,0), Quaternion.identity);
                 chunkP.transform.parent = gameObject.transform;
                 ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
                 //create mesh (chunk) and save it to structure holding chunk
-                chunks[chunk.Key].chunkMesh = chunkCreator.CreateTileMesh(chunkSize,chunkSize, chunk.Key.x, chunk.Key.y);
+                Mesh mesh = new Mesh();
+                map.chunks[chunk.Key].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[chunk.Key], mesh);
             }
         }*/
     }
