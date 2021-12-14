@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using Unity.Mathematics;
 
@@ -16,25 +14,33 @@ public class ChunkLoader : MonoBehaviour
     /// <param name="PlayerPos">Position of player in the world</param>
     /// <param name="distToLoad">Distance treshold to load chunk</param>
     /// <param name="distToUnload">Distance treshold to unload chunk</param>
-    public void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload){
+    public void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload)
+    {
         int offset = 16; //chunk 32 -> 16, 16 is center
-		for(int x = 0; x < map.width; x+=Const.CHUNK_SIZE){
-			for(int y = 0; y < map.height ; y+=Const.CHUNK_SIZE){
+        for (int x = 0; x < map.width; x += Const.CHUNK_SIZE)
+        {
+            for (int y = 0; y < map.height; y += Const.CHUNK_SIZE)
+            {
                 //calcualte distance to the middle of chunk
                 int chunkX = x + offset;
                 int chunkY = y + offset;
-				float dist=Vector2.Distance(new Vector2(chunkX,chunkY),new Vector2(PlayerPos.x,PlayerPos.y));
-                if(dist<distToLoad){
-                    if(!renderedChunks.ContainsKey(new int2(x,y))){
-						CreateChunk(x,y);
-					}
-				}else if(dist>distToUnload){
-					if(renderedChunks.ContainsKey(new int2(x,y))){
-						UnloadChunk(x,y);
-					}
-				}
-			}
-		}
+                float dist = Vector2.Distance(new Vector2(chunkX, chunkY), new Vector2(PlayerPos.x, PlayerPos.y));
+                if (dist < distToLoad)
+                {
+                    if (!renderedChunks.ContainsKey(new int2(x, y)))
+                    {
+                        CreateChunk(x, y);
+                    }
+                }
+                else if (dist > distToUnload)
+                {
+                    if (renderedChunks.ContainsKey(new int2(x, y)))
+                    {
+                        UnloadChunk(x, y);
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -42,50 +48,41 @@ public class ChunkLoader : MonoBehaviour
     /// </summary>
     /// <param name="x">coord x</param>
     /// <param name="y">coord y</param>
-    private void UnloadChunk(int x, int y){
+    private void UnloadChunk(int x, int y)
+    {
         //reference to the script, attached to chunk about to remove
-        ChunkCreator chunkCreator = renderedChunks[new int2(x,y)].GetComponent<ChunkCreator>(); 
+        ChunkCreator chunkCreator = renderedChunks[new int2(x, y)].GetComponent<ChunkCreator>();
         chunkCreator.UnloadTrees();
         //deactivate chunk
-        renderedChunks[new int2(x,y)].SetActive(false);
-        renderedChunks.Remove(new int2(x,y));
+        renderedChunks[new int2(x, y)].SetActive(false);
+        renderedChunks.Remove(new int2(x, y));
     }
 
-     /// <summary>
+    /// <summary>
     /// Pools chunk from the pool.
     /// </summary>
     /// <param name="x">x coord</param>
     /// <param name="y">y coords</param>
-    private void CreateChunk(int x, int y){
-        GameHandler gameHandler = transform.GetComponent<GameHandler>();
+    private void CreateChunk(int x, int y)
+    {
+        int2 chunkKey = new int2(x,y);
         //create chunk object
         GameObject chunkP = ChunkPool.instance.GetPooledObject();
-        if(chunkP != null){
+        if (chunkP != null)
+        {
             chunkP.transform.parent = gameObject.transform;
             chunkP.SetActive(true);
             ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
-            
-           // RequestChunkData(chunkP,map.chunks[new int2(x,y)]);
-            
+
             //create mesh (chunk) and save it
             Mesh mesh = new Mesh();
-            map.chunks[new int2(x,y)].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[new int2(x,y)], mesh);
-            renderedChunks.Add(new int2(x,y), chunkP);
-            //cache metadata
-            SaveChunk save = new SaveChunk(new Vector3(x,y,0));
-            gameHandler.Save<SaveChunk>(save, ObjType.Chunk, new Vector3(x,y,0));
+            map.chunks[chunkKey].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[chunkKey], mesh);
+            renderedChunks.Add(chunkKey, chunkP);
+            //OnChunkTreesRequest?.Invoke(this, new OnChunkTreesRequestArgs{ chunk = map.chunks[chunkKey], obj = chunkP });
             
+            //cache metadata
+            //SaveChunk save = new SaveChunk(new Vector3(x, y, 0));
+            //gameHandler.Save<WorldChunk>(map.chunks[chunkKey], ObjType.Chunk, new Vector3(x, y, 0));
         }
-    }
-
-    public void RequestChunkData(GameObject chunkP,WorldChunk chunk){
-        ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
-        Mesh mesh = new Mesh();
-        ThreadStart newThread = delegate{
-            map.chunks[new int2(chunk.position.x,chunk.position.y)].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[new int2(chunk.position.x,chunk.position.y)], mesh);
-            renderedChunks.Add(new int2(chunk.position.x,chunk.position.y), chunkP);
-        };
-        
-        new Thread (newThread).Start();
     }
 }

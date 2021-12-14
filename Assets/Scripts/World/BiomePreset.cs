@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using System;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -22,10 +18,9 @@ public class BiomePreset : ScriptableObject
     public float maxPrecipitation;
     public float treeRadius; //bigger radius - > less dense
 
-
     /// <returns>Returns random assigned tile to this biome.</returns>
     public Sprite GetRandomSprite(){
-        return tiles[Random.Range(0, tiles.Length)];
+        return tiles[Random.Range(0,tiles.Length)];
     }
 
     /// <summary>

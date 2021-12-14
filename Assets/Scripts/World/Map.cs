@@ -1,9 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using Unity.Mathematics;
-using Random = UnityEngine.Random;
 
 
 /// <summary>
@@ -553,10 +551,23 @@ public class Map : MonoBehaviour
     }
 
     void Update(){
-        if (chunkLoading)
+        /*if (chunkLoading)
         {
-            chunkLoader.LoadChunks(player.transform.position, map.renderDistance,map.renderDistance + 15);
-        }
+            foreach (var chunkKey in map.chunks.Keys)
+            {
+                float dist=Vector2.Distance(new Vector2(chunkKey.x,chunkKey.y),new Vector2(player.transform.position.x,player.transform.position.y));
+                if(dist < map.renderDistance){
+                    //as a publisher send to all subscribers this message
+                    OnRequestNewChunk?.Invoke(this, new OnRequestChunkArgs { chunkKey = chunkKey });
+                }
+                else if (dist > map.renderDistance + 15f)
+                {
+                    OnRequestUnloadChunk?.Invoke(this, new OnRequestChunkArgs { chunkKey = chunkKey });
+                }
+            }
+            
+        }*/
+        chunkLoader.LoadChunks(player.transform.position, map.renderDistance,map.renderDistance + 15);
     }
     
 }

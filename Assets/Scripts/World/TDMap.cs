@@ -7,8 +7,11 @@ using Unity.Mathematics; //int2
 [System.Serializable]
 public struct TDMap 
 {
+    private static readonly object padlock = new object();
+    
     public Dictionary<int2, WorldChunk> chunks;
     public int width;
     public int height;
     public int renderDistance;
+
 }

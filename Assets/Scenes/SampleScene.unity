@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 1795101331}
   m_Layer: 6
   m_Name: _Map
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -462,8 +462,7 @@ MonoBehaviour:
   map:
     width: 512
     height: 512
-    renderDistance: 38
-    chunkSize: 32
+    renderDistance: 40
   scale: 0.5
   seed: 145
   heightSeed: 2021
@@ -547,4 +546,3 @@ MonoBehaviour:
     width: 0
     height: 0
     renderDistance: 0
-    chunkSize: 0

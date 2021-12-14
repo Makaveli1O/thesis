@@ -24,10 +24,10 @@ public class GameHandler : MonoBehaviour
         string json = JsonUtility.ToJson(saveObj);
 
         if(key == ObjType.Player){
-        SaveSystem.Save(json,world_seed+"_"+key+".json");
+        SaveSystem.Save(json,key+".json", world_seed.ToString());
         //save chunks with key in name
         }else{
-            SaveSystem.Save(json,world_seed+"_"+key+"_"+position.x+","+position.y+".json");
+            SaveSystem.Save(json,key+"_"+position.x+","+position.y+".json", world_seed.ToString());
         }
     }
 
@@ -37,9 +37,9 @@ public class GameHandler : MonoBehaviour
 
         //load on specific coords
         if (x_pos != -1 || y_pos != -1){
-            saveString = SaveSystem.Load(world_seed+"_"+key+"_"+x_pos+","+y_pos+".json");
+            saveString = SaveSystem.Load(key+"_"+x_pos+","+y_pos+".json", world_seed.ToString());
         }else{
-            saveString = SaveSystem.Load(world_seed+"_"+key+".json");
+            saveString = SaveSystem.Load(key+".json", world_seed.ToString());
         }
         
         T returnValue = default(T);

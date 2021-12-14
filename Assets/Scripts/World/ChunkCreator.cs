@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
-using Random=UnityEngine.Random;
+using System;
 
 
 /// <summary>
@@ -14,6 +13,9 @@ public class ChunkCreator : MonoBehaviour
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
     Map mapReference;
+    ChunkLoader chunkLoader;
+    TreePool treePool;
+    GameHandler gameHandler;
     WorldChunk chunk;
     private float tileSize = 1;
     public Vector3[] vertices;
@@ -24,12 +26,9 @@ public class ChunkCreator : MonoBehaviour
     public int top_x;
     public int y;
     public int top_y;
-    private List<GameObject> renderedTrees = new List<GameObject>();
-    private HashSet<int2> treeCoords = new HashSet<int2>();
-
-
+    private Dictionary<int2, GameObject> renderedTrees = new Dictionary<int2, GameObject>();
     [SerializeField] public Sprite testSprite;
-
+    private bool treesLoaded = false;
 
     /// <summary>
     /// Function that creates mesh with given width, height and world space. This tile represents
@@ -43,27 +42,30 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="chunkX">key x coord(bot left)</param>
     /// <param name="chunkY">key y coord(bot left)</param>
     /// <returns></returns>
-    public Mesh CreateTileMesh(WorldChunk chunk, Mesh mesh) {
+    public Mesh CreateTileMesh(WorldChunk chunk, Mesh mesh)
+    {
         this.chunk = chunk;
-        x=chunk.position.x;
-        y=chunk.position.y;
-        top_x = x+32;
-        top_y = y+32;
-        
+        x = chunk.position.x;
+        y = chunk.position.y;
+        top_x = x + 32;
+        top_y = y + 32;
+
 
         //check for passed cached chunk data
         this.vertices = new Vector3[4 * (Const.CHUNK_SIZE * Const.CHUNK_SIZE)];
         this.uv = new Vector2[4 * (Const.CHUNK_SIZE * Const.CHUNK_SIZE)];
         this.triangles = new int[6 * (Const.CHUNK_SIZE * Const.CHUNK_SIZE)];
 
-        for (int x = 0; x < Const.CHUNK_SIZE; x++) {
-            for (int y = 0; y < Const.CHUNK_SIZE; y++) {
+        for (int x = 0; x < Const.CHUNK_SIZE; x++)
+        {
+            for (int y = 0; y < Const.CHUNK_SIZE; y++)
+            {
                 int index = x * Const.CHUNK_SIZE + y;
-                vertices[index * 4 + 0] = new Vector3(tileSize * x + chunk.position.x,         tileSize * y + chunk.position.y);
-                vertices[index * 4 + 1] = new Vector3(tileSize * x + chunk.position.x,         tileSize * (y + 1) + chunk.position.y);
-                vertices[index * 4 + 2] = new Vector3(tileSize * (x + 1) + chunk.position.x,   tileSize * (y + 1) + chunk.position.y);
-                vertices[index * 4 + 3] = new Vector3(tileSize * (x + 1) + chunk.position.x,   tileSize * y +chunk.position.y);
-                
+                vertices[index * 4 + 0] = new Vector3(tileSize * x + chunk.position.x, tileSize * y + chunk.position.y);
+                vertices[index * 4 + 1] = new Vector3(tileSize * x + chunk.position.x, tileSize * (y + 1) + chunk.position.y);
+                vertices[index * 4 + 2] = new Vector3(tileSize * (x + 1) + chunk.position.x, tileSize * (y + 1) + chunk.position.y);
+                vertices[index * 4 + 3] = new Vector3(tileSize * (x + 1) + chunk.position.x, tileSize * y + chunk.position.y);
+
                 triangles[index * 6 + 0] = index * 4 + 0;
                 triangles[index * 6 + 1] = index * 4 + 1;
                 triangles[index * 6 + 2] = index * 4 + 2;
@@ -73,28 +75,32 @@ public class ChunkCreator : MonoBehaviour
                 triangles[index * 6 + 5] = index * 4 + 3;
 
                 /* set biome for each tile, and pointers to 4 direction neighbours*/
-                SetTileBiome(x,y,chunk.position);
+                SetTileBiome(x, y, chunk.position);
             }
         }
 
         /* now set UVs and textures accordingly */
-        for (int x = 0; x < Const.CHUNK_SIZE; x++) {
-            for (int y = 0; y < Const.CHUNK_SIZE; y++) {
+        for (int x = 0; x < Const.CHUNK_SIZE; x++)
+        {
+            for (int y = 0; y < Const.CHUNK_SIZE; y++)
+            {
                 int index = x * Const.CHUNK_SIZE + y;
-                Sprite tileSprite = GetTileTexture(x,y,chunk.position);
+                Sprite tileSprite = GetTileTexture(x, y, chunk.position);
 
                 //map UVs for each tile to specific texture in atlas
-                this.uv[index *4+0] = SetTileTexture(0,tileSprite);
-                this.uv[index *4+1] = SetTileTexture(1,tileSprite);
-                this.uv[index *4+2] = SetTileTexture(2,tileSprite);
-                this.uv[index *4+3] = SetTileTexture(3,tileSprite); 
+                this.uv[index * 4 + 0] = SetTileTexture(0, tileSprite);
+                this.uv[index * 4 + 1] = SetTileTexture(1, tileSprite);
+                this.uv[index * 4 + 2] = SetTileTexture(2, tileSprite);
+                this.uv[index * 4 + 3] = SetTileTexture(3, tileSprite);
             }
         }
-        
+
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
-        GetComponent<MeshFilter>().mesh = mesh;
+        meshFilter.mesh = mesh;
+
+        this.chunk.chunkMesh = mesh;
         return mesh;
     }
 
@@ -105,10 +111,10 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="y">y coord</param>
     /// <param name="chunkX">chunk x key</param>
     /// <param name="chunkY">chunk y key</param>
-    private void SetTileBiome(int x, int y, int2 key){
+    private void SetTileBiome(int x, int y, int2 key)
+    {
         //bool isLeftSame, isTopLeftSame, isTopSame, isTopRightSame, isRightSame, isBotRightSame, isBotSame, isBotLeftSame, sameAround = false;
-        mapReference = transform.parent.gameObject.GetComponent<Map>();
-        mapReference.AssignNeighbours(mapReference.GetTile(new int2(x,y), key), key);
+        mapReference.AssignNeighbours(mapReference.GetTile(new int2(x, y), key), key);
     }
 
     /// <summary>
@@ -119,13 +125,13 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="chunkX">chunk x key</param>
     /// <param name="chunkY">chunk y key</param>
     /// <returns>Texture for tile</returns>
-    private Sprite GetTileTexture(int x, int y, int2 key){
-        var mapReference = transform.parent.gameObject.GetComponent<Map>();
+    private Sprite GetTileTexture(int x, int y, int2 key)
+    {
         // get reference to tile working with
-        TDTile tile = mapReference.GetTile(new int2(x,y), key);
+        TDTile tile = mapReference.GetTile(new int2(x, y), key);
         //set material texture so we can assign uvs later on 
         SetMaterialTexture(tile.biome.GetRandomSprite().texture);
-        
+
         Sprite ret = tile.biome.GetTileSprite(tile);
         return ret;
     }
@@ -136,7 +142,8 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="corner">Corner of quad that is being processed.</param>
     /// <param name="tileSprite">Sprite holding texture</param>
     /// <returns>Vector2 UV for given corner of quad.</returns>
-    private Vector2 SetTileTexture(int corner, Sprite tileSprite){
+    private Vector2 SetTileTexture(int corner, Sprite tileSprite)
+    {
         Rect UVs = tileSprite.rect;
         UVs.x /= tileSprite.texture.width;
         UVs.width /= tileSprite.texture.width;
@@ -145,31 +152,32 @@ public class ChunkCreator : MonoBehaviour
         /*
             Return UV for each corner of texture within atlas
         */
-        Vector2 retval = new Vector2(0,0);
+        Vector2 retval = new Vector2(0, 0);
         switch (corner)
         {
             case 0: //bottom left
-                retval = new Vector2(UVs.x,UVs.y);
+                retval = new Vector2(UVs.x, UVs.y);
                 break;
             case 1: //top left
-                retval = new Vector2(UVs.x,UVs.y + UVs.height);
+                retval = new Vector2(UVs.x, UVs.y + UVs.height);
                 break;
             case 2: //top right
-                retval = new Vector2(UVs.x + UVs.width,UVs.y + UVs.height);
+                retval = new Vector2(UVs.x + UVs.width, UVs.y + UVs.height);
                 break;
             case 3: //bottom right
-                retval = new Vector2(UVs.x + UVs.width,UVs.y);
+                retval = new Vector2(UVs.x + UVs.width, UVs.y);
                 break;
         }
-        
+
         return retval;
     }
     /// <summary>
     /// Set material texture holding all tile textures to be used in meshes.
     /// </summary>
     /// <param name="texture">Tiles texture</param>
-    private void SetMaterialTexture(Texture2D texture){
-        GetComponent<MeshRenderer>().sharedMaterials[0].mainTexture = texture;
+    private void SetMaterialTexture(Texture2D texture)
+    {
+        meshRenderer.sharedMaterials[0].mainTexture = texture;
         return;
     }
 
@@ -180,49 +188,78 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="y">y coordinate</param>
     /// <param name="chunkX">Chunk x key</param>
     /// <param name="chunkY">Chunk y key</param>
-    private void LoadTrees(WorldChunk chunk){
-        var mapReference = transform.parent.gameObject.GetComponent<Map>();
-        TreePool treePool = GetComponent<TreePool>();      
+    private void LoadTrees()
+    {
+        WorldChunk loaded = LoadChunk();
+        //TreePool treePool = GetComponent<TreePool>();
         for (int x = 0; x < Const.CHUNK_SIZE; x++)
         {
             for (int y = 0; y < Const.CHUNK_SIZE; y++)
             {
-                int2 relativePos = new int2(x,y);
+                int2 relativePos = new int2(x, y);
                 TDTile tile = mapReference.GetTile(relativePos, chunk.position);
-                if (chunk.treeMap[x,y] == 1 
+                if (chunk.treeMap[x, y] == 1
                 && tile.biome.type != "ocean"
                 && tile.biome.type != "water"
-                && tile.hillEdge == EdgeType.none 
+                && tile.hillEdge == EdgeType.none
                 && tile.edgeType == EdgeType.none)
                 {
-                    int x_coord= chunk.position.x + x;
+                    int x_coord = chunk.position.x + x;
                     int y_coord = chunk.position.y + y;
-
+                    int2 actualPos = new int2(x_coord, y_coord);
                     GameObject treeP = treePool.GetPooledObject();
-                    if (treeP != null && TreeRadius(new int2(x_coord, y_coord))){
+                    if (treeP != null && TreeRadius(actualPos))
+                    {
                         treeP.transform.parent = gameObject.transform;
-                        treeP.transform.position = new Vector3(chunk.position.x+x, chunk.position.y+y, 0);
-                        
+                        treeP.transform.position = new Vector3(chunk.position.x + x, chunk.position.y + y, 0);
                         treeP.SetActive(true);
-                        renderedTrees.Add(treeP);
-                        treeCoords.Add(new int2(x_coord, y_coord));
-                        //set correct sprite
-                        Sprite treeSprite = SetTreeSprite(treeP, tile);
+                        //set correct sprite and save
+                        Sprite treeSprite;
+                        if(loaded == null){
+                            treeSprite = SetTreeSprite(treeP, tile);
+                            //mark picked sprite to chunk
+                            chunk.trees.Add(treeSprite.name);
+                        }else{
+                            treeSprite = SetTreeSprite(treeP, tile, loaded.trees[0]);
+                            if (loaded.trees.Count != 0)
+                            {
+                                loaded.trees.RemoveAt(0);
+                            };
+                        }
+                        renderedTrees[actualPos] = treeP;
                         AdjustTreeCollider(treeP.GetComponent<CapsuleCollider2D>(), treeSprite.bounds, treeSprite.name);
+
                     }
-                } 
+                }
             }
-        } 
+        }
+        treesLoaded = true;
+        if (loaded == null){
+            SaveChunk();
+        }
+        
+        return;
     }
 
     /// <summary>
     /// Unload all trees and clear renderedTree list.
     /// </summary>
-    public void UnloadTrees(){
-        foreach ( GameObject tree in renderedTrees){
+    public void UnloadTrees()
+    {
+        foreach (GameObject tree in renderedTrees.Values)
+        {
             tree.SetActive(false);
         }
         renderedTrees.Clear();
+        treesLoaded = false;
+    }
+
+    private void SaveChunk(){
+        gameHandler.Save<WorldChunk>(this.chunk, ObjType.Chunk, new Vector3(this.x, this.y, 0));
+    }
+
+    private WorldChunk LoadChunk(){
+        return gameHandler.Load<WorldChunk>(ObjType.Chunk,this.x, this.y);
     }
 
     /// <summary>
@@ -232,14 +269,15 @@ public class ChunkCreator : MonoBehaviour
     /// </summary>
     /// <param name="coords">Coords of root points.</param>
     /// <returns>Boolean value whenever tree can or can not be spawned.</returns>
-    private bool TreeRadius(int2 coords){
-        foreach( int2 tree in treeCoords){
-            if (EuclideanDistance(coords, tree) < 2f)
+    private bool TreeRadius(int2 coords)
+    {
+        foreach (int2 tree in renderedTrees.Keys)
+        {
+            if (EuclideanDistance(coords, tree) < 4f)
             {
                 return false;
             }
         }
-        
         return true;
     }
 
@@ -262,24 +300,31 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="tree">Tree gameobject</param>
     /// <param name="tile">Processed tile</param>
     /// <returns>Sprite that was assigned to tree</returns>
-    public Sprite SetTreeSprite(GameObject tree, TDTile tile){
-        var scriptCreator = tree.GetComponent<TreeCreator>();
+    public Sprite SetTreeSprite(GameObject tree, TDTile tile, string loaded = null)
+    {
+        TreeCreator treeCreator = tree.GetComponent<TreeCreator>();
         SpriteRenderer treeRenderer = tree.GetComponent<SpriteRenderer>();
-        switch (tile.biome.type){
+        switch (tile.biome.type)
+        {
             case "forest":
-                treeRenderer.sprite = scriptCreator.GetRandomForestTree();
+                if (loaded!=null)
+                {
+                    treeRenderer.sprite = treeCreator.GetForestTree(loaded);
+                }else{
+                    treeRenderer.sprite = treeCreator.GetRandomForestTree();
+                }
                 break;
             case "ashland":
-                treeRenderer.sprite = scriptCreator.GetRandomAshlandTree();
+                treeRenderer.sprite = treeCreator.GetRandomAshlandTree();
                 break;
             case "rainforest":
-                treeRenderer.sprite = scriptCreator.GetRandomJungleTree();
+                treeRenderer.sprite = treeCreator.GetRandomJungleTree();
                 break;
             case "beach":
-                treeRenderer.sprite = scriptCreator.GetRandomBeachTree();
+                treeRenderer.sprite = treeCreator.GetRandomBeachTree();
                 break;
             case "desert":
-                treeRenderer.sprite = scriptCreator.GetRandomDesertTree();
+                treeRenderer.sprite = treeCreator.GetRandomDesertTree();
                 break;
         }
 
@@ -292,35 +337,46 @@ public class ChunkCreator : MonoBehaviour
     /// </summary>
     /// <param name="collider2D">colldier object</param>
     /// <param name="boundingBox">bounding box around sprite</param>
-    private void AdjustTreeCollider(CapsuleCollider2D collider2D, Bounds boundingBox, string name){
+    private void AdjustTreeCollider(CapsuleCollider2D collider2D, Bounds boundingBox, string name)
+    {
         int index = name.IndexOf("_");
         string prefix = name.Substring(0, index);
-        switch(prefix){
+        switch (prefix)
+        {
             case "regular":
-                collider2D.size = new Vector2(boundingBox.size.x/2f,collider2D.size.y);
+                collider2D.size = new Vector2(boundingBox.size.x / 2f, collider2D.size.y);
                 break;
             case "big":
-                collider2D.size = new Vector2(boundingBox.size.x/1.2f,collider2D.size.y);
+                collider2D.size = new Vector2(boundingBox.size.x / 1.2f, collider2D.size.y);
                 break;
             case "small":
-                collider2D.size = new Vector2(boundingBox.size.x/5f,collider2D.size.y);
+                collider2D.size = new Vector2(boundingBox.size.x / 5f, collider2D.size.y);
                 break;
             default:
-                collider2D.size = new Vector2(boundingBox.size.x/2f,collider2D.size.y);
+                collider2D.size = new Vector2(boundingBox.size.x / 2f, collider2D.size.y);
                 break;
         }
         return;
-        
+
     }
 
-    void Start(){
-        mapReference = transform.parent.gameObject.GetComponent<Map>();
+    private void Awake()
+    {
+        var m = GameObject.FindGameObjectWithTag("Map");
+        if (m != null){
+            mapReference = m.GetComponent<Map>();
+            chunkLoader = m.GetComponent<ChunkLoader>();
+            gameHandler = m.GetComponent<GameHandler>();
+        }
+        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponent<MeshRenderer>();
+        treePool = GetComponent<TreePool>();
     }
 
-    void Update(){  
-        //TODO 
-        //optimalization so this wont call every frame(when all rendered no need, or if player stands)
-        //LoadTrees(chunk);
+    private void Update()
+    {
+        if(!treesLoaded){
+            LoadTrees();
+        }
     }
-
 }

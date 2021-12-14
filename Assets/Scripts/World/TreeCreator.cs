@@ -1,11 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TreeCreator : MonoBehaviour
 {
     public List<BiomePreset> biomes;
-
+    [SerializeField] public int x;
+    [SerializeField] public int y;
     private Sprite[] forestTrees;
     private Sprite[] ashlandTrees;
     private Sprite[] jungleTrees;
@@ -14,6 +14,17 @@ public class TreeCreator : MonoBehaviour
 
     public Sprite GetRandomForestTree(){
         return forestTrees[Random.Range(0, forestTrees.Length)];
+    }
+
+    public Sprite GetForestTree(string name){
+        foreach (Sprite sprite in forestTrees)
+        {
+            if (sprite.name == name)
+            {
+                return sprite;
+            }
+        }
+        return null;
     }
 
     public Sprite GetRandomAshlandTree(){

@@ -8,6 +8,7 @@ using Unity.Mathematics; //int2 and perlin noise
 /// </summary>
 public class ChunkGenerator : MonoBehaviour
 {
+    Map map;
     /// <summary>
     /// Main function retrieving all neccessary intel about creating perlin maps. From this
     /// method generating of height, heat and moisture maps are called. Each one needs it's own
@@ -67,7 +68,7 @@ public class ChunkGenerator : MonoBehaviour
     /// <param name="treeScale">Scale for perlin noise map</param>
     /// <returns></returns>
     public WorldChunk GenerateTrees(WorldChunk chunk, int globalSeed, float scale, float treeScale) {
-        Map map = GetComponent<Map>();
+        
         float [,] treeMap = GenerateNoiseMap(chunk, globalSeed, treeScale);
 
         for (int x = 0; x < Const.CHUNK_SIZE; x++)
@@ -384,5 +385,9 @@ public class ChunkGenerator : MonoBehaviour
             }
         }
         return noiseMap;
+    }
+
+    private void Awake(){
+        map = GetComponent<Map>();
     }
 }
