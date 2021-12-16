@@ -415,9 +415,9 @@ GameObject:
   - component: {fileID: 1795101332}
   - component: {fileID: 1795101337}
   - component: {fileID: 1795101334}
-  - component: {fileID: 1795101336}
   - component: {fileID: 1795101335}
   - component: {fileID: 1795101331}
+  - component: {fileID: 1795101338}
   m_Layer: 6
   m_Name: _Map
   m_TagString: Map
@@ -467,7 +467,7 @@ MonoBehaviour:
   seed: 145
   heightSeed: 2021
   precipitationSeed: 200
-  chunkLoading: 0
+  chunkLoading: 1
   autoUpdate: 0
   heightOctaves: 1
   heightFrequency: 2.12
@@ -516,20 +516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba1b5766d3728a4e948ea051c297d75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1795101336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1795101330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732410b8cb17b404ebe9ef1d77eff819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amountToPool: 8
-  chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}
 --- !u!114 &1795101337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,3 +532,17 @@ MonoBehaviour:
     width: 0
     height: 0
     renderDistance: 0
+--- !u!114 &1795101338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795101330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696443c632c967b41b0620001e07cb64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amountToPool: 8
+  prefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}

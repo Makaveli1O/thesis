@@ -1,5 +1,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using Unity.Mathematics;
 
 /// <summary>
 /// Holds information and functionality for single biome.
@@ -10,18 +12,28 @@ public class BiomePreset : ScriptableObject
     public string type;
     public Sprite testTile;
     public Sprite[] tiles;
+    public Sprite[] specialTiles;
     public EdgeTile[] edgeTiles;
-    public TreeCategory[] trees;
+    public Objects[] objects;
     public float height;
     public float temperature; //min
     public float maxTemperature;
     public float precipitation;//min
     public float maxPrecipitation;
     public float treeRadius; //bigger radius - > less dense
+    public HashSet<TDTile> possibleStairs = new HashSet<TDTile>();
 
     /// <returns>Returns random assigned tile to this biome.</returns>
     public Sprite GetRandomSprite(){
         return tiles[Random.Range(0,tiles.Length)];
+    }
+
+    public Sprite GetRandomSpecial(){
+        try{
+            return specialTiles[Random.Range(0,specialTiles.Length)];
+        }catch{
+            return tiles[Random.Range(0,tiles.Length)];
+        }
     }
     public Sprite GetTestSprite(){
         return testTile;
@@ -33,9 +45,15 @@ public class BiomePreset : ScriptableObject
     /// <param name="tile">Tile reference</param>
     /// <returns>Sprite for given tile</returns>
     public Sprite GetTileSprite(TDTile tile){
-
         Sprite tileToReturn;
-        tileToReturn = GetRandomSprite();
+        float chance = Random.value; // <0,1> 
+        //spawn random flower, little rock etc. merged with tile
+        if(chance < 0.98f){
+            tileToReturn = GetRandomSprite();
+        }else{
+            tileToReturn = GetRandomSpecial();
+        }
+        
         //assign correct water type
         if (tile.biome.type == "water")
             tileToReturn = GetWaterType(tile);
@@ -273,6 +291,11 @@ public class BiomePreset : ScriptableObject
 
         } 
 
+        if (tile.stair)
+        {
+            return testTile;
+        }
+
         //find according tiles by name in array
         foreach (var t in edgeTiles){
             if (t.name == tileName){
@@ -407,8 +430,77 @@ public class BiomePreset : ScriptableObject
         }
         return false;
     }
-}
+    
+    /*
+        objects used in ChunkCreator tree pool
+    */
 
+    /// <summary>
+    /// Return random tree from this biome
+    /// </summary>
+    /// <returns></returns>
+    public Sprite GetRandomTree(){
+            foreach (Objects itm in objects)
+            {
+                if(itm.type == "trees"){
+                    return itm.sprites[Random.Range(0, itm.sprites.Length)];
+                }  
+            } 
+            Debug.Log("No objects found");
+            return null;
+    }
+
+    /// <summary>
+    /// Return requested tree from this biome
+    /// </summary>
+    /// <param name="name">Name of requested tree sprite</param>
+    /// <returns>Sprite of tree</returns>
+    /// //FIXME rework gettree and getobj to one function, same with random
+    public Sprite GetTree(string name){
+        foreach (Objects itm in objects){
+            if(itm.type == "trees"){
+                foreach (Sprite sprite in itm.sprites)
+                {
+                    if (sprite.name == name)
+                    {
+                        return sprite;
+                    }
+                }
+            }
+        }
+        Debug.Log("No tree found");
+        return null;
+    }
+    //TODO docstring
+
+    public Sprite GetObj(string name){
+        foreach (Objects itm in objects){
+            if(itm.type == "miscellaneous"){
+                foreach (Sprite sprite in itm.sprites)
+                {
+                    if (sprite.name == name)
+                    {
+                        return sprite;
+                    }
+                }
+            }
+        }
+        Debug.Log("No objects found");
+        return null;
+    }
+
+    //TODO docstring
+    public Sprite GetRandomObj(){
+            foreach (Objects itm in objects)
+            {
+                if(itm.type == "miscellaneous"){
+                    return itm.sprites[Random.Range(0, itm.sprites.Length)];
+                }  
+            } 
+            Debug.Log("No objects found");
+            return null;
+    }
+}
 
 /// <summary>
 /// Structure holding tiles edging with other biomes.
@@ -421,7 +513,7 @@ public class BiomePreset : ScriptableObject
  }
 
 [System.Serializable]
- public struct TreeCategory {
-     public string name;
+ public struct Objects {
+     public string type;
      public Sprite[] sprites;
  }

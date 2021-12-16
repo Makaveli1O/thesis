@@ -19,7 +19,13 @@ MonoBehaviour:
   - {fileID: 6290695822058842034, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: 6448767414550720792, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -1085124978870774764, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  - {fileID: 6505647602457501716, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  specialTiles:
+  - {fileID: -142778777619082180, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 4482101550710136022, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -4110262088724042645, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 437780177685984136, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -2526562378785013732, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -1162452009828948638, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   edgeTiles:
   - name: test
     walkable: 0
@@ -114,14 +120,18 @@ MonoBehaviour:
   - name: cliff_end_top
     walkable: 0
     sprite: {fileID: 1889397922123656321, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  trees:
-  - name: basic
+  objects:
+  - type: trees
     sprites:
-    - {fileID: 254674344468116649, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: 5515971717279759826, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -4487587031611488962, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: 5286794986675040139, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 5520861795396612575, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: 2383469580931093179, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 5515971717279759826, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 254674344468116649, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -4808977268578447202, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 5286794986675040139, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+  - type: miscellaneous
+    sprites:
+    - {fileID: 4444980147945960928, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
   height: 0.3
   temperature: 0.25
   maxTemperature: 0.65

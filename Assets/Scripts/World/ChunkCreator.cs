@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
-using System;
-
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// This Class is handling creation of each chunk. Mesh is created on whose is applied texture representing tiles.
@@ -14,7 +13,8 @@ public class ChunkCreator : MonoBehaviour
     MeshFilter meshFilter;
     Map mapReference;
     ChunkLoader chunkLoader;
-    TreePool treePool;
+    ObjectPool treePool;
+    ObjectPool objectPool;
     GameHandler gameHandler;
     WorldChunk chunk;
     private float tileSize = 1;
@@ -27,8 +27,8 @@ public class ChunkCreator : MonoBehaviour
     public int y;
     public int top_y;
     private Dictionary<int2, GameObject> renderedTrees = new Dictionary<int2, GameObject>();
-    [SerializeField] public Sprite testSprite;
     private bool treesLoaded = false;
+    private bool objectsLoaded = false;
 
     /// <summary>
     /// Function that creates mesh with given width, height and world space. This tile represents
@@ -110,11 +110,14 @@ public class ChunkCreator : MonoBehaviour
                 this.uv[index * 4 + 3] = SetTileTexture(3, tileSprite);
             }
         }*/
-
+        //TODO detect cliff rings and make stair acces to next height level
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
         meshFilter.mesh = mesh;
+
+        //call spawn objects
+        
 
         this.chunk.chunkMesh = mesh;
         return mesh;
@@ -204,10 +207,11 @@ public class ChunkCreator : MonoBehaviour
     /// <param name="y">y coordinate</param>
     /// <param name="chunkX">Chunk x key</param>
     /// <param name="chunkY">Chunk y key</param>
+    /// 
+    ///FIXME edit this messy code
     private void LoadTrees()
     {
         WorldChunk loaded = LoadChunk();
-        //TreePool treePool = GetComponent<TreePool>();
         for (int x = 0; x < Const.CHUNK_SIZE; x++)
         {
             for (int y = 0; y < Const.CHUNK_SIZE; y++)
@@ -226,7 +230,7 @@ public class ChunkCreator : MonoBehaviour
                     GameObject treeP = treePool.GetPooledObject();
                     if (treeP != null && TreeRadius(actualPos))
                     {
-                        treeP.transform.parent = gameObject.transform;
+                        //treeP.transform.parent = gameObject.transform;
                         treeP.transform.position = new Vector3(chunk.position.x + x, chunk.position.y + y, 0);
                         treeP.SetActive(true);
                         //set correct sprite and save
@@ -251,10 +255,59 @@ public class ChunkCreator : MonoBehaviour
             }
         }
         treesLoaded = true;
+        return;
+    }
+    //FIXME edit this messy code
+    //TODO add docstring
+    private void LoadObjects(){
+        WorldChunk loaded = LoadChunk();
+        List<GameObject> availableObjects = treePool.GetInactiveObjects();
+        Sprite sprite = null;
+        
+        if (loaded != null)
+        {
+            foreach (WorldChunk.ObjectsStorage item in loaded.objects)
+            {
+                int2 relativePos = item.pos;
+                int2 absolutePos = new int2(relativePos.x + chunk.position.x, relativePos.y + chunk.position.y);
+                TDTile tile = mapReference.GetTile(relativePos, chunk.position);
+                sprite = SetObjSprite(availableObjects[0], tile, item.sprite, true);
+                availableObjects[0].SetActive(true);
+                availableObjects[0].transform.position = new Vector3(absolutePos.x, absolutePos.y, 0);
+                if (availableObjects.Count != 0 )
+                {
+                    availableObjects.RemoveAt(0);
+                }
+            }
+        //chunk is about to place objects
+        }else{
+            foreach (GameObject availableObj in availableObjects)
+            {
+                                Vector3 randomCoords = new Vector3( Random.Range(0,Const.CHUNK_SIZE-1),
+                                                    Random.Range(0,Const.CHUNK_SIZE-1),
+                                                    0); 
+                int2 relativePos = new int2((int)randomCoords.x, (int)randomCoords.y);
+                TDTile tile = mapReference.GetTile(relativePos, chunk.position);
+                //set correct sprite and save
+                if (    tile.biome.type != "ocean"
+                    &&  tile.biome.type != "water"
+                    &&  tile.hillEdge == EdgeType.none
+                    &&  tile.edgeType == EdgeType.none){
+
+                    int2 absolutePos = new int2(relativePos.x + chunk.position.x, relativePos.y + chunk.position.y);
+                    availableObj.transform.position = new Vector3(absolutePos.x, absolutePos.y, 0);
+                    availableObj.SetActive(true);
+                    sprite = SetObjSprite(availableObj, tile, null);
+                    //mark intel to the chunk
+                    chunk.objects.Add(new WorldChunk.ObjectsStorage { pos = relativePos, sprite = sprite.name });
+                    }
+            }
+        }
+        //FIXME not sure if this is ideal saving only after loading object is finished
         if (loaded == null){
             SaveChunk();
         }
-        
+        objectsLoaded = true;
         return;
     }
 
@@ -270,10 +323,12 @@ public class ChunkCreator : MonoBehaviour
         renderedTrees.Clear();
         treesLoaded = false;
     }
+    //TODO docstring
 
     private void SaveChunk(){
         gameHandler.Save<WorldChunk>(this.chunk, ObjType.Chunk, new Vector3(this.x, this.y, 0));
     }
+    //TODO docstring
 
     private WorldChunk LoadChunk(){
         return gameHandler.Load<WorldChunk>(ObjType.Chunk,this.x, this.y);
@@ -319,53 +374,27 @@ public class ChunkCreator : MonoBehaviour
     /// <returns>Sprite that was assigned to tree</returns>
     public Sprite SetTreeSprite(GameObject tree, TDTile tile, string loaded = null)
     {
-        TreeCreator treeCreator = tree.GetComponent<TreeCreator>();
         SpriteRenderer treeRenderer = tree.GetComponent<SpriteRenderer>();
-        switch (tile.biome.type)
-        {
-            case "forest":
-                if (loaded!=null)
-                {
-                    treeRenderer.sprite = treeCreator.GetForestTree(loaded);
-                }else{
-                    treeRenderer.sprite = treeCreator.GetRandomForestTree();
-                }
-                break;
-            case "ashland":
-                if (loaded!=null)
-                {
-                    treeRenderer.sprite = treeCreator.GetAshlandTree(loaded);
-                }else{
-                    treeRenderer.sprite = treeCreator.GetRandomAshlandTree();
-                }
-                break;
-            case "rainforest":
-                if (loaded!=null)
-                {
-                    treeRenderer.sprite = treeCreator.GetJungleTree(loaded);
-                }else{
-                    treeRenderer.sprite = treeCreator.GetRandomJungleTree();
-                }
-                break;
-            case "beach":
-                if (loaded!=null)
-                {
-                    treeRenderer.sprite = treeCreator.GetBeachTree(loaded);
-                }else{
-                    treeRenderer.sprite = treeCreator.GetRandomBeachTree();
-                }
-                break;
-            case "desert":
-                if (loaded!=null)
-                {
-                    treeRenderer.sprite = treeCreator.GetDesertTree(loaded);
-                }else{
-                    treeRenderer.sprite = treeCreator.GetRandomDesertTree();
-                }
-                break;
-        }
 
+        if (loaded != null){
+            treeRenderer.sprite = tile.biome.GetTree(loaded);
+        }else{
+            treeRenderer.sprite = tile.biome.GetRandomTree();
+        }
         return treeRenderer.sprite;
+    }
+//TODO docstring
+//FIXME rework to sigle line foreach not this oldschool bump
+    public Sprite SetObjSprite(GameObject obj, TDTile tile, string name, bool loaded = false){
+        SpriteRenderer objRenderer = obj.GetComponent<SpriteRenderer>();
+
+        //loading storage
+        if (loaded){
+            objRenderer.sprite = tile.biome.GetObj(name);
+        }else{//getting random object
+            objRenderer.sprite = tile.biome.GetRandomObj();
+        }
+        return objRenderer.sprite;
     }
 
     /// <summary>
@@ -407,13 +436,37 @@ public class ChunkCreator : MonoBehaviour
         }
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
-        treePool = GetComponent<TreePool>();
+
+        //2 pools in this case, one for trees other for objects
+        ObjectPool[] pools = GetComponents<ObjectPool>();
+
+        foreach ( ObjectPool pool  in pools){
+            if (pool.id == 0){
+                treePool = pool;
+            }/*else{
+                objectPool = pool;
+            }*/
+        }
+    }
+    //TODO docstring
+    private void SpawnChunkObjects(){
+        if(!treesLoaded){
+            LoadTrees();
+        }
+        if (!objectsLoaded){
+            LoadObjects();
+        }
+
+        /*if (treesLoaded && objectsLoaded){
+            SaveChunk();
+        }*/
+        
     }
 
     private void Update()
     {
         if(!treesLoaded){
-            LoadTrees();
+            SpawnChunkObjects();
         }
     }
 }

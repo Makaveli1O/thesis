@@ -18,6 +18,13 @@ MonoBehaviour:
   - {fileID: -903243209138341851, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -5438745927745713648, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -903243209138341851, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  specialTiles:
+  - {fileID: 3582220769808915787, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 8079521160110567745, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -5484321058915691437, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -8178856674388247992, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 6437488408255069699, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -3432875427771455388, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   edgeTiles:
   - name: test
     walkable: 0
@@ -109,13 +116,16 @@ MonoBehaviour:
   - name: rainforest_corner_bot_left
     walkable: 1
     sprite: {fileID: -2503072599624078322, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  trees:
-  - name: basic
+  objects:
+  - type: trees
     sprites:
+    - {fileID: 642748217232836133, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -7139336379900549185, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: -3138178658910154834, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: 3394601711945805641, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -7139336379900549185, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: 642748217232836133, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+  - type: miscellaneous
+    sprites:
+    - {fileID: -76596165655313214, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
   height: 0
   temperature: 10
   maxTemperature: 1010

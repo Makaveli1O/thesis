@@ -38,7 +38,7 @@ public class TDTile
     //type of edge of hill
     public EdgeType hillEdge;
     //trees
-    public float treeValue;
+    public bool stair = false;
 
 }
 public enum EdgeType

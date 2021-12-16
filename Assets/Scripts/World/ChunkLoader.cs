@@ -4,6 +4,7 @@ using Unity.Mathematics;
 
 public class ChunkLoader : MonoBehaviour
 {
+    ObjectPool chunkPool;
     public TDMap map;
     private Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
 
@@ -67,7 +68,7 @@ public class ChunkLoader : MonoBehaviour
     {
         int2 chunkKey = new int2(x,y);
         //create chunk object
-        GameObject chunkP = ChunkPool.instance.GetPooledObject();
+        GameObject chunkP = chunkPool.GetPooledObject();
         if (chunkP != null)
         {
             chunkP.transform.parent = gameObject.transform;
@@ -84,5 +85,9 @@ public class ChunkLoader : MonoBehaviour
             //SaveChunk save = new SaveChunk(new Vector3(x, y, 0));
             //gameHandler.Save<WorldChunk>(map.chunks[chunkKey], ObjType.Chunk, new Vector3(x, y, 0));
         }
+    }
+
+    private void Awake(){
+        chunkPool = GetComponent<ObjectPool>();
     }
 }

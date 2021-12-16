@@ -18,9 +18,15 @@ MonoBehaviour:
   - {fileID: 7717791179353249644, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -6395417639618835977, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -1889870678687409556, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  - {fileID: -4606706618091351009, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  - {fileID: -2545287474872940251, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  - {fileID: 8596329248357240266, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 1106681577326595629, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  specialTiles:
+  - {fileID: -2230011007295099917, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 8079521160110567745, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 8460015360416257571, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 1910064311699630588, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -5484321058915691437, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: 1372501736532686745, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - {fileID: -3671896489432735524, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   edgeTiles:
   - name: test
     walkable: 0
@@ -154,15 +160,16 @@ MonoBehaviour:
   - name: cliff_end_bot
     walkable: 0
     sprite: {fileID: -1039590006925118790, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  trees:
-  - name: basic
+  objects:
+  - type: trees
     sprites:
     - {fileID: -5791472574722978375, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: -566806900035736170, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -1070589746182049760, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -3589712970709780248, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -2316609668455535599, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: -8280493721304069615, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -2316609668455535599, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+  - type: miscellaneous
+    sprites:
+    - {fileID: 2654447934904345190, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
   height: 0
   temperature: 0.5
   maxTemperature: 1

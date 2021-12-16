@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
@@ -115,6 +114,7 @@ public class Map : MonoBehaviour
                 map.chunks[chunk.Key].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[chunk.Key], mesh);
             }
         }*/
+
     }
 
     /// <summary>

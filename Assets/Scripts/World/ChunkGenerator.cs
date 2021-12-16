@@ -97,7 +97,6 @@ public class ChunkGenerator : MonoBehaviour
                         if (neighbourValue >= maxValue) {
                             maxValue = neighbourValue;
                         }
-
                     }
                 }
                 // if the current tree noise value is the maximum one, place a tree mark
@@ -196,6 +195,7 @@ public class ChunkGenerator : MonoBehaviour
                 chunk.sample[x,y].pos.y = chunk.position.y + y;
                 chunk.sample[x,y].height = Mathf.Pow(elevation,exp);
                 chunk.sample[x,y].z_index = SetZ_Index(elevation);
+                chunk.zIndexMap[x,y] = SetZ_Index(elevation);
 
                 // numbers like -0,00115059^1.48 returns nan dunno why NaN
                 if (float.IsNaN(chunk.sample[x,y].height))

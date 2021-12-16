@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1475658295686552906}
   - component: {fileID: -9147580199771070890}
-  - component: {fileID: 610130961549542385}
   - component: {fileID: 7837690820378195046}
   m_Layer: 0
   m_Name: TreePrefab
@@ -84,24 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &610130961549542385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2289772203582593006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 261d3e57c09e20c4fac4ee77d57d70dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  biomes:
-  - {fileID: 11400000, guid: 681f3e231ba8a684ea2118e4b9f2f83c, type: 2}
-  - {fileID: 11400000, guid: f4a588f425eebbe418d15c6f047d108e, type: 2}
-  - {fileID: 11400000, guid: f8bc5eb6d87616445a05e46282490518, type: 2}
-  - {fileID: 11400000, guid: 71963d684a3a4d4469d4deedb257d6e7, type: 2}
-  - {fileID: 11400000, guid: 580b6bec3c75faa428ea97e4c8097075, type: 2}
 --- !u!70 &7837690820378195046
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -21,6 +21,7 @@ MonoBehaviour:
   - {fileID: 5926656753612426949, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: 5926656753612426949, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: 8699219145296930921, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  specialTiles: []
   edgeTiles:
   - name: test
     walkable: 1
@@ -142,14 +143,25 @@ MonoBehaviour:
   - name: cliff_end_botRight
     walkable: 0
     sprite: {fileID: 9160129371202797672, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  trees:
-  - name: basic
+  objects:
+  - type: miscellaneous
     sprites:
-    - {fileID: 4187409650753250110, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: -2336223751096622429, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -6188367394728635080, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 6465271316976419069, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 6465271316976419069, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -5262628193677242302, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -1766389781502433406, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -6998631668141411158, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -7079720951457237320, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -1955489751837219279, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 5669174570125229846, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+  - type: trees
+    sprites:
     - {fileID: 3823109109734298350, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+    - {fileID: 4187409650753250110, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: 386483934509769319, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: -7140352914822402492, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -8409272078778457521, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   height: 0
   temperature: 0
   maxTemperature: 0.25

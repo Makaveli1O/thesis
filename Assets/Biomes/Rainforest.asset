@@ -21,6 +21,7 @@ MonoBehaviour:
   - {fileID: -7748184478036590937, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: 8329885470484862998, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   - {fileID: -3024437051866401289, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  specialTiles: []
   edgeTiles:
   - name: test
     walkable: 0
@@ -70,13 +71,14 @@ MonoBehaviour:
   - name: cliff_end_right
     walkable: 0
     sprite: {fileID: 7583636455865192959, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
-  trees:
-  - name: basic
+  objects:
+  - type: trees
     sprites:
     - {fileID: -3445783352195526334, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: -6138741471602438615, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: -3816249094409271487, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
-    - {fileID: 2874202793297968344, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+  - type: miscellaneous
+    sprites:
+    - {fileID: -4922617476772045510, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
   height: 0.5
   temperature: 0.6
   maxTemperature: 1
