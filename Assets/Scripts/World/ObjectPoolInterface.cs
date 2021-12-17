@@ -2,6 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public interface ObjectPoolInterface{
-    void Start();
+    void Awake();
     GameObject GetPooledObject();
 }

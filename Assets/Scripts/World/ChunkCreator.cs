@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 using Random = UnityEngine.Random;
+using System.Linq;
 
 /// <summary>
 /// This Class is handling creation of each chunk. Mesh is created on whose is applied texture representing tiles.
@@ -27,6 +28,7 @@ public class ChunkCreator : MonoBehaviour
     public int y;
     public int top_y;
     private Dictionary<int2, GameObject> renderedTrees = new Dictionary<int2, GameObject>();
+    private HashSet<GameObject> renderedObjects = new HashSet<GameObject>();
     private bool treesLoaded = false;
     private bool objectsLoaded = false;
 
@@ -201,14 +203,17 @@ public class ChunkCreator : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawn trees in loaded chunk
+    /// Spawn trees in loaded chunk. Loops through whole chunk and looks for tiles marked treeMap = 1 which,
+    /// which mean tree should be spawned there. (More in chunkGenerator spawning trees). If tile is placable,
+    /// object from pool is available and tree is out of another's tree radius, tree can be spawned. When tree
+    /// is processed for the first time, picked sprite is saved to WorldChunk structure and saved to json. This
+    /// sprite is next time retrieved from JSON so same tree sprite is present next render time. Actual saving
+    /// of chunk is done after loading objects.
     /// </summary>
     /// <param name="x">x coordinate</param>
     /// <param name="y">y coordinate</param>
     /// <param name="chunkX">Chunk x key</param>
     /// <param name="chunkY">Chunk y key</param>
-    /// 
-    ///FIXME edit this messy code
     private void LoadTrees()
     {
         WorldChunk loaded = LoadChunk();
@@ -218,11 +223,7 @@ public class ChunkCreator : MonoBehaviour
             {
                 int2 relativePos = new int2(x, y);
                 TDTile tile = mapReference.GetTile(relativePos, chunk.position);
-                if (chunk.treeMap[x, y] == 1
-                && tile.biome.type != "ocean"
-                && tile.biome.type != "water"
-                && tile.hillEdge == EdgeType.none
-                && tile.edgeType == EdgeType.none)
+                if (chunk.treeMap[x, y] == 1 && tile.IsPlacable())
                 {
                     int x_coord = chunk.position.x + x;
                     int y_coord = chunk.position.y + y;
@@ -248,8 +249,7 @@ public class ChunkCreator : MonoBehaviour
                             };
                         }
                         renderedTrees[actualPos] = treeP;
-                        AdjustTreeCollider(treeP.GetComponent<CapsuleCollider2D>(), treeSprite.bounds, treeSprite.name);
-
+                        AdjustObjCollider(treeP, treeSprite);
                     }
                 }
             }
@@ -257,57 +257,90 @@ public class ChunkCreator : MonoBehaviour
         treesLoaded = true;
         return;
     }
-    //FIXME edit this messy code
-    //TODO add docstring
+    
+    /// <summary>
+    /// Loading objects of the chunk. If chunk is successfully loaded from JSON, then
+    /// LoadedChunkObjects is called, otherwise new object in the chunk are being generated
+    /// using GenerateChunkObjects.
+    /// </summary>
     private void LoadObjects(){
         WorldChunk loaded = LoadChunk();
-        List<GameObject> availableObjects = treePool.GetInactiveObjects();
-        Sprite sprite = null;
         
         if (loaded != null)
         {
-            foreach (WorldChunk.ObjectsStorage item in loaded.objects)
-            {
-                int2 relativePos = item.pos;
-                int2 absolutePos = new int2(relativePos.x + chunk.position.x, relativePos.y + chunk.position.y);
-                TDTile tile = mapReference.GetTile(relativePos, chunk.position);
-                sprite = SetObjSprite(availableObjects[0], tile, item.sprite, true);
-                availableObjects[0].SetActive(true);
-                availableObjects[0].transform.position = new Vector3(absolutePos.x, absolutePos.y, 0);
-                if (availableObjects.Count != 0 )
-                {
-                    availableObjects.RemoveAt(0);
-                }
-            }
+            LoadedChunkObjects(loaded);
         //chunk is about to place objects
         }else{
-            foreach (GameObject availableObj in availableObjects)
-            {
-                                Vector3 randomCoords = new Vector3( Random.Range(0,Const.CHUNK_SIZE-1),
-                                                    Random.Range(0,Const.CHUNK_SIZE-1),
-                                                    0); 
-                int2 relativePos = new int2((int)randomCoords.x, (int)randomCoords.y);
-                TDTile tile = mapReference.GetTile(relativePos, chunk.position);
-                //set correct sprite and save
-                if (    tile.biome.type != "ocean"
-                    &&  tile.biome.type != "water"
-                    &&  tile.hillEdge == EdgeType.none
-                    &&  tile.edgeType == EdgeType.none){
-
-                    int2 absolutePos = new int2(relativePos.x + chunk.position.x, relativePos.y + chunk.position.y);
-                    availableObj.transform.position = new Vector3(absolutePos.x, absolutePos.y, 0);
-                    availableObj.SetActive(true);
-                    sprite = SetObjSprite(availableObj, tile, null);
-                    //mark intel to the chunk
-                    chunk.objects.Add(new WorldChunk.ObjectsStorage { pos = relativePos, sprite = sprite.name });
-                    }
-            }
+            GenerateChunkObjects();
         }
-        //FIXME not sure if this is ideal saving only after loading object is finished
+        //if objects were not loaded(saving would be pointless), save whole chunk
         if (loaded == null){
             SaveChunk();
         }
         objectsLoaded = true;
+        return;
+    }
+
+    /// <summary>
+    /// Loads all objects within given loaded chunk read from JSON file
+    /// </summary>
+    /// <param name="loaded">Currently processing chunk</param>
+    private void LoadedChunkObjects(WorldChunk loaded){
+        foreach (WorldChunk.ObjectsStorage item in loaded.objects){
+            List<GameObject> availableObjects = objectPool.GetInactiveObjects();
+            if (availableObjects.Count > 0 )
+            {
+                GameObject obj = availableObjects[0];
+                availableObjects.RemoveAt(0);
+                renderedObjects.Add(obj);
+                int2 relativePos = item.pos;
+                int2 absolutePos = new int2(relativePos.x + chunk.position.x, relativePos.y + chunk.position.y);
+                obj.transform.position = new Vector3(absolutePos.x, absolutePos.y, 0);
+                obj.SetActive(true);
+                TDTile tile = mapReference.GetTile(relativePos, chunk.position);
+                Sprite sprite = SetObjSprite(obj, tile, item.sprite, true);
+
+                AdjustObjCollider(obj, sprite);
+            }else{
+                break;
+            }
+        }
+        return;
+    }
+
+    /// <summary>
+    /// Randomly picks point in the chunk area, if tile on the point is accessible place random
+    /// object from tile's biome. Add to the chunk objects and save after every point is properly set.
+    /// </summary>
+    /// <param name="availableObj">Available child gameobject of chunk</param>
+    /// <returns>Picked object sprite</returns>
+    private void GenerateChunkObjects(){
+        List<GameObject> availableObjects = objectPool.GetInactiveObjects();
+        List<int> availableX = Enumerable.Range(0, 31).ToList();
+        List<int> availableY = Enumerable.Range(0, 31).ToList();
+        foreach( GameObject availableObj in availableObjects){
+            int indX = Random.Range(0,availableX.Count);
+            int indY = Random.Range(0,availableY.Count);
+            Vector3 randomCoords = new Vector3( availableX[indX],
+                                                availableY[indY],
+                                                0); 
+            availableX.RemoveAt(indX);
+            availableY.RemoveAt(indY);
+            int2 relativePos = new int2((int)randomCoords.x, (int)randomCoords.y);
+            TDTile tile = mapReference.GetTile(relativePos, chunk.position);
+            //set correct sprite and save
+            if (tile.IsPlacable() && chunk.treeMap[relativePos.x, relativePos.y] == 0){
+                int2 absolutePos = new int2(relativePos.x + chunk.position.x, relativePos.y + chunk.position.y);
+                availableObj.transform.position = new Vector3(absolutePos.x, absolutePos.y, 0);
+                availableObj.SetActive(true);
+                renderedObjects.Add(availableObj);
+                Sprite sprite = SetObjSprite(availableObj, tile, null);
+                //mark intel to the chunk
+                chunk.objects.Add(new WorldChunk.ObjectsStorage { pos = relativePos, sprite = sprite.name });
+
+                AdjustObjCollider(availableObj, sprite);
+            }
+        }
         return;
     }
 
@@ -321,15 +354,34 @@ public class ChunkCreator : MonoBehaviour
             tree.SetActive(false);
         }
         renderedTrees.Clear();
+
         treesLoaded = false;
     }
-    //TODO docstring
+    /// <summary>
+    /// Unload all objects and clear renderedObjects list.
+    /// </summary>
+    public void UnloadObjects(){
+        foreach (GameObject obj in renderedObjects)
+        {
+            obj.SetActive(false);
+        }
+        renderedObjects.Clear();
 
+        objectsLoaded = false;
+    }
+
+    /// <summary>
+    /// Saves current chunk stage to json. Used only once, when visiting chunk for the first time
+    /// after loading trees and objects
+    /// </summary>
     private void SaveChunk(){
         gameHandler.Save<WorldChunk>(this.chunk, ObjType.Chunk, new Vector3(this.x, this.y, 0));
     }
-    //TODO docstring
-
+    
+    /// <summary>
+    /// Load chunk from json in WorldChunk class format
+    /// </summary>
+    /// <returns>Loaded chunk data</returns>
     private WorldChunk LoadChunk(){
         return gameHandler.Load<WorldChunk>(ObjType.Chunk,this.x, this.y);
     }
@@ -383,8 +435,16 @@ public class ChunkCreator : MonoBehaviour
         }
         return treeRenderer.sprite;
     }
-//TODO docstring
-//FIXME rework to sigle line foreach not this oldschool bump
+
+    /// <summary>
+    /// Set sprite for given prefab gameobject. If loaded gameobject, select according sprite
+    /// as given in "name" variable. If not loaded, pick random sprite.
+    /// </summary>
+    /// <param name="obj">Prefab game object</param>
+    /// <param name="tile">tile to be spawned on top of</param>
+    /// <param name="name">name of sprite</param>
+    /// <param name="loaded">flag determining if sprite is being loaded from json</param>
+    /// <returns>Picked sprite</returns>
     public Sprite SetObjSprite(GameObject obj, TDTile tile, string name, bool loaded = false){
         SpriteRenderer objRenderer = obj.GetComponent<SpriteRenderer>();
 
@@ -398,15 +458,22 @@ public class ChunkCreator : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines size of tree collider. Depending on sprite prefix name, bounding box
+    /// Determines size of tree/object collider. Depending on sprite prefix name, bounding box
     /// is calculated differently.
     /// </summary>
     /// <param name="collider2D">colldier object</param>
     /// <param name="boundingBox">bounding box around sprite</param>
-    private void AdjustTreeCollider(CapsuleCollider2D collider2D, Bounds boundingBox, string name)
+    private void AdjustObjCollider(GameObject obj, Sprite sprite)
     {
+        SpriteRenderer spriteRenderer = obj.GetComponent<SpriteRenderer>();
+        CapsuleCollider2D collider2D = obj.GetComponent<CapsuleCollider2D>();
+        Bounds boundingBox = sprite.bounds;
+        string name = sprite.name;
+        
         int index = name.IndexOf("_");
         string prefix = name.Substring(0, index);
+        collider2D.enabled = true;
+        spriteRenderer.sortingOrder = 1;
         switch (prefix)
         {
             case "regular":
@@ -418,14 +485,29 @@ public class ChunkCreator : MonoBehaviour
             case "small":
                 collider2D.size = new Vector2(boundingBox.size.x / 5f, collider2D.size.y);
                 break;
+            case "hollow":
+                spriteRenderer.sortingOrder = 0;
+                collider2D.enabled = false;
+                break;
             default:
                 collider2D.size = new Vector2(boundingBox.size.x / 2f, collider2D.size.y);
                 break;
         }
         return;
-
     }
 
+    /// <summary>
+    /// Prevents Update to call rendering objects and trees multiple times.
+    /// </summary>
+    private void SpawnChunkObjects(){
+        if(!treesLoaded){
+            LoadTrees();
+        }
+        if (!objectsLoaded){
+            LoadObjects();
+        }
+        return;     
+    }
     private void Awake()
     {
         var m = GameObject.FindGameObjectWithTag("Map");
@@ -443,24 +525,10 @@ public class ChunkCreator : MonoBehaviour
         foreach ( ObjectPool pool  in pools){
             if (pool.id == 0){
                 treePool = pool;
-            }/*else{
+            }else{
                 objectPool = pool;
-            }*/
+            }
         }
-    }
-    //TODO docstring
-    private void SpawnChunkObjects(){
-        if(!treesLoaded){
-            LoadTrees();
-        }
-        if (!objectsLoaded){
-            LoadObjects();
-        }
-
-        /*if (treesLoaded && objectsLoaded){
-            SaveChunk();
-        }*/
-        
     }
 
     private void Update()

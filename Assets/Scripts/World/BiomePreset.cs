@@ -478,7 +478,7 @@ public class BiomePreset : ScriptableObject
             if(itm.type == "miscellaneous"){
                 foreach (Sprite sprite in itm.sprites)
                 {
-                    if (sprite.name == name)
+                    if (sprite != null && sprite.name == name)
                     {
                         return sprite;
                     }

@@ -54,6 +54,7 @@ public class ChunkLoader : MonoBehaviour
         //reference to the script, attached to chunk about to remove
         ChunkCreator chunkCreator = renderedChunks[new int2(x, y)].GetComponent<ChunkCreator>();
         chunkCreator.UnloadTrees();
+        chunkCreator.UnloadObjects();
         //deactivate chunk
         renderedChunks[new int2(x, y)].SetActive(false);
         renderedChunks.Remove(new int2(x, y));

@@ -146,16 +146,24 @@ MonoBehaviour:
   objects:
   - type: miscellaneous
     sprites:
-    - {fileID: -2336223751096622429, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
-    - {fileID: -6188367394728635080, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
-    - {fileID: 6465271316976419069, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
-    - {fileID: 6465271316976419069, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
-    - {fileID: -5262628193677242302, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -93750458980389090, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -3980494300707121562, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 5109969820934194805, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 3487095783347953447, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 243028321930452633, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
     - {fileID: -1766389781502433406, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
-    - {fileID: -6998631668141411158, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
-    - {fileID: -7079720951457237320, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
-    - {fileID: -1955489751837219279, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
-    - {fileID: 5669174570125229846, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 4455232240493665095, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 138822527552902627, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 1702683679510850378, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 6009673603605094513, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -5262628193677242302, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -8086995983514025172, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -5331891938937075238, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -8006292867793706052, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -8888418204731768549, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -9051748682659619041, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -6274607833073127828, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -76596165655313214, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
   - type: trees
     sprites:
     - {fileID: 3823109109734298350, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}

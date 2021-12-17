@@ -125,7 +125,20 @@ MonoBehaviour:
     - {fileID: 3394601711945805641, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   - type: miscellaneous
     sprites:
-    - {fileID: -76596165655313214, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -7302307326716131399, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -857223443614927429, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -7320531243435927957, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -1986772863260763996, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -933708202724517508, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -5884511041189993977, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -3709571434675093295, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -8269877999206776090, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -2955328036293922735, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 7495320969501026803, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 2002165265138813586, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 5197925540072060383, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -4289089391151631069, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -5354328968874661603, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
   height: 0
   temperature: 10
   maxTemperature: 1010

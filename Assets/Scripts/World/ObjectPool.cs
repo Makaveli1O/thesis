@@ -14,7 +14,7 @@ public class ObjectPool : MonoBehaviour, ObjectPoolInterface
     /// <summary>
     /// Initialize inactive gameobjects in pool to begin with.
     /// </summary>
-    public void Start()
+    public void Awake()
     {
         for (int i = 0; i < amountToPool; i++)
         {

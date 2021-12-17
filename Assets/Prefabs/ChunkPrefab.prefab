@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -5765618687131722424}
   - component: {fileID: -6027018456858460948}
   - component: {fileID: 583626687092569656}
+  - component: {fileID: 2144743989029236036}
   m_Layer: 0
   m_Name: ChunkPrefab
   m_TagString: Untagged
@@ -53,7 +54,6 @@ MonoBehaviour:
   top_x: 0
   y: 0
   top_y: 0
-  testSprite: {fileID: -2717450498524267581, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
 --- !u!33 &-5765618687131722424
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -116,5 +116,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  amountToPool: 30
+  amountToPool: 15
   prefab: {fileID: 2289772203582593006, guid: 40546cce1c673a74f82576311d6e5d95, type: 3}
+--- !u!114 &2144743989029236036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852746837773331530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696443c632c967b41b0620001e07cb64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1
+  amountToPool: 20
+  prefab: {fileID: 8274161314457147329, guid: 7c4c986576def824f8fe83342543e7c7, type: 3}

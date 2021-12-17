@@ -40,6 +40,20 @@ public class TDTile
     //trees
     public bool stair = false;
 
+    /// <summary>
+    /// Return true if on this tile can actually be placed object. If tile is in the
+    /// water, or is cliff return false.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsPlacable(){
+        if (this.biome.type != "ocean" &&  this.biome.type != "water" 
+        && this.hillEdge == EdgeType.none &&  this.edgeType == EdgeType.none){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
 public enum EdgeType
 {

@@ -14,14 +14,13 @@ public class WorldChunk
     [System.NonSerialized] public int[,] treeMap; //2d tree map
     [System.NonSerialized] public int[,] zIndexMap; //2d tree map
     public List<string> trees; //trees, rocks etc. within chunk names
-    public List<ObjectsStorage> objects;
+    public List<ObjectsStorage> objects = new List<ObjectsStorage>();
     [System.NonSerialized] public Mesh chunkMesh; //mesh object attached to chunk
     public WorldChunk(){
         sample = new TDTile[Const.CHUNK_SIZE, Const.CHUNK_SIZE];
         treeMap = new int[Const.CHUNK_SIZE, Const.CHUNK_SIZE];
         zIndexMap = new int[Const.CHUNK_SIZE, Const.CHUNK_SIZE];
         trees = new List<string>();
-        objects = new List<ObjectsStorage>();
     }
     [System.Serializable]
     public class ObjectsStorage

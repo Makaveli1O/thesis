@@ -4,67 +4,67 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 1753205982242350755
-    second: objects_0
+    second: hollow_0
   - first:
       213: 318953615281452700
-    second: objects_1
+    second: hollow_1
   - first:
       213: 8333231276030249781
-    second: objects_2
+    second: hollow_2
   - first:
       213: -4430392651179603617
-    second: objects_3
+    second: hollow_03
   - first:
       213: 2654447934904345190
-    second: objects_4
+    second: hollow_004
   - first:
       213: -3276687688264177478
-    second: objects_5
+    second: hollow_008
   - first:
       213: 5069650035751226587
-    second: objects_6
+    second: hollow_015
   - first:
       213: -9053378900703536071
-    second: objects_7
+    second: hollow_05
   - first:
       213: 1336440320741484319
-    second: objects_8
+    second: hollow_07
   - first:
       213: -93750458980389090
-    second: objects_9
+    second: hollow_050
   - first:
       213: 4455232240493665095
-    second: objects_10
+    second: hollow_060
   - first:
       213: 2269949439249822484
-    second: objects_11
+    second: hollow_09
   - first:
       213: 6639657697291588988
-    second: objects_12
+    second: hollow_010
   - first:
       213: 4444980147945960928
-    second: objects_13
+    second: hollow_011
   - first:
       213: -2069660456029034469
-    second: objects_14
+    second: hollow_012
   - first:
       213: -5843391103799036864
     second: objects_15
   - first:
       213: -3727842135710763035
-    second: objects_16
+    second: hollow_013
   - first:
       213: -6050296909894318094
     second: objects_17
   - first:
       213: -3201709878794754465
-    second: objects_18
+    second: big_01
   - first:
       213: 6210789413000989635
-    second: objects_19
+    second: hollow_014
   - first:
       213: -6580861909127892675
-    second: objects_20
+    second: hollow_018
   - first:
       213: -6883905864151536645
     second: objects_21
@@ -73,76 +73,76 @@ TextureImporter:
     second: objects_22
   - first:
       213: -4922617476772045510
-    second: objects_23
+    second: hollow_016
   - first:
       213: 5849325189442884660
-    second: objects_24
+    second: hollow_017
   - first:
       213: 8753186556605219898
-    second: objects_25
+    second: hollow_01
   - first:
       213: -8841936248928892492
-    second: objects_26
+    second: hollow_019
   - first:
       213: 7495320969501026803
-    second: objects_27
+    second: hollow_035
   - first:
       213: 2002165265138813586
-    second: objects_28
+    second: hollow_036
   - first:
       213: 5197925540072060383
-    second: objects_29
+    second: hollow_037
   - first:
       213: 1423833454339779461
-    second: objects_30
+    second: big_022222
   - first:
       213: 4698315425400886581
-    second: objects_31
+    second: big_02
   - first:
       213: 2197855871317943228
-    second: objects_32
+    second: big_091
   - first:
       213: 741922582067912797
-    second: objects_33
+    second: big_0912
   - first:
       213: -5884573130030058871
-    second: objects_34
+    second: big_0913
   - first:
       213: 5898155415433455342
-    second: objects_35
+    second: big_0914
   - first:
       213: 4545352612990403588
-    second: objects_36
+    second: big_0915
   - first:
       213: 1460043806165005221
-    second: objects_37
+    second: big_0916
   - first:
       213: 2727136117312835427
-    second: objects_38
+    second: big_0918
   - first:
       213: 7564501798177618812
-    second: objects_39
+    second: big_0917
   - first:
       213: -7302307326716131399
-    second: objects_40
+    second: hollow_020
   - first:
       213: -933708202724517508
-    second: objects_41
+    second: hollow_025
   - first:
       213: -5884511041189993977
-    second: objects_42
+    second: hollow_026
   - first:
       213: -3709571434675093295
-    second: objects_43
+    second: hollow_027
   - first:
       213: -8269877999206776090
-    second: objects_44
+    second: hollow_028
   - first:
       213: -4289089391151631069
-    second: objects_45
+    second: big_0111
   - first:
       213: -857223443614927429
-    second: objects_46
+    second: hollow_021
   - first:
       213: -2612631271021064264
     second: objects_47
@@ -154,88 +154,88 @@ TextureImporter:
     second: objects_49
   - first:
       213: 138822527552902627
-    second: objects_50
+    second: hollow_061
   - first:
       213: -2336223751096622429
-    second: objects_51
+    second: hollow_062
   - first:
       213: -6188367394728635080
-    second: objects_52
+    second: hollow_063
   - first:
       213: 6465271316976419069
-    second: objects_53
+    second: hollow_064
   - first:
       213: -5262628193677242302
-    second: objects_54
+    second: big_010
   - first:
       213: 901927284399968204
-    second: objects_55
+    second: big_011
   - first:
       213: -8076552262776366635
     second: objects_56
   - first:
       213: -1766389781502433406
-    second: objects_57
+    second: hollow_080
   - first:
       213: 8277753512624892258
-    second: objects_58
+    second: hollow_0801
   - first:
       213: -6998631668141411158
-    second: objects_59
+    second: big_32
   - first:
       213: 9171275872940762989
-    second: objects_60
+    second: big_31
   - first:
       213: -7079720951457237320
-    second: objects_61
+    second: big_3
   - first:
       213: -1955489751837219279
-    second: objects_62
+    second: hollow_0805
   - first:
       213: -9193188169025097682
     second: objects_63
   - first:
       213: -7320531243435927957
-    second: objects_64
+    second: hollow_022
   - first:
       213: -6469549280988569358
-    second: objects_65
+    second: hollow_0802
   - first:
       213: 8694480088762194938
-    second: objects_66
+    second: hollow_0803
   - first:
       213: -8253891713049958405
-    second: objects_67
+    second: big_33
   - first:
       213: 3722172780092429670
-    second: objects_68
+    second: big_34
   - first:
       213: 8531737542734488527
-    second: objects_69
+    second: big_35
   - first:
       213: 5760800594879907098
-    second: objects_70
+    second: big_36
   - first:
       213: -1986772863260763996
-    second: objects_71
+    second: hollow_023
   - first:
       213: -627648684984592141
-    second: objects_72
+    second: big_37
   - first:
       213: 7597474578557255370
     second: objects_73
   - first:
       213: 5669174570125229846
-    second: objects_74
+    second: big_556
   - first:
       213: -5331891938937075238
-    second: objects_75
+    second: big_017
   - first:
       213: -8086995983514025172
-    second: objects_76
+    second: big_016
   - first:
       213: 6009673603605094513
-    second: objects_77
+    second: big_05
   - first:
       213: -2466020301452136916
     second: objects_78
@@ -244,28 +244,28 @@ TextureImporter:
     second: objects_79
   - first:
       213: 243028321930452633
-    second: objects_80
+    second: hollow_058
   - first:
       213: 3487095783347953447
-    second: objects_81
+    second: hollow_057
   - first:
       213: 5109969820934194805
-    second: objects_82
+    second: hollow_056
   - first:
       213: -3980494300707121562
-    second: objects_83
+    second: hollow_053
   - first:
       213: -8006292867793706052
-    second: objects_84
+    second: big_39
   - first:
       213: -8888418204731768549
-    second: objects_85
+    second: big_41
   - first:
       213: -9051748682659619041
-    second: objects_86
+    second: big_42
   - first:
       213: -6274607833073127828
-    second: objects_87
+    second: hollow_041
   - first:
       213: -6156538738564848463
     second: objects_88
@@ -274,16 +274,16 @@ TextureImporter:
     second: objects_89
   - first:
       213: -8894351329827163213
-    second: objects_90
+    second: hollow_047
   - first:
       213: -7946122169745577622
-    second: objects_91
+    second: hollow_046
   - first:
       213: -8914528431609462405
-    second: objects_92
+    second: hollow_04
   - first:
       213: -76596165655313214
-    second: objects_93
+    second: hollow_040
   - first:
       213: 4810265859514842165
     second: objects_94
@@ -292,7 +292,7 @@ TextureImporter:
     second: objects_95
   - first:
       213: 1702683679510850378
-    second: objects_96
+    second: hollow_044
   - first:
       213: 4391973271103909417
     second: objects_97
@@ -307,28 +307,28 @@ TextureImporter:
     second: objects_100
   - first:
       213: -3555468057966329373
-    second: objects_101
+    second: hollow_043
   - first:
       213: 4571676322455285884
-    second: objects_102
+    second: hollow_042
   - first:
       213: 5513264443485517607
-    second: objects_103
+    second: hollow_02
   - first:
       213: 1529650774630179173
     second: objects_104
   - first:
       213: 3260465681249809347
-    second: objects_105
+    second: hollow_038
   - first:
       213: 351992477344869309
-    second: objects_106
+    second: hollow_033
   - first:
       213: -2955328036293922735
-    second: objects_107
+    second: hollow_030
   - first:
       213: -377563455374678323
-    second: objects_108
+    second: hollow_031
   - first:
       213: 1107736971085435061
     second: objects_109
@@ -340,7 +340,7 @@ TextureImporter:
     second: objects_111
   - first:
       213: -5354328968874661603
-    second: objects_112
+    second: big_112
   - first:
       213: -8223264963939097379
     second: objects_113
@@ -607,7 +607,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: objects_0
+      name: hollow_0
       rect:
         serializedVersion: 2
         x: 3
@@ -628,15 +628,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_1
+      name: hollow_1
       rect:
         serializedVersion: 2
         x: 17
         y: 321
         width: 15
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -649,15 +649,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_2
+      name: hollow_2
       rect:
         serializedVersion: 2
         x: 33
         y: 320
         width: 16
         height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -670,15 +670,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_3
+      name: hollow_03
       rect:
         serializedVersion: 2
         x: 50
         y: 325
         width: 13
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -691,15 +691,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_4
+      name: hollow_004
       rect:
         serializedVersion: 2
         x: 65
         y: 321
         width: 16
         height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -712,15 +712,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_5
+      name: hollow_008
       rect:
         serializedVersion: 2
         x: 84
         y: 330
         width: 6
         height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -733,15 +733,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_6
+      name: hollow_015
       rect:
         serializedVersion: 2
-        x: 91
-        y: 327
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 35
+        y: 289
+        width: 13
+        height: 14
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -754,15 +754,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_7
+      name: hollow_05
       rect:
         serializedVersion: 2
         x: 100
         y: 325
         width: 10
         height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -775,15 +775,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_8
+      name: hollow_07
       rect:
         serializedVersion: 2
-        x: 116
-        y: 325
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 122
+        y: 323
+        width: 5
+        height: 4
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -796,15 +796,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_9
+      name: hollow_050
       rect:
         serializedVersion: 2
-        x: 82
-        y: 322
-        width: 10
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 50
+        y: 15
+        width: 11
+        height: 15
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -817,15 +817,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_10
+      name: hollow_060
       rect:
         serializedVersion: 2
-        x: 122
-        y: 323
-        width: 5
+        x: 20
+        y: 145
+        width: 6
         height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -838,15 +838,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_11
+      name: hollow_09
       rect:
         serializedVersion: 2
         x: 4
         y: 309
         width: 10
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -859,15 +859,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_12
+      name: hollow_010
       rect:
         serializedVersion: 2
         x: 18
         y: 305
         width: 15
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -880,15 +880,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_13
+      name: hollow_011
       rect:
         serializedVersion: 2
         x: 34
         y: 304
         width: 30
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -901,15 +901,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_14
+      name: hollow_012
       rect:
         serializedVersion: 2
         x: 66
         y: 304
         width: 30
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -929,8 +929,8 @@ TextureImporter:
         y: 313
         width: 4
         height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -943,15 +943,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_16
+      name: hollow_013
       rect:
         serializedVersion: 2
         x: 102
         y: 305
         width: 22
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -985,15 +985,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_18
+      name: big_01
       rect:
         serializedVersion: 2
         x: 290
         y: 293
         width: 29
         height: 21
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1006,15 +1006,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_19
+      name: hollow_014
       rect:
         serializedVersion: 2
         x: 4
         y: 293
         width: 10
         height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1027,15 +1027,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_20
+      name: hollow_018
       rect:
         serializedVersion: 2
         x: 18
         y: 290
         width: 14
         height: 12
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1048,57 +1048,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_21
+      name: hollow_016
       rect:
         serializedVersion: 2
-        x: 33
-        y: 290
-        width: 4
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfbe40cc6147770a0800000000000000
-      internalID: -6883905864151536645
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_22
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 289
-        width: 13
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 740ac28844b810460800000000000000
-      internalID: 7206194005228167239
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_23
-      rect:
-        serializedVersion: 2
-        x: 49
+        x: 48
         y: 289
         width: 32
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1111,15 +1069,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_24
+      name: hollow_017
       rect:
         serializedVersion: 2
         x: 84
         y: 289
         width: 10
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1132,15 +1090,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_25
+      name: hollow_01
       rect:
         serializedVersion: 2
         x: 99
         y: 290
         width: 11
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1153,15 +1111,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_26
+      name: hollow_019
       rect:
         serializedVersion: 2
         x: 115
         y: 289
         width: 11
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1174,15 +1132,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_27
+      name: hollow_035
       rect:
         serializedVersion: 2
         x: 212
         y: 293
         width: 10
         height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1195,15 +1153,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_28
+      name: hollow_036
       rect:
         serializedVersion: 2
         x: 229
         y: 291
         width: 9
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1216,15 +1174,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_29
+      name: hollow_037
       rect:
         serializedVersion: 2
         x: 242
         y: 292
         width: 13
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1237,15 +1195,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_30
+      name: big_022222
       rect:
         serializedVersion: 2
         x: 263
         y: 291
         width: 19
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1258,15 +1216,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_31
+      name: big_02
       rect:
         serializedVersion: 2
         x: 322
         y: 291
         width: 13
         height: 19
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1279,15 +1237,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_32
+      name: big_091
       rect:
         serializedVersion: 2
         x: 2
         y: 274
         width: 13
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1300,15 +1258,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_33
+      name: big_0912
       rect:
         serializedVersion: 2
         x: 19
         y: 274
         width: 11
         height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1321,15 +1279,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_34
+      name: big_0913
       rect:
         serializedVersion: 2
         x: 36
         y: 279
         width: 11
         height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1342,15 +1300,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_35
+      name: big_0914
       rect:
         serializedVersion: 2
         x: 56
         y: 272
         width: 22
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1363,15 +1321,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_36
+      name: big_0915
       rect:
         serializedVersion: 2
         x: 2
         y: 258
         width: 13
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1384,15 +1342,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_37
+      name: big_0916
       rect:
         serializedVersion: 2
         x: 19
         y: 258
         width: 11
         height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1405,15 +1363,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_38
+      name: big_0918
       rect:
         serializedVersion: 2
         x: 36
         y: 263
         width: 11
         height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1426,15 +1384,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_39
+      name: big_0917
       rect:
         serializedVersion: 2
         x: 56
         y: 256
         width: 22
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1447,14 +1405,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_40
+      name: hollow_020
       rect:
         serializedVersion: 2
         x: 147
         y: 211
         width: 13
         height: 10
-      alignment: 0
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -1468,15 +1426,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_41
+      name: hollow_025
       rect:
         serializedVersion: 2
         x: 147
         y: 194
         width: 9
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1489,15 +1447,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_42
+      name: hollow_026
       rect:
         serializedVersion: 2
         x: 161
         y: 194
         width: 14
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1510,15 +1468,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_43
+      name: hollow_027
       rect:
         serializedVersion: 2
         x: 177
         y: 194
         width: 13
         height: 12
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1531,15 +1489,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_44
+      name: hollow_028
       rect:
         serializedVersion: 2
         x: 196
         y: 193
         width: 24
         height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1552,15 +1510,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_45
+      name: big_0111
       rect:
         serializedVersion: 2
         x: 224
         y: 183
         width: 15
         height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1573,15 +1531,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_46
+      name: hollow_021
       rect:
         serializedVersion: 2
         x: 162
         y: 209
         width: 12
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1601,8 +1559,8 @@ TextureImporter:
         y: 183
         width: 8
         height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1622,8 +1580,8 @@ TextureImporter:
         y: 178
         width: 8
         height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1636,36 +1594,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_49
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 145
-        width: 6
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a33e5f4c1b1355030800000000000000
-      internalID: 3482744526424367930
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_50
+      name: hollow_061
       rect:
         serializedVersion: 2
         x: 34
         y: 138
         width: 13
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1678,15 +1615,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_51
+      name: hollow_062
       rect:
         serializedVersion: 2
         x: 51
         y: 139
         width: 11
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1699,15 +1636,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_52
+      name: hollow_063
       rect:
         serializedVersion: 2
         x: 65
         y: 139
         width: 11
         height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1720,15 +1657,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_53
+      name: hollow_064
       rect:
         serializedVersion: 2
         x: 81
         y: 142
         width: 11
         height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1741,15 +1678,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_54
+      name: big_010
       rect:
         serializedVersion: 2
         x: 97
         y: 139
         width: 14
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1762,15 +1699,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_55
+      name: big_011
       rect:
         serializedVersion: 2
         x: 118
         y: 139
         width: 19
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1783,36 +1720,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_56
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 139
-        width: 9
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5d9565722825aef80800000000000000
-      internalID: -8076552262776366635
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_57
+      name: hollow_080
       rect:
         serializedVersion: 2
         x: 20
         y: 125
         width: 10
         height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1825,15 +1741,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_58
+      name: hollow_0801
       rect:
         serializedVersion: 2
         x: 39
         y: 123
         width: 7
         height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1846,15 +1762,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_59
+      name: big_32
       rect:
         serializedVersion: 2
         x: 51
         y: 124
         width: 11
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1867,15 +1783,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_60
+      name: big_31
       rect:
         serializedVersion: 2
         x: 66
         y: 126
         width: 13
         height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1888,15 +1804,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_61
+      name: big_3
       rect:
         serializedVersion: 2
         x: 82
         y: 125
         width: 13
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1909,15 +1825,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_62
+      name: hollow_0805
       rect:
         serializedVersion: 2
         x: 97
-        y: 123
-        width: 14
-        height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 127
+        width: 9
+        height: 7
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1937,8 +1853,8 @@ TextureImporter:
         y: 123
         width: 23
         height: 12
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1951,15 +1867,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_64
+      name: hollow_022
       rect:
         serializedVersion: 2
         x: 180
         y: 211
         width: 10
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1972,15 +1888,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_65
+      name: hollow_0802
       rect:
         serializedVersion: 2
         x: 20
         y: 108
         width: 10
         height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1993,15 +1909,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_66
+      name: hollow_0803
       rect:
         serializedVersion: 2
         x: 39
         y: 106
         width: 7
         height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2014,15 +1930,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_67
+      name: big_33
       rect:
         serializedVersion: 2
         x: 51
         y: 107
         width: 11
         height: 12
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2035,15 +1951,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_68
+      name: big_34
       rect:
         serializedVersion: 2
         x: 65
         y: 109
         width: 14
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2056,15 +1972,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_69
+      name: big_35
       rect:
         serializedVersion: 2
         x: 82
         y: 108
         width: 13
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2077,15 +1993,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_70
+      name: big_36
       rect:
         serializedVersion: 2
-        x: 97
-        y: 108
-        width: 13
-        height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 104
+        y: 106
+        width: 6
+        height: 5
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2098,15 +2014,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_71
+      name: hollow_023
       rect:
         serializedVersion: 2
         x: 197
         y: 210
         width: 10
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2119,15 +2035,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_72
+      name: big_37
       rect:
         serializedVersion: 2
         x: 116
         y: 106
         width: 23
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2147,8 +2063,8 @@ TextureImporter:
         y: 94
         width: 9
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2161,15 +2077,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_74
+      name: big_556
       rect:
         serializedVersion: 2
         x: 33
         y: 92
         width: 13
         height: 12
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2182,15 +2098,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_75
+      name: big_017
       rect:
         serializedVersion: 2
         x: 49
         y: 78
         width: 14
         height: 21
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2203,15 +2119,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_76
+      name: big_016
       rect:
         serializedVersion: 2
         x: 69
         y: 76
         width: 24
         height: 25
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2224,15 +2140,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_77
+      name: big_05
       rect:
         serializedVersion: 2
         x: 100
         y: 74
         width: 40
         height: 31
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2252,8 +2168,8 @@ TextureImporter:
         y: 77
         width: 9
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2273,8 +2189,8 @@ TextureImporter:
         y: 75
         width: 15
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2287,15 +2203,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_80
+      name: hollow_058
       rect:
         serializedVersion: 2
         x: 19
         y: 60
         width: 10
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2308,15 +2224,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_81
+      name: hollow_057
       rect:
         serializedVersion: 2
         x: 34
         y: 59
         width: 11
         height: 12
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2329,15 +2245,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_82
+      name: hollow_056
       rect:
         serializedVersion: 2
         x: 52
         y: 60
         width: 8
         height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2350,15 +2266,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_83
+      name: hollow_053
       rect:
         serializedVersion: 2
         x: 64
         y: 58
         width: 14
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2371,15 +2287,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_84
+      name: big_39
       rect:
         serializedVersion: 2
         x: 81
         y: 57
         width: 14
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2392,15 +2308,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_85
+      name: big_41
       rect:
         serializedVersion: 2
         x: 97
         y: 57
         width: 14
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2413,15 +2329,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_86
+      name: big_42
       rect:
         serializedVersion: 2
         x: 114
         y: 58
         width: 12
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2434,15 +2350,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_87
+      name: hollow_041
       rect:
         serializedVersion: 2
         x: 128
         y: 58
         width: 16
         height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2455,57 +2371,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_88
-      rect:
-        serializedVersion: 2
-        x: 19
-        y: 34
-        width: 15
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1b429e1d2a49f8aa0800000000000000
-      internalID: -6156538738564848463
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_89
-      rect:
-        serializedVersion: 2
-        x: 36
-        y: 40
-        width: 13
-        height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 64b635af03c8a14d0800000000000000
-      internalID: -3163061646288262330
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_90
+      name: hollow_047
       rect:
         serializedVersion: 2
         x: 65
         y: 43
         width: 15
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2518,15 +2392,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_91
+      name: hollow_046
       rect:
         serializedVersion: 2
         x: 82
         y: 43
         width: 13
         height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2539,15 +2413,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_92
+      name: hollow_04
       rect:
         serializedVersion: 2
         x: 101
         y: 46
         width: 9
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2560,15 +2434,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_93
+      name: hollow_040
       rect:
         serializedVersion: 2
         x: 115
         y: 29
         width: 26
         height: 22
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2581,57 +2455,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_94
-      rect:
-        serializedVersion: 2
-        x: 27
-        y: 18
-        width: 26
-        height: 22
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 53c3297305f71c240800000000000000
-      internalID: 4810265859514842165
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_95
-      rect:
-        serializedVersion: 2
-        x: 53
-        y: 31
-        width: 9
-        height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 555708df7e5a818e0800000000000000
-      internalID: -1722444441660132011
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_96
+      name: hollow_044
       rect:
         serializedVersion: 2
         x: 75
         y: 18
         width: 26
         height: 22
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2644,99 +2476,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_97
-      rect:
-        serializedVersion: 2
-        x: 19
-        y: 23
-        width: 6
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 92ea82f9b6c63fc30800000000000000
-      internalID: 4391973271103909417
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_98
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 15
-        width: 11
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3fd92744e3a5d5bd0800000000000000
-      internalID: -2639854583086408205
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_99
-      rect:
-        serializedVersion: 2
-        x: 23
-        y: 12
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 88d7759285f27a250800000000000000
-      internalID: 5955781087917997448
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_100
-      rect:
-        serializedVersion: 2
-        x: 37
-        y: 10
-        width: 13
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d2af482a6d6286470800000000000000
-      internalID: 8387997009269029421
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_101
+      name: hollow_043
       rect:
         serializedVersion: 2
         x: 116
         y: 12
         width: 9
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2749,15 +2497,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_102
+      name: hollow_042
       rect:
         serializedVersion: 2
         x: 129
         y: 11
         width: 13
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2770,15 +2518,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_103
+      name: hollow_02
       rect:
         serializedVersion: 2
         x: 209
         y: 210
         width: 13
         height: 10
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2812,7 +2560,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_105
+      name: hollow_038
       rect:
         serializedVersion: 2
         x: 241
@@ -2833,7 +2581,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_106
+      name: hollow_033
       rect:
         serializedVersion: 2
         x: 257
@@ -2854,36 +2602,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_107
+      name: hollow_031
       rect:
         serializedVersion: 2
-        x: 144
+        x: 175
         y: 224
         width: 32
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 150b2f91fc09cf6d0800000000000000
-      internalID: -2955328036293922735
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: objects_108
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 224
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2959,15 +2686,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: objects_112
+      name: big_112
       rect:
         serializedVersion: 2
-        x: 306
+        x: 240
         y: 176
-        width: 43
+        width: 112
         height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -3025,12 +2752,12 @@ TextureImporter:
       name: objects_115
       rect:
         serializedVersion: 2
-        x: 258
+        x: 208
         y: 304
-        width: 30
+        width: 80
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -3038,6 +2765,216 @@ TextureImporter:
       bones: []
       spriteID: fe4c51a37c3558220800000000000000
       internalID: 2487486484330169583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_21
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 327
+        width: 6
+        height: 7
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfbe40cc6147770a0800000000000000
+      internalID: -6883905864151536645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_22
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 322
+        width: 10
+        height: 6
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 740ac28844b810460800000000000000
+      internalID: 7206194005228167239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_49
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 139
+        width: 9
+        height: 5
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a33e5f4c1b1355030800000000000000
+      internalID: 3482744526424367930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_56
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 123
+        width: 6
+        height: 4
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d9565722825aef80800000000000000
+      internalID: -8076552262776366635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_88
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 40
+        width: 13
+        height: 9
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b429e1d2a49f8aa0800000000000000
+      internalID: -6156538738564848463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_89
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 31
+        width: 9
+        height: 9
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64b635af03c8a14d0800000000000000
+      internalID: -3163061646288262330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_94
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 23
+        width: 6
+        height: 5
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53c3297305f71c240800000000000000
+      internalID: 4810265859514842165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_95
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 12
+        width: 10
+        height: 8
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 555708df7e5a818e0800000000000000
+      internalID: -1722444441660132011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_97
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 10
+        width: 13
+        height: 6
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92ea82f9b6c63fc30800000000000000
+      internalID: 4391973271103909417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: objects_98
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 224
+        width: 31
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fd92744e3a5d5bd0800000000000000
+      internalID: -2639854583086408205
       vertices: []
       indices: 
       edges: []

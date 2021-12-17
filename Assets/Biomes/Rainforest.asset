@@ -79,6 +79,15 @@ MonoBehaviour:
   - type: miscellaneous
     sprites:
     - {fileID: -4922617476772045510, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 5069650035751226587, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -4430392651179603617, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 2654447934904345190, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -2069660456029034469, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -3727842135710763035, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 318953615281452700, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: 5513264443485517607, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -8841936248928892492, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
+    - {fileID: -6580861909127892675, guid: 9de9cfcb47cead54fb736b6b41b970c4, type: 3}
   height: 0.5
   temperature: 0.6
   maxTemperature: 1

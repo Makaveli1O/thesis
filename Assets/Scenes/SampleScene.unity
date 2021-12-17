@@ -282,7 +282,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1196205207
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 29bc3bc039d690f46bb68570e8517616, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -544,5 +544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696443c632c967b41b0620001e07cb64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   amountToPool: 8
   prefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}
