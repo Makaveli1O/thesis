@@ -85,5 +85,18 @@ Each tile is represented by **TDTile** structure. In the first cycle of map crea
 
 ### Trees spawning
 Trees are spaawned using perlin noise with high base scale. Values are then filtered, if value higher than thrashhold was generated, save 1 into map, 0 otherwise. 1 means Tree can be spawned on this location 0 oterwise. When rendering trees, each one checks it's surroundings, and only are spawned if specific criteria are matched(such as no other tree is in minimal radius).
+
+### Object pooling
+This method is used quite often in thesis. For chunk loading, object rendering etc. Basically reuses old components that are initialized when the game starts, instad of instantiating and destroying constantly. This is much more efficient. ObjectPool is represented by simple array of gameobjects. When awaken, desired number of objects in pool is instantiated and set inactive. Then whenever new object is required, GetPooledObject is called instad of instantiating new one. When the object is not needed later, it's activation state is set to false.(recycling)
+
 ### Chunk Loading
- // done (documentation TODO)
+Chunks are loaded in ChunkLoader. Method from tihs class (LoadChunks) is perioadically called within Map's update. According to player's position, chunks within radius are loaded or unloaded from the scene. Chunks are created in the beggining by ObjectPool class, so inactive chunks are actually recycled to render new ones.
+
+### Trees
+Tree map is rendered in ChunkGenerator. Perlin noise is used to create basic map, then loop through this matrix is required to determine highest value of the neighbour radius. When highes value is picked, tree is plantet to tree map for each chunk. This is later used to know where to place trees without necessity to save it's location.
+
+### Objects
+When first visiting chunk, objects are randomly scattered throughout chunk and saved into WorldChunk class alongisde other intel. This intel is then saved to JSON file.
+
+### Save / Load system
+For each world seed subfolder is created to hold appropriate files. Player's information is saved in Player.JSON file whenever player quit's game. Chunks (trees, textures, objects, ..) are saved only **once** when chunk is visited for the first time. After that only loading from JSON is happening. Each chunk has it's own JSON representation named with it's key position(bottom left of the chunk)
