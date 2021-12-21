@@ -69,7 +69,8 @@ heat map + height map
 Each chunk (32x32) is represented by mesh. Within each mesh there are 32 x 32 quads that represents 1 tile. Tile details are held in **TDTile** structure. This increases performance a lot reducing number of gameobject being rendered significantly. 
 
 ### Biomes detection
-Each tile is represented by **TDTile** structure. In the first cycle of map creation, quads within chunks area created, and each tile recieve (based heat, moisture and height values) biome. This biome is TDTile structure. Next cycle through the map assigns texture based on previously recieved biome type. Each tile also hold information about it's neighbourhood(left, top, right, bot tiles pointers). This is usefull for decetion biome borders.
+Each tile is represented by **TDTile** structure. In the first cycle of map creation, quads within chunks area created, and each tile recieve (based heat, moisture and height values) biome. This biome is TDTile structure. Next cycle through the map assigns texture based on previously recieved biome type. Each tile also hold information about it's neighbourhood(left, topleft, right,, topright, ... tiles pointers). This is usefull for decetion biome borders.
+Each tile is assigned TDTile class, holding intel specifically about this tile. Each tile has pointer on it's neighbour in 8 directions. This is used to render borders of biomes and hills
 
 #### Biome borders
 *Flood filling* -like technique is used for detection of biome changes. Specific textures are used on borders of biomes
@@ -81,7 +82,10 @@ Each tile is represented by **TDTile** structure. In the first cycle of map crea
 ![edgeTiles_after](https://user-images.githubusercontent.com/72377071/135444993-62e02576-e10d-40bb-ab9c-d15d9b95d28d.jpg)
 
 ### Hills generation
- // done (documentation TODO)
+Generating of world also creates gives every single tile **z-index**. This is considered to be pseudo 3rd space coordinate. All it does is simply determining on what level of height is object supposed to be. there are 3 zindex levels currently. When these differ in neighbourhood, hill cliffs are generated. 
+
+### Stairs
+//TODO
 
 ### Trees spawning
 Trees are spaawned using perlin noise with high base scale. Values are then filtered, if value higher than thrashhold was generated, save 1 into map, 0 otherwise. 1 means Tree can be spawned on this location 0 oterwise. When rendering trees, each one checks it's surroundings, and only are spawned if specific criteria are matched(such as no other tree is in minimal radius).
