@@ -85,7 +85,7 @@ Each tile is assigned TDTile class, holding intel specifically about this tile. 
 Generating of world also creates gives every single tile **z-index**. This is considered to be pseudo 3rd space coordinate. All it does is simply determining on what level of height is object supposed to be. there are 3 zindex levels currently. When these differ in neighbourhood, hill cliffs are generated. 
 
 ### Stairs
-//TODO
+Staircase is placed on the first suitable place. Next staircase position must be within treshold (multiple connected stair tiles), or next position is calculated by this formula: **NextStaircase = LastPlaced + Radius**;
 
 ### Trees spawning
 Trees are spaawned using perlin noise with high base scale. Values are then filtered, if value higher than thrashhold was generated, save 1 into map, 0 otherwise. 1 means Tree can be spawned on this location 0 oterwise. When rendering trees, each one checks it's surroundings, and only are spawned if specific criteria are matched(such as no other tree is in minimal radius).
