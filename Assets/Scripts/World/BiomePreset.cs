@@ -1,7 +1,6 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
-using Unity.Mathematics;
 
 /// <summary>
 /// Holds information and functionality for single biome.
@@ -200,13 +199,26 @@ public class BiomePreset : ScriptableObject
         EdgeType et = EdgeType.none;
 
         //in recursive calls is bottomRight used to determine future tile edgeType
-        if (recursive !=null)
+        if (recursive !=null){
             et = recursive.hillEdge;
-        else
+        }else{
+            if (tile.edgeType == EdgeType.staircase){
+                et = tile.hillEdge;
+            }
             et = tile.bottom.hillEdge;
-
+        }
+        
         switch (et)
         {
+            case EdgeType.staircase:
+                tileName = "staircase";
+                break;
+            case EdgeType.staircaseBot:
+                tileName = "staircase_bot";
+                break;
+            case EdgeType.staircaseTop:
+                tileName = "staircase_top";
+                break;
             //second tile of the mountain to appear higher but on the edges of mountains(left)
             case EdgeType.botLeft:
                 tile.hillEdge = EdgeType.cliffLeft;
@@ -320,6 +332,7 @@ public class BiomePreset : ScriptableObject
             tile.hillEdge = EdgeType.cliff;
             tileName = "cliff";
         }
+
         switch (tile.hillEdge)
         {
             //* regular edged tiles 
@@ -446,7 +459,7 @@ public class BiomePreset : ScriptableObject
                     return itm.sprites[Random.Range(0, itm.sprites.Length)];
                 }  
             } 
-            Debug.Log("No objects found");
+            Debug.Log("Object not found");
             return null;
     }
 
@@ -497,7 +510,7 @@ public class BiomePreset : ScriptableObject
                     return itm.sprites[Random.Range(0, itm.sprites.Length)];
                 }  
             } 
-            Debug.Log("No objects found");
+            Debug.Log("Object not found");
             return null;
     }
 }

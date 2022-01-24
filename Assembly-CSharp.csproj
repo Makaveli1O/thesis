@@ -53,9 +53,10 @@
      <Compile Include="Assets\Scripts\World\BiomePreset.cs" />
      <Compile Include="Assets\Scripts\Characters\CharacterAnimationController.cs" />
      <Compile Include="Assets\Scripts\SaveSystem.cs" />
+     <Compile Include="Assets\Scripts\World\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\World\ChunkGenerator.cs" />
      <Compile Include="Assets\Scripts\Characters\CharacterMovementController.cs" />
-     <Compile Include="Assets\Scripts\World\ObjectPool.cs" />
+     <Compile Include="Assets\Scripts\Helper.cs" />
      <None Include="Assets\zMatrix.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Programy\unity\2020.3.12f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

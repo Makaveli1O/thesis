@@ -458,7 +458,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dec115d81f296a043ac39d9410c117a1, type: 2}
   - {fileID: 11400000, guid: f4a588f425eebbe418d15c6f047d108e, type: 2}
   - {fileID: 11400000, guid: e6f0d477a766a6046b140a832621cd67, type: 2}
-  chunkPrefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}
+  keyObjectPrefab: {fileID: 8274161314457147329, guid: 7c4c986576def824f8fe83342543e7c7, type: 3}
   map:
     width: 512
     height: 512

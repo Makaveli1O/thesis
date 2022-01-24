@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
-
+using Random = UnityEngine.Random;
+using System;
 
 /// <summary>
 /// Map generating is composed by 3 individual maps that are being generated within ChunkGenerator. 
@@ -14,6 +15,7 @@ using Unity.Mathematics;
 /// </summary>
 public class Map : MonoBehaviour
 {
+    
     /*
         Object references
     */
@@ -24,7 +26,9 @@ public class Map : MonoBehaviour
     //store all biomes and prefabs for each tile
     //public BiomePreset[] biomes;
     public List<BiomePreset> biomes = new List<BiomePreset>();
-    public GameObject chunkPrefab;
+
+    public GameObject keyObjectPrefab;
+    
     //Map dimensions
     [Header("Dimensions")]
     public TDMap map;
@@ -54,7 +58,7 @@ public class Map : MonoBehaviour
     public float precipitationLacunarity;
     [Header("Objects (trees etc)")]
     public float treeScale;
-    
+
     /// <summary>
     /// This function generates whole map from noise. Actually 3 types of noise maps are created. Those are
     /// saved in to Map structure and proper biomes are set in the second cycle throughout the chunks and whole map
@@ -63,6 +67,7 @@ public class Map : MonoBehaviour
     public void MapGeneration(){
         /* for inspector because global initialization does not affect inspector in this case */
         map.chunks = new Dictionary<int2, WorldChunk>();
+        map.InitializeTileLists();
 
         /* remove later */
         //initialization for inspector mode
@@ -73,8 +78,7 @@ public class Map : MonoBehaviour
         {
             for (int y = 0; y < map.height; y+=Const.CHUNK_SIZE)
             {
-
-                map.chunks = chunkGenerator.GenerateChunks(     x,y,map.chunks,
+                map.chunks = chunkGenerator.GenerateChunks( x,y,map.chunks,
                                                             seed, heightSeed, precipitationSeed,
                                                             scale, heightOctaves, precipitationOctaves,
                                                             heightFrequency, precipitationPersistance, temperatureMultiplier,
@@ -83,7 +87,7 @@ public class Map : MonoBehaviour
             }
         }
 
-        //loop through generated map and assign fill TDTile
+        // loop through generated map and assign fill TDTile
         // for each tileand 8 direction neighbour pointers
         // similiar to flood-fill
         foreach (WorldChunk chunk in map.chunks.Values)
@@ -97,24 +101,166 @@ public class Map : MonoBehaviour
             }
         }
 
+        PlaceStairs();
+        PlaceKeyObjects();
+        //TODO save spawned key objects to json
 
         //pass generated chunks to chunk loader
         chunkLoader.map = map;
-        /* loading all chunks */
-        //all at once (only during testing remove later.)
-        /*if (!chunkLoading){
-            foreach ( var chunk in map.chunks )
-            {
-                //create chunk object
-                GameObject chunkP = Instantiate(chunkPrefab, new Vector3(0,0,0), Quaternion.identity);
-                chunkP.transform.parent = gameObject.transform;
-                ChunkCreator chunkCreator = chunkP.GetComponent<ChunkCreator>(); //reference to script
-                //create mesh (chunk) and save it to structure holding chunk
-                Mesh mesh = new Mesh();
-                map.chunks[chunk.Key].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[chunk.Key], mesh);
-            }
-        }*/
+    }
 
+    /// <summary>
+    /// Shuffles biome tiles for random loop order. min_distance is calculated from map dimensions.
+    /// Random tiles from each biome are being picked to place key object in them. If tile does not
+    /// meet requirements, it is skipped and next one is being processed.
+    /// </summary>
+    private void PlaceKeyObjects(){
+        //randomize order in arrays
+        map.ShuffleArrays();
+        //formula for calculating minimal distance ( dependent on map dimensions )
+        float min_distance = (map.width + map.height) / 8;
+
+        bool found = false;
+        //set for coordinates that contains placed key
+        List<int2> usedPositions = new List<int2>();
+        //each list (forest, ashland ..)
+        foreach (List<TDTile> list in map.biomeTiles.Values)
+        {
+            foreach (TDTile tile in list)
+            {
+                //already found for this biome (list)
+                if (found)
+                {
+                    found = false;
+                    break;
+                }
+                if(isPlacable(tile)){
+                    if (usedPositions.Count == 0)
+                    {
+                        //Debug.Log("placed"+ tile.biome.type +" key: " + tile.pos);
+                        SpawnKeyObject(tile);
+                        usedPositions.Add(tile.pos);
+                        found = true;
+                    }else{
+                        //calculate distance for each tile and placed tile(max 4 placed tiles)
+                        int i = 1;
+                        foreach (int2 pos in usedPositions)
+                        {
+                            float distance = Vector3.Distance(new Vector3(tile.pos.x, tile.pos.y, 0), new Vector3(pos.x, pos.y, 0));
+                            //last element
+                            if (i == usedPositions.Count)
+                            {
+                                if (distance >= min_distance)
+                                {
+                                    //Debug.Log("placed "+ tile.biome.type +" key: " + tile.pos);
+                                    SpawnKeyObject(tile);
+                                    usedPositions.Add(tile.pos);
+                                    found = true;
+                                    break;
+                                }  
+                            }
+                            //if distance to any other placed key is lower, skip
+                            if (distance < min_distance){
+                                break;
+                            }else{
+                                i++;
+                                continue;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Spawn key object on the given tile
+    /// </summary>
+    /// <param name="tile">Processed tile</param>
+    private void SpawnKeyObject(TDTile tile){
+        GameObject obj = Instantiate(keyObjectPrefab, new Vector3(0,0,0), Quaternion.identity);
+        //properly alter gameobject
+        obj.GetComponent<SpriteRenderer>().sprite = tile.biome.objects[2].sprites[0];
+        obj.transform.position = new Vector3(tile.pos.x, tile.pos.y, 0);  
+        return;
+    }
+
+    /// <summary>
+    /// Determines whenever tile is placable or not. If tile is cliff, or its closest
+    /// surroundings aren't suitable false is returned. True otherwise.
+    /// </summary>
+    /// <param name="tile">Processed tile</param>
+    /// <returns>True / false if tile can be used to place object onto or not</returns>
+    private bool isPlacable(TDTile tile){
+        //tile is on the edge of the map
+        if (tile.pos.x <= 0 || tile.pos.x >= map.width || tile.pos.y <= 0 || tile.pos.y >= map.height)
+        {
+            return false;
+        }else{
+            //check 8 surrounding directions
+            bool suitable = tile.topLeft.hillEdge == EdgeType.none &&
+                            tile.top.hillEdge == EdgeType.none &&
+                            tile.topRight.hillEdge == EdgeType.none &&
+                            tile.right.hillEdge == EdgeType.none &&
+                            tile.bottomRight.hillEdge == EdgeType.none &&
+                            tile.bottom.hillEdge == EdgeType.none &&
+                            tile.bottomLeft.hillEdge == EdgeType.none &&
+                            tile.left.hillEdge == EdgeType.none;
+            return suitable;
+        }
+    }
+
+    /// <summary>
+    /// Determines correct places to place stairs to. Loops throught whole map, in the first
+    /// suitable place stairs are placed. If nextsuitable place is wihin threshold(connected tiles)
+    /// another staircase is placed to increase width o staircase. Next staircase can be placed beyond
+    /// radius, or on the different z-index level.
+    /// </summary>
+    /// FIXME alter this a bit, stairs too close to each other, sometimes bugs cliffs
+    private void PlaceStairs(){
+        int2 next = new int2(0,0);
+        int lastPlacedX = 0;
+        int radius = 30;
+        int threshold = 2;
+        int lastZ_index = 0;
+        foreach (WorldChunk chunk in map.chunks.Values)
+        {
+            for (int x = 1; x < Const.CHUNK_SIZE - 1; x++)
+            {
+                for (int y = 1; y < Const.CHUNK_SIZE - 1; y++)
+                {
+                    int2 absolutePos = new int2(x + chunk.position.x, y + chunk.position.y);
+                    //top tiles are same height
+                    if (chunk.zIndexMap[x-1,y+1] == chunk.zIndexMap[x,y] &&
+                        chunk.zIndexMap[x,y+1] == chunk.zIndexMap[x,y] &&
+                        chunk.zIndexMap[x+1,y+1] == chunk.zIndexMap[x,y])
+                    {
+                        //left and right are same zIndex
+                        if (chunk.zIndexMap[x-1,y] == chunk.zIndexMap[x,y] && chunk.zIndexMap[x+1,y] == chunk.zIndexMap[x,y])
+                        {
+                            //are higher than tiles below ( that means theseare down facing edge tiles hopefuly)
+                            if (chunk.zIndexMap[x-1,y-1] < chunk.zIndexMap[x,y] && chunk.zIndexMap[x,y-1] < chunk.zIndexMap[x,y] && chunk.zIndexMap[x+1,y-1] < chunk.zIndexMap[x,y])
+                            {
+                                //check if it is out of radius or different zindex
+                                if((absolutePos.x >= next.x ||
+                                    absolutePos.y >= next.y) || (absolutePos.x <= lastPlacedX + threshold) || 
+                                    (lastZ_index != chunk.sample[x,y].z_index)){
+                                    //add to placed stairs
+                                    next.x = x + chunk.position.x + radius;
+                                    next.y = y + chunk.position.y + radius;
+                                    lastPlacedX = x + chunk.position.x;
+                                    lastZ_index = chunk.sample[x,y].z_index;
+                                    //mark all stair types
+                                    chunk.sample[x,y].hillEdge = EdgeType.staircase;
+                                    chunk.sample[x,y+1].hillEdge = EdgeType.staircaseTop;
+                                    chunk.sample[x,y-1].hillEdge = EdgeType.staircaseBot;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -377,7 +523,6 @@ public class Map : MonoBehaviour
         }else{
             tile.edgeType = EdgeType.none;
         }
-        
         /* regular edged tiles */
         if (leftOnly){
             if (zLevel) tile.hillEdge = EdgeType.left;
@@ -435,7 +580,6 @@ public class Map : MonoBehaviour
             //if (zLevel) tile.hillEdge = EdgeType.rareTB;
             tile.edgeType = EdgeType.rareTB;
         }
-
         return tile;
     }
 
@@ -539,7 +683,27 @@ public class Map : MonoBehaviour
         }
         biomeToReturn = dict[minDistance];
         map.chunks[key].sample[tile_coords.x, tile_coords.y].biome = biomeToReturn;
+        AppendBiomeList(map.chunks[key].sample[tile_coords.x, tile_coords.y], biomeToReturn);
         return biomeToReturn;
+    }
+    //FIXME add doc
+    private void AppendBiomeList(TDTile tile, BiomePreset biome){
+        switch (biome.type)
+        {
+            case "forest": 
+                map.biomeTiles["forest"].Add(tile);
+                break;
+            case "ashland":
+                 map.biomeTiles["ashland"].Add(tile);
+                break;
+            case "desert":
+                 map.biomeTiles["desert"].Add(tile);
+                break;
+            case "rainforest":
+                 map.biomeTiles["jungle"].Add(tile);
+                break;
+        }
+        
     }
     
 
@@ -568,22 +732,6 @@ public class Map : MonoBehaviour
     }
 
     void Update(){
-        /*if (chunkLoading)
-        {
-            foreach (var chunkKey in map.chunks.Keys)
-            {
-                float dist=Vector2.Distance(new Vector2(chunkKey.x,chunkKey.y),new Vector2(player.transform.position.x,player.transform.position.y));
-                if(dist < map.renderDistance){
-                    //as a publisher send to all subscribers this message
-                    OnRequestNewChunk?.Invoke(this, new OnRequestChunkArgs { chunkKey = chunkKey });
-                }
-                else if (dist > map.renderDistance + 15f)
-                {
-                    OnRequestUnloadChunk?.Invoke(this, new OnRequestChunkArgs { chunkKey = chunkKey });
-                }
-            }
-            
-        }*/
         chunkLoader.LoadChunks(player.transform.position, map.renderDistance,map.renderDistance + 15);
     }
     

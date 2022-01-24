@@ -143,6 +143,15 @@ MonoBehaviour:
   - name: cliff_end_botRight
     walkable: 0
     sprite: {fileID: 9160129371202797672, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: staircase
+    walkable: 1
+    sprite: {fileID: -323131040551567671, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: staircase_bot
+    walkable: 1
+    sprite: {fileID: 4937902284676111643, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
+  - name: staircase_top
+    walkable: 1
+    sprite: {fileID: 4936925458195326225, guid: 2fcf63e3c7e056248b5623fde1fefa0f, type: 3}
   objects:
   - type: miscellaneous
     sprites:
@@ -170,6 +179,9 @@ MonoBehaviour:
     - {fileID: 4187409650753250110, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: 386483934509769319, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
     - {fileID: -7140352914822402492, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
+  - type: keyObject
+    sprites:
+    - {fileID: 2369998065968952987, guid: e9aa4c605f46a2b468b9a366ec0be8d4, type: 3}
   height: 0
   temperature: 0
   maxTemperature: 0.25

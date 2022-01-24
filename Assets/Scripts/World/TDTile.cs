@@ -86,5 +86,8 @@ public enum EdgeType
     cliffRight,
     cliffEndRight,
     cliffBot,
-    cliffEndBot
+    cliffEndBot,
+    staircase,
+    staircaseTop,
+    staircaseBot
 }
