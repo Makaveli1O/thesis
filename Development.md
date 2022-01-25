@@ -87,6 +87,9 @@ Generating of world also creates gives every single tile **z-index**. This is co
 ### Stairs
 Staircase is placed on the first suitable place. Next staircase position must be within treshold (multiple connected stair tiles), or next position is calculated by this formula: **NextStaircase = LastPlaced + Radius**;
 
+### Key objects
+When assigning biome type to the tile, each tile pointer is passed into the corresponding biome array. These arrays are shuffled, and from each biome array is randomly picked tile that meets condition to place key object into it. (minimum radius is dynamically calculated, based on map dimensions)
+
 ### Trees spawning
 Trees are spaawned using perlin noise with high base scale. Values are then filtered, if value higher than thrashhold was generated, save 1 into map, 0 otherwise. 1 means Tree can be spawned on this location 0 oterwise. When rendering trees, each one checks it's surroundings, and only are spawned if specific criteria are matched(such as no other tree is in minimal radius).
 
