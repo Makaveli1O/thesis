@@ -33,7 +33,7 @@ Movement is done by calculating distance between two points (mouse position and 
 ### Perlin Noise
 Method to calculate noise.
 
-### Fractal Brownian Motion
+### Whittakers diagram approach to create biomes
 Combination of multiple steps of Perlin Noise (or another similar noise function), each with a different frequency and amplitude.
 
 Procedural generation of terrain is done by creating **three** generated maps. World is also divided into **chunks** (32x32) for performance and further work with NPCS and mobs.
