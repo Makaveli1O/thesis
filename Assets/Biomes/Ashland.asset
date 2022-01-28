@@ -181,7 +181,7 @@ MonoBehaviour:
     - {fileID: -7140352914822402492, guid: a44e2224bef83a94aa8f7bd944166666, type: 3}
   - type: keyObject
     sprites:
-    - {fileID: 2369998065968952987, guid: e9aa4c605f46a2b468b9a366ec0be8d4, type: 3}
+    - {fileID: 21300000, guid: 20c01957ce4980544984b52b932932b3, type: 3}
   height: 0
   temperature: 0
   maxTemperature: 0.25

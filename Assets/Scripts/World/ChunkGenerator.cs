@@ -320,8 +320,7 @@ public class ChunkGenerator : MonoBehaviour
             }else if((width >= 256 && height >= 256)){
                 treshold = 0.15f;
             }
-            if (factor * oldValue < treshold)
-            {
+            if (factor * oldValue < treshold){
                 tile.landmass = false;
             }else{
                 tile.landmass = true;

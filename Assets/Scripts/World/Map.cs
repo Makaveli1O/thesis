@@ -19,6 +19,7 @@ public class Map : MonoBehaviour
     /*
         Object references
     */
+    GameHandler gameHandler = null;
     ChunkGenerator chunkGenerator = null;
     ChunkLoader chunkLoader = null;
     [SerializeField] protected GameObject player;
@@ -28,6 +29,7 @@ public class Map : MonoBehaviour
     public List<BiomePreset> biomes = new List<BiomePreset>();
 
     public GameObject keyObjectPrefab;
+    public Sprite chestSprite;
     
     //Map dimensions
     [Header("Dimensions")]
@@ -102,8 +104,25 @@ public class Map : MonoBehaviour
         }
 
         PlaceStairs();
-        PlaceKeyObjects();
-        //TODO save spawned key objects to json
+
+        //if generating the world for the first time, generate key objects,
+        //else load from json
+        SaveKeyObjects keyObjects = gameHandler.Load<SaveKeyObjects>(ObjType.KeyObjects);
+        //first time generation
+        if (keyObjects == null)
+        {
+            PlaceKeyObjects();
+            Debug.Log("spawning objects");
+        //loading from json
+        }else{
+            Debug.Log("Loading objects");
+            foreach (Vector3 pos in keyObjects.positions)
+            {
+                Debug.Log("Spawning chest at: "+pos);
+                SpawnKeyObject(pos);
+            }
+        }
+        
 
         //pass generated chunks to chunk loader
         chunkLoader.map = map;
@@ -122,7 +141,7 @@ public class Map : MonoBehaviour
 
         bool found = false;
         //set for coordinates that contains placed key
-        List<int2> usedPositions = new List<int2>();
+        List<TDTile> usedPositions = new List<TDTile>();
         //each list (forest, ashland ..)
         foreach (List<TDTile> list in map.biomeTiles.Values)
         {
@@ -138,23 +157,23 @@ public class Map : MonoBehaviour
                     if (usedPositions.Count == 0)
                     {
                         //Debug.Log("placed"+ tile.biome.type +" key: " + tile.pos);
-                        SpawnKeyObject(tile);
-                        usedPositions.Add(tile.pos);
+                        SpawnKeyObject(new Vector3(tile.pos.x, tile.pos.y, 0));
+                        usedPositions.Add(tile);
                         found = true;
                     }else{
                         //calculate distance for each tile and placed tile(max 4 placed tiles)
                         int i = 1;
-                        foreach (int2 pos in usedPositions)
+                        foreach (TDTile t in usedPositions)
                         {
+                            int2 pos = t.pos;
                             float distance = Vector3.Distance(new Vector3(tile.pos.x, tile.pos.y, 0), new Vector3(pos.x, pos.y, 0));
                             //last element
                             if (i == usedPositions.Count)
                             {
                                 if (distance >= min_distance)
                                 {
-                                    //Debug.Log("placed "+ tile.biome.type +" key: " + tile.pos);
-                                    SpawnKeyObject(tile);
-                                    usedPositions.Add(tile.pos);
+                                    SpawnKeyObject(new Vector3(tile.pos.x, tile.pos.y, 0));
+                                    usedPositions.Add(tile);
                                     found = true;
                                     break;
                                 }  
@@ -171,17 +190,29 @@ public class Map : MonoBehaviour
                 }
             }
         }
+
+        //save them
+        SaveKeyObjects(usedPositions);
     }
 
     /// <summary>
     /// Spawn key object on the given tile
     /// </summary>
     /// <param name="tile">Processed tile</param>
-    private void SpawnKeyObject(TDTile tile){
-        GameObject obj = Instantiate(keyObjectPrefab, new Vector3(0,0,0), Quaternion.identity);
+    private void SpawnKeyObject(Vector3 pos){
+        GameObject obj = Instantiate(keyObjectPrefab, pos, Quaternion.identity);
         //properly alter gameobject
-        obj.GetComponent<SpriteRenderer>().sprite = tile.biome.objects[2].sprites[0];
-        obj.transform.position = new Vector3(tile.pos.x, tile.pos.y, 0);  
+        //deprecated, if each biome had different sprite
+        //obj.GetComponent<SpriteRenderer>().sprite = tile.biome.objects[2].sprites[0];
+        obj.GetComponent<SpriteRenderer>().sprite = chestSprite;
+        //obj.transform.position = new Vector3(tile.pos.x, tile.pos.y, 0);  
+        return;
+    }
+
+    //TODO doc
+    private void SaveKeyObjects(List<TDTile> usedPositions){
+        SaveKeyObjects saveObj = new SaveKeyObjects(usedPositions);
+        gameHandler.Save<SaveKeyObjects>(saveObj, ObjType.KeyObjects, new Vector3(0,0,0));  //3rd argument irrelevant here
         return;
     }
 
@@ -728,6 +759,7 @@ public class Map : MonoBehaviour
     void Start(){
         chunkGenerator = GetComponent<ChunkGenerator>();
         chunkLoader = GetComponent<ChunkLoader>();
+        gameHandler = GetComponent<GameHandler>();
         MapGeneration(); //generate map
     }
 

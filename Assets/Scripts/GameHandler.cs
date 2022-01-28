@@ -1,9 +1,6 @@
 using UnityEngine;
-using System.IO;
-using Unity.Mathematics;
-using System.Runtime.Serialization.Formatters.Binary;
-
 using System.Collections.Generic;
+using Unity.Mathematics;
 
 /// <summary>
 /// Gamestate handling class. This class handles retrieving correct gamestate. Correctly
@@ -19,18 +16,21 @@ public class GameHandler : MonoBehaviour
         SaveSystem.Init();
         SAVE_FOLDER = Application.dataPath + "/Saves/";
     }
-
+    //TODO doc
      public void Save<T>(T saveObj, ObjType key, Vector3 position){
         string json = JsonUtility.ToJson(saveObj);
 
         if(key == ObjType.Player){
-        SaveSystem.Save(json,key+".json", world_seed.ToString());
+            SaveSystem.Save(json,key+".json", world_seed.ToString());
+            //saving key objects
+        }else if(key == ObjType.KeyObjects){
+            SaveSystem.Save(json,key+".json", world_seed.ToString());  
         //save chunks with key in name
         }else{
             SaveSystem.Save(json,key+"_"+position.x+","+position.y+".json", world_seed.ToString());
         }
     }
-
+//TODO doc
     public T Load<T>(ObjType key, int x_pos = -1, int y_pos = -1){
         //read saved json
         string saveString = null;
@@ -52,15 +52,32 @@ public class GameHandler : MonoBehaviour
         return returnValue;
     }
 }
-
+//TODO doc
 [System.Serializable]
-public class SavePlayer
+public class SavePosition
 {
     public Vector3 pos;
-    public SavePlayer(Vector3 pos){
+    public SavePosition(Vector3 pos){
         this.pos = pos;
     }
 }
+//TODO comment
+[System.Serializable]
+public class SaveKeyObjects
+{
+    public List<Vector3> positions;
+
+    public SaveKeyObjects(List<TDTile> tiles){
+        this.positions = new List<Vector3>();
+        foreach (TDTile t in tiles)
+        {
+            int2 coord = new int2(t.pos.x, t.pos.y);
+            Vector3 pos = new Vector3(coord.x, coord.y, 0);
+            this.positions.Add(pos);
+        }
+    }
+}
+
 [System.Serializable]
 public class SaveChunk
 {
@@ -75,6 +92,7 @@ public enum ObjType{
     Player,
     Entity,
     Chunk,
+    KeyObjects,
 }
 
 

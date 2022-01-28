@@ -23,9 +23,10 @@ public class MapController : MonoBehaviour
 
         //beggining position ( spawn )
         try{
-            SavePlayer playerSave = gameHandler.Load<SavePlayer>(ObjType.Player);
+            SavePosition playerSave = gameHandler.Load<SavePosition>(ObjType.Player);
             playerPos = playerSave.pos;
         }catch{
+            //first encounter
             playerPos = new Vector3(50,40,0);
         }
 
@@ -51,7 +52,7 @@ public class MapController : MonoBehaviour
         }
     }
     void OnApplicationQuit() {
-        SavePlayer savePlayer = new SavePlayer(playerPos);
-        gameHandler.Save<SavePlayer>(savePlayer, ObjType.Player,playerPos);
+        SavePosition savePlayer = new SavePosition(playerPos);
+        gameHandler.Save<SavePosition>(savePlayer, ObjType.Player,playerPos);
     }
 }
