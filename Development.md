@@ -107,3 +107,7 @@ When first visiting chunk, objects are randomly scattered throughout chunk and s
 
 ### Save / Load system
 For each world seed subfolder is created to hold appropriate files. Player's information is saved in Player.JSON file whenever player quit's game. Chunks (trees, textures, objects, ..) are saved only **once** when chunk is visited for the first time. After that only loading from JSON is happening. Each chunk has it's own JSON representation named with it's key position(bottom left of the chunk)
+
+### Key objects ( chests )
+
+Shuffles biome tiles for random loop order. min_distance is calculated from map dimensions. Random tiles from each biome are being picked to place key object in them. If tile does not meet requirements, it is skipped and next one is being processed. This process is done only when mape is being generated for the first time. Selected coordinates are saved into JSON file, from which they are later recieved.
