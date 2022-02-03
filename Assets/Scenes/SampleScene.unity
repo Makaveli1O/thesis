@@ -463,12 +463,12 @@ MonoBehaviour:
   map:
     width: 512
     height: 512
-    renderDistance: 40
+    renderDistance: 1000
   scale: 0.5
-  seed: 145
-  heightSeed: 2021
-  precipitationSeed: 200
-  chunkLoading: 1
+  seed: 254789
+  heightSeed: 202120
+  precipitationSeed: 200202
+  chunkLoading: 0
   autoUpdate: 0
   heightOctaves: 1
   heightFrequency: 2.12
@@ -546,5 +546,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  amountToPool: 8
+  amountToPool: 256
   prefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}

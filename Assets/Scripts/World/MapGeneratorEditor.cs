@@ -14,11 +14,11 @@ public class MapGeneratorEditor : Editor
         Map mapGen = (Map)target;
         //if any value was changed
         if (DrawDefaultInspector()){
-            if (mapGen.autoUpdate)
+            /*if (mapGen.autoUpdate)
             {
                 mapGen.DestroyChildPrefabs();
                 mapGen.MapGeneration();
-            }
+            }*/
         }
 
         if (GUILayout.Button("Generate"))

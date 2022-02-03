@@ -240,6 +240,7 @@ public class BiomePreset : ScriptableObject
                 break;
             //cliff purely on the left side of the mountain
             case EdgeType.cliffEndLeft:
+
                 //very left bottom corner only cliff
                 if (tile.left.hillEdge == EdgeType.cliffLeft ||
                     tile.left.hillEdge == EdgeType.botLeft   ||
@@ -303,10 +304,10 @@ public class BiomePreset : ScriptableObject
 
         } 
 
-        if (tile.stair)
+        /*if (tile.stair)
         {
             return testTile;
-        }
+        }*/
 
         //find according tiles by name in array
         foreach (var t in edgeTiles){
@@ -326,6 +327,7 @@ public class BiomePreset : ScriptableObject
     /// <param name="tile">Tile refetence</param>
     /// <return>Tile name string.</return>
     private string GetCliffTile(TDTile tile){
+
         string tileName = "";
         if (tile.bottom.hillEdge == EdgeType.bot && tile.hillEdge == EdgeType.none)
         {
@@ -346,7 +348,12 @@ public class BiomePreset : ScriptableObject
                 tileName = "cliff_end_top";
                 break;
             case EdgeType.bot:
+                //if this is not here, end cliff wont recognize
                 tile.hillEdge = EdgeType.cliffBot;
+                tileName = "cliff_bot";
+                break;
+            //this is to recognize case above, when tile is loaded again, since it would not be recognized properly
+            case EdgeType.cliffBot:
                 tileName = "cliff_bot";
                 break;
             //* 2-sided edge tiles 
@@ -368,6 +375,12 @@ public class BiomePreset : ScriptableObject
                 {
                     tile.hillEdge = EdgeType.bot;
                     tileName = "cliff_bot";
+                // fixing bug
+                }else if (tile.bottom.hillEdge == EdgeType.cliffEndLeft || tile.bottom.hillEdge == EdgeType.left){
+
+                    tile.top.hillEdge = EdgeType.cliffEndLeft;
+                    tile.hillEdge = EdgeType.cliffEndLeft;
+                    tileName = "cliff_end_left";
                 }else{
                     tile.hillEdge = EdgeType.botLeft;
                     tileName = "cliff_botLeft";
@@ -382,6 +395,10 @@ public class BiomePreset : ScriptableObject
                 break;
             case EdgeType.topRightOnly:
                 tileName = "cliff_corner_topRight";
+                break;
+            //fixing bug
+            case EdgeType.cliffEndLeft:
+                    tileName = "cliff_end_left";
                 break;
         }    
 

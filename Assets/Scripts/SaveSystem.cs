@@ -23,8 +23,10 @@ public static class SaveSystem
     public static void Save(string saveString, string fileName, string folder){
         if (!Directory.Exists(SAVE_FOLDER+ "/"+ folder))
         {
-            Debug.Log("Creating save directory.");
-            Directory.CreateDirectory(SAVE_FOLDER);
+            //if directory itself does not exist, create it, otherwise it will throw exception
+            
+            Debug.Log("Creating save directory. ("+SAVE_FOLDER+ "/"+ folder+")");
+            Directory.CreateDirectory(SAVE_FOLDER+"/"+ folder);
         }
         File.WriteAllText(SAVE_FOLDER + "/" + folder + "/"+fileName,saveString);
     }

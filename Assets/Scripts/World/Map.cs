@@ -4,6 +4,9 @@ using Unity.Mathematics;
 using Random = UnityEngine.Random;
 using System;
 
+//TODO
+//make changing the seed to have bigger impact. Maps looks too similar ( play with precipitation height seed derivation)
+
 /// <summary>
 /// Map generating is composed by 3 individual maps that are being generated within ChunkGenerator. 
 /// Each map has its own meaning. 
@@ -36,8 +39,23 @@ public class Map : MonoBehaviour
     public TDMap map;
     [Header("Map seed settings")]
     public float scale = 1.0f; 
+    /*
+    Seeds information:
+    Ideal seeds -> 150000 - 500000
+    closer to  1Milion = more square like structure
+    closer to 0 = more random
+    height near 1Milion results in square hills -> easier to generate just with some bugs, with high seed value its noticable a lot
+    make this option in menu probably?
+    more testing required :/
+    */
+    [TextArea]
+    [Tooltip("Doesn't do anything. Just comments shown in inspector")]
+    public string Notes = "Important intel about seeds at script near this note.";
+    [Range(0,999999)]
     public int seed;
+    [Range(0,999999)] //height map seed is importatnt
     public int heightSeed;
+    [Range(0,999999)] //precipitation octaves actually does not affect final map
     public int precipitationSeed;
     public bool chunkLoading; //checkbox
     /*
@@ -47,6 +65,7 @@ public class Map : MonoBehaviour
     // updating in inspector nogthing more
     public bool autoUpdate;
     [Header("Height settings")]
+    [Range(1,2)] //1 -> basic, 2 -> extreme hilly (buggy a bit)
     public int heightOctaves;
     public float heightFrequency = 1f;
     public float heightExp;
@@ -55,6 +74,7 @@ public class Map : MonoBehaviour
     public float temperatureMultiplier; //increasing this will make poles move more further to equator ->default 1.0f
      public float temperatureLoss; //temperature loss for each height increase
     [Header("Precipitation settings")]
+    [Range(1,5)] //precipitation octaves actually does not affect final map
     public int precipitationOctaves;
     public float precipitationPersistance;
     public float precipitationLacunarity;
@@ -247,8 +267,10 @@ public class Map : MonoBehaviour
     /// another staircase is placed to increase width o staircase. Next staircase can be placed beyond
     /// radius, or on the different z-index level.
     /// </summary>
-    /// FIXME alter this a bit, stairs too close to each other, sometimes bugs cliffs
+    /// FIXME alter this a bit, stairs too close to each other
     private void PlaceStairs(){
+        int maxContinuousStairs = 5;
+        int stairsCounter = 0;
         int2 next = new int2(0,0);
         int lastPlacedX = 0;
         int radius = 30;
@@ -274,9 +296,10 @@ public class Map : MonoBehaviour
                             {
                                 //check if it is out of radius or different zindex
                                 if((absolutePos.x >= next.x ||
-                                    absolutePos.y >= next.y) || (absolutePos.x <= lastPlacedX + threshold) || 
+                                    absolutePos.y >= next.y) || (absolutePos.x < lastPlacedX + threshold) || 
                                     (lastZ_index != chunk.sample[x,y].z_index)){
                                     //add to placed stairs
+                                    stairsCounter++;
                                     next.x = x + chunk.position.x + radius;
                                     next.y = y + chunk.position.y + radius;
                                     lastPlacedX = x + chunk.position.x;
