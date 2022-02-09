@@ -16,6 +16,7 @@ public class ChunkCreator : MonoBehaviour
     ChunkLoader chunkLoader;
     ObjectPool treePool;
     ObjectPool objectPool;
+    public ObjectPool entityPool;
     GameHandler gameHandler;
     WorldChunk chunk;
     private float tileSize = 1;
@@ -29,8 +30,10 @@ public class ChunkCreator : MonoBehaviour
     public int top_y;
     private Dictionary<int2, GameObject> renderedTrees = new Dictionary<int2, GameObject>();
     private HashSet<GameObject> renderedObjects = new HashSet<GameObject>();
+    private HashSet<GameObject> spawnedEntities = new HashSet<GameObject>();
     private bool treesLoaded = false;
     private bool objectsLoaded = false;
+    private bool entitiesSpawned = false;
 
     /// <summary>
     /// Function that creates mesh with given width, height and world space. This tile represents
@@ -83,43 +86,13 @@ public class ChunkCreator : MonoBehaviour
                 this.uv[index * 4 + 1] = SetTileTexture(1, tileSprite);
                 this.uv[index * 4 + 2] = SetTileTexture(2, tileSprite);
                 this.uv[index * 4 + 3] = SetTileTexture(3, tileSprite);
-                
-                
-                /* 
-                DEPRECATED
-                 doing this in MapGeneration now
-                set biome for each tile, and pointers to 8 direction neighbours
-                */
-                //SetTileBiome(x, y, chunk.position);
             }
         }
 
-        /*
-        DEPRECATED
-         now set UVs and textures accordingly */
-        /*
-        for (int x = 0; x < Const.CHUNK_SIZE; x++)
-        {
-            for (int y = 0; y < Const.CHUNK_SIZE; y++)
-            {
-                int index = x * Const.CHUNK_SIZE + y;
-                Sprite tileSprite = GetTileTexture(x, y, chunk.position);
-
-                //map UVs for each tile to specific texture in atlas
-                this.uv[index * 4 + 0] = SetTileTexture(0, tileSprite);
-                this.uv[index * 4 + 1] = SetTileTexture(1, tileSprite);
-                this.uv[index * 4 + 2] = SetTileTexture(2, tileSprite);
-                this.uv[index * 4 + 3] = SetTileTexture(3, tileSprite);
-            }
-        }*/
-        //TODO detect cliff rings and make stair acces to next height level
         mesh.vertices = vertices;
         mesh.uv = uv;
         mesh.triangles = triangles;
         meshFilter.mesh = mesh;
-
-        //call spawn objects
-        
 
         this.chunk.chunkMesh = mesh;
         return mesh;
@@ -343,7 +316,7 @@ public class ChunkCreator : MonoBehaviour
         }
         return;
     }
-
+    //FIXME do these unload motheds more abstract for **** sake
     /// <summary>
     /// Unload all trees and clear renderedTree list.
     /// </summary>
@@ -353,6 +326,7 @@ public class ChunkCreator : MonoBehaviour
         {
             tree.SetActive(false);
         }
+        //treePool.DeactivateAll();
         renderedTrees.Clear();
 
         treesLoaded = false;
@@ -365,9 +339,21 @@ public class ChunkCreator : MonoBehaviour
         {
             obj.SetActive(false);
         }
+        //objectPool.DeactivateAll();
         renderedObjects.Clear();
 
         objectsLoaded = false;
+    }
+    // TODO doc
+    public void DespawnEntities(){
+        foreach (GameObject obj in spawnedEntities)
+        {
+            obj.SetActive(false);
+        }
+        //objectPool.DeactivateAll();
+        spawnedEntities.Clear();
+
+        entitiesSpawned = false;
     }
 
     /// <summary>
@@ -387,7 +373,7 @@ public class ChunkCreator : MonoBehaviour
     }
 
     /// <summary>
-    /// Check if tree about to spawn can be actually spawner. If another tree is already
+    /// Check if tree about to spawn can be actually spawned. If another tree is already
     /// spawned in radius 2, tree wort spawn. Tree radius from chunk generator works, however
     /// multiple trees spawn on 1 location. This function handles that problem
     /// </summary>
@@ -501,7 +487,14 @@ public class ChunkCreator : MonoBehaviour
     /// </summary>
     private void SpawnChunkObjects(){
         if(!treesLoaded){
-            LoadTrees();
+            try
+            {
+                LoadTrees();
+            }
+            catch 
+            {
+                 Debug.Log("Exception when loading trees");
+            }
         }
         if (!objectsLoaded){
             LoadObjects();
@@ -523,18 +516,50 @@ public class ChunkCreator : MonoBehaviour
         ObjectPool[] pools = GetComponents<ObjectPool>();
 
         foreach ( ObjectPool pool  in pools){
+            //trees
             if (pool.id == 0){
                 treePool = pool;
-            }else{
+            //objects
+            }else if(pool.id == 1){
                 objectPool = pool;
+            }else{
+                entityPool = pool;
             }
         }
+    }
+    //FIXME make spawning number relative to the biome?
+    // make spawning related to the ticks (deltatime)
+    public bool EntitySpawner(int2 chunkKey, int2 chunkTopCoords){
+        int spawned = 0;
+        int randomNum = Random.Range(0,entityPool.amountToPool);
+        while (spawned < randomNum)
+        {
+            int2 spawnPos = new int2(Random.Range(chunkKey.x, chunkTopCoords.x), Random.Range(chunkKey.y, chunkTopCoords.y));
+            //check if tile is fine to spawn entity on
+            if(mapReference.isSpawnable(spawnPos, chunkKey)){
+                Spawn(new Vector3(spawnPos.x, spawnPos.y, 0));
+                spawned++;
+            }
+        }
+        return true;
+    }
+    //TODO doc
+    private void Spawn(Vector3 pos){
+        //GameObject obj = Instantiate(entity, pos, Quaternion.identity);
+        GameObject entity = this.entityPool.GetPooledObject();
+        entity.transform.position = pos;
+        entity.SetActive(true);
+        spawnedEntities.Add(entity);
     }
 
     private void Update()
     {
         if(!treesLoaded){
             SpawnChunkObjects();
+        }
+
+        if (!entitiesSpawned){
+            entitiesSpawned = EntitySpawner(new int2(x,y), new int2(top_x, top_y));
         }
     }
 }

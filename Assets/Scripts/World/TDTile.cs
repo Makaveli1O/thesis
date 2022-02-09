@@ -1,4 +1,5 @@
 using Unity.Mathematics; //int2
+using System.Collections.Generic;
 /// <summary>
 /// TDTile struct is holding intel about each tile.
 /// This intel is later used to determine it's type,
@@ -7,12 +8,7 @@ using Unity.Mathematics; //int2
 [System.Serializable]
 public class TDTile
 {  
-    private bool walkable;
-    public bool IsWalkable
-    {
-        set{walkable = value;}
-        get{return walkable;}
-    }
+    public bool partial = false; //indicates partial tile only ( cliff ends )
     public int z_index;
     public int2 pos;
     [System.NonSerialized]
@@ -40,6 +36,21 @@ public class TDTile
     //trees
     public bool stair = false;
 
+    /* pathfinding stuff */
+    public TDTile cameFrom;
+    private bool walkable;
+    public bool IsWalkable
+    {
+        set{walkable = value;}
+        get{return walkable;}
+    }
+
+    public int gCost;
+    public int hCost;
+    public int fCost{
+        get{return hCost + gCost;}
+    }
+
     /// <summary>
     /// Return true if on this tile can actually be placed object. If tile is in the
     /// water, or is cliff return false.
@@ -52,6 +63,23 @@ public class TDTile
         }else{
             return false;
         }
+    }
+
+    /// <summary>
+    /// Returns list of neighbours ( for a* algorithm )
+    /// </summary>
+    /// <returns>List of all neighbours</returns>
+    public List<TDTile> GetNeighbourList(){
+        List<TDTile> ret = new List<TDTile>();
+        ret.Add(left);
+        ret.Add(topLeft);
+        ret.Add(top);
+        ret.Add(topRight);
+        ret.Add(right);
+        ret.Add(bottomRight);
+        ret.Add(bottom);
+        ret.Add(bottomLeft);
+        return ret;
     }
 
 }

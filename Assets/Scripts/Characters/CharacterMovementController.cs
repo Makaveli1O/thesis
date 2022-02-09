@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO comments
 public class CharacterMovementController : MonoBehaviour
 {
 
@@ -31,5 +32,4 @@ public class CharacterMovementController : MonoBehaviour
             }
         }
     }
-
 }

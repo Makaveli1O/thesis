@@ -231,11 +231,12 @@ GameObject:
   - component: {fileID: 633504732}
   - component: {fileID: 633504731}
   - component: {fileID: 633504735}
-  - component: {fileID: 633504733}
   - component: {fileID: 633504734}
   - component: {fileID: 633504736}
-  - component: {fileID: 633504738}
   - component: {fileID: 633504737}
+  - component: {fileID: 633504738}
+  - component: {fileID: 633504733}
+  - component: {fileID: 633504739}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -317,7 +318,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 633504730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec45bc56ab58e047b73354c0ebd06c9, type: 3}
+  m_Script: {fileID: 11500000, guid: eb85f79c26bef3d4584fb108fe9dbd50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &633504734
@@ -356,6 +357,7 @@ MonoBehaviour:
   dashLayerMask:
     serializedVersion: 2
     m_Bits: 384
+  moveDir: {x: 0, y: 0, z: 0}
 --- !u!95 &633504736
 Animator:
   serializedVersion: 3
@@ -400,7 +402,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 633504730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cca0202dffd2f88489dc4f95f44c91bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 336115ff5ac82c94193595a9e5eb343e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &633504739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633504730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb4f484234de38e44b3a8ffb0ecc4ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1795101330
@@ -463,11 +477,12 @@ MonoBehaviour:
   map:
     width: 512
     height: 512
-    renderDistance: 1000
+    renderDistance: 40
   scale: 0.5
-  seed: 254789
-  heightSeed: 202120
-  precipitationSeed: 200202
+  Notes: Important intel about seeds at script near this note.
+  seed: 129190
+  heightSeed: 999999
+  precipitationSeed: 239363
   chunkLoading: 0
   autoUpdate: 0
   heightOctaves: 1
@@ -546,5 +561,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  amountToPool: 256
+  amountToPool: 8
+  activeObjects: []
   prefab: {fileID: 1852746837773331530, guid: 02c6fd495e63e2c449da158f430c9e64, type: 3}

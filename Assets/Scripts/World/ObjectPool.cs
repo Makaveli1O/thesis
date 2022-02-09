@@ -7,7 +7,8 @@ public class ObjectPool : MonoBehaviour, ObjectPoolInterface
     public int id;
     private List<GameObject> pooledObjects = new List<GameObject>();
     public int amountToPool;
-    
+
+    public List<GameObject> activeObjects = new List<GameObject>();
     [SerializeField] private GameObject prefab;
 
 
@@ -24,6 +25,7 @@ public class ObjectPool : MonoBehaviour, ObjectPoolInterface
             pooledObjects.Add(obj);
         }
     }
+
     /// <summary>
     /// Use this method instead of initialization when loading chunk. This will return
     /// inactive gameobject in pool.
@@ -34,10 +36,18 @@ public class ObjectPool : MonoBehaviour, ObjectPoolInterface
         {
             if (!pooledObjects[i].activeInHierarchy)
             {
+                activeObjects.Add(pooledObjects[i]); //mark as active
                 return pooledObjects[i];
             }
         }
         return null;
+    }
+
+    /// <summary>
+    /// Deactivates all active objects within this pool.
+    /// </summary>
+    public void DeactivateAll(){
+        activeObjects.Clear();
     }
 
     /// <summary>

@@ -5,7 +5,10 @@ using Unity.Mathematics;
 public class ChunkLoader : MonoBehaviour
 {
     ObjectPool chunkPool;
+    [HideInInspector]
     public TDMap map;
+    
+    private Vector3 playerPos;
     private Dictionary<int2, GameObject> renderedChunks = new Dictionary<int2, GameObject>();
 
     /// <summary>
@@ -17,6 +20,7 @@ public class ChunkLoader : MonoBehaviour
     /// <param name="distToUnload">Distance treshold to unload chunk</param>
     public void LoadChunks(Vector3 PlayerPos, float distToLoad, float distToUnload)
     {
+        this.playerPos = PlayerPos;
         int offset = 16; //chunk 32 -> 16, 16 is center
         for (int x = 0; x < map.width; x += Const.CHUNK_SIZE)
         {
@@ -55,6 +59,7 @@ public class ChunkLoader : MonoBehaviour
         ChunkCreator chunkCreator = renderedChunks[new int2(x, y)].GetComponent<ChunkCreator>();
         chunkCreator.UnloadTrees();
         chunkCreator.UnloadObjects();
+        chunkCreator.DespawnEntities();
         //deactivate chunk
         renderedChunks[new int2(x, y)].SetActive(false);
         renderedChunks.Remove(new int2(x, y));
@@ -80,11 +85,6 @@ public class ChunkLoader : MonoBehaviour
             Mesh mesh = new Mesh();
             map.chunks[chunkKey].chunkMesh = chunkCreator.CreateTileMesh(map.chunks[chunkKey], mesh);
             renderedChunks.Add(chunkKey, chunkP);
-            //OnChunkTreesRequest?.Invoke(this, new OnChunkTreesRequestArgs{ chunk = map.chunks[chunkKey], obj = chunkP });
-            
-            //cache metadata
-            //SaveChunk save = new SaveChunk(new Vector3(x, y, 0));
-            //gameHandler.Save<WorldChunk>(map.chunks[chunkKey], ObjType.Chunk, new Vector3(x, y, 0));
         }
     }
 

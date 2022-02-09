@@ -17,6 +17,7 @@ public struct TDMap
     public int width;
     public int height;
     public int renderDistance;
+
     // FIXME doc
     public void InitializeTileLists(){
         biomeTiles = new Dictionary<string, List<TDTile>>();

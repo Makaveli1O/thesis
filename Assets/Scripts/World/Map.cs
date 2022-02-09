@@ -122,9 +122,7 @@ public class Map : MonoBehaviour
                 }   
             }
         }
-
         PlaceStairs();
-
         //if generating the world for the first time, generate key objects,
         //else load from json
         SaveKeyObjects keyObjects = gameHandler.Load<SaveKeyObjects>(ObjType.KeyObjects);
@@ -132,18 +130,17 @@ public class Map : MonoBehaviour
         if (keyObjects == null)
         {
             PlaceKeyObjects();
-            Debug.Log("spawning objects");
+            //Debug.Log("spawning objects");
         //loading from json
         }else{
-            Debug.Log("Loading objects");
+            //Debug.Log("Loading objects");
             foreach (Vector3 pos in keyObjects.positions)
             {
-                Debug.Log("Spawning chest at: "+pos);
+                //Debug.Log("Spawning chest at: "+pos);
                 SpawnKeyObject(pos);
             }
         }
         
-
         //pass generated chunks to chunk loader
         chunkLoader.map = map;
     }
@@ -259,6 +256,15 @@ public class Map : MonoBehaviour
                             tile.left.hillEdge == EdgeType.none;
             return suitable;
         }
+    }
+
+    //TODO doc
+    public bool isSpawnable(int2 absolute, int2 chunkKey){
+        int2 relative = TileRelativePos(absolute);
+        TDTile tile = GetTile(relative, chunkKey);
+        //TODO spawnable conditions
+
+        return true;
     }
 
     /// <summary>
@@ -403,7 +409,6 @@ public class Map : MonoBehaviour
         /* stuff for choosing correct texture for hills transitions */
         TextureEdgesConditions(tile,out isLeftSame, out isTopLeftSame, out isTopSame, out isTopRightSame, out isRightSame, out isBotRightSame, out isBotSame, out isBotLeftSame, true);
         tile = TileEdgeType(tile, isLeftSame,  isTopSame,  isRightSame,  isBotSame, isBotLeftSame,  isTopLeftSame,  isTopRightSame,  isBotRightSame, true);
-
         return tile;
     }
 
@@ -570,6 +575,8 @@ public class Map : MonoBehaviour
         bool rareRBL = !IsLeftSame    && IsTopSame    && !IsRightSame     && !IsBotSame;
         bool rareBLT = !IsLeftSame    && !IsTopSame    && IsRightSame     && !IsBotSame;
         bool rareTB = !IsLeftSame    && IsTopSame    && !IsRightSame     && IsBotSame;
+
+
 
         if (zLevel)
         {
