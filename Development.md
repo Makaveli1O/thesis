@@ -111,3 +111,13 @@ For each world seed subfolder is created to hold appropriate files. Player's inf
 ### Key objects ( chests )
 
 Shuffles biome tiles for random loop order. min_distance is calculated from map dimensions. Random tiles from each biome are being picked to place key object in them. If tile does not meet requirements, it is skipped and next one is being processed. This process is done only when mape is being generated for the first time. Selected coordinates are saved into JSON file, from which they are later recieved.
+
+### Valkability of edge tiles(mountains)
+When player stands on tile that is cosidered to be hillEdge tile, proper method is started. This method either determines walkable offset, or if tile is corner tile, calculating diagonal and dividing quad into triangles is done for correct walkability for tile.
+
+# Enemies
+### Pathfinding
+A* algorithm is used to find shortest path. Characters/PathFinding.cs 
+
+### Spawning
+Each rendered chunk has 3 ObjectPools attached. One of them is entity object pool handling spawning creatures within rendered chunks. EntitySpawner within ChunkCreator is used to spawn in random positions near player. These positions are checked by isSpawnable function.
