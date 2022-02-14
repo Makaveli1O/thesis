@@ -7,7 +7,7 @@ public class CharacterMovementController : MonoBehaviour
 {
 
     private const int noMovementFrames = 3;
-    Vector3[] previousLocations = new Vector3[noMovementFrames];
+    private Vector3[] previousLocations = new Vector3[noMovementFrames];
     private bool isMoving;
 
     public bool IsMoving{

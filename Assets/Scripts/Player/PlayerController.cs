@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.Mathematics;
 
 public class PlayerController : MonoBehaviour
 {
@@ -24,15 +23,10 @@ public class PlayerController : MonoBehaviour
     private CharacterMovementController characterMovementController;
     private PathFinding pathFinding;
     //pathfinding
-    private List<Vector3> pathVectorList;
+    private List<Vector3> pathVectorList = null;
     private int currentPathIndex;
-
-
-    /*
-        Methods
-    */
+    private bool findPath = false;
     
-    // Start is called before the first frame update
     private void Start()
     {
         this.characterAnimationController = GetComponent<CharacterAnimationController>();
@@ -40,15 +34,27 @@ public class PlayerController : MonoBehaviour
         this.pathFinding = GetComponent<PathFinding>();
         this.rigidbody2d = GetComponent<Rigidbody2D>();
         this.rigidbody2d.freezeRotation = true;
-        pathVectorList = new List<Vector3>();
         gameObject.tag = "Player";
     }
 
-    //every tick
     private void Update(){
-        this.MoveMOUSE();
-        this.characterMovementController.characterPathExpand();
-        this.characterMovementController.characterMovementDetection();
+        if (!findPath){
+            this.MoveMouse();
+            this.characterMovementController.characterPathExpand();
+            this.characterMovementController.characterMovementDetection();
+        }else{
+            this.FindPath();
+        }
+        /* PATHFINDING MOVEMENT (working)*/
+        if (Input.GetMouseButton(2))
+        {
+            findPath = true;
+            Vector3 v = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(v);
+            SetTargetPosition(mousePos);
+            
+        }
+        
     }
 
     // Fixed Update -> work with rigidbody here
@@ -61,16 +67,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
-        Follow Mouse on hold.
-        Gets mouse position and converts it into camera pixel points.
 
-        *note:
-        Pivot point is anchored on y: 0.1 and x: 0.5. So for better mouse
-        control, considering middle of the model is anchor would be more
-        advisible.
-    */
-    private void MoveMOUSE(){
+    /// <summary>
+    /// Follow Mouse on hold.
+    /// Gets mouse position and converts it into camera pixel points.
+
+    /// *note:
+    /// Pivot point is anchored on y: 0.1 and x: 0.5. So for better mouse
+    /// control, considering middle of the model is anchor would be more
+    /// advisible.
+    /// </summary>
+     private void MoveMouse(){
         /* look direction*/
         var v = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1);
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(v);
@@ -82,7 +89,7 @@ public class PlayerController : MonoBehaviour
         
         this.lookingDir = new Vector3(x,y).normalized;
         /*movement direction on hold*/
-        if (Input.GetMouseButtonDown(0)){
+        if (Input.GetMouseButton(0)){
             targetPos = mousePos;
             targetPos.z = 0; //for some reason z is always set to -9
 
@@ -105,39 +112,13 @@ public class PlayerController : MonoBehaviour
 
         }else{ 
             /* move to last known held/clicked position */
-            /*if (Vector3.Distance(playerPos, targetPos) >= treshold && characterMovementController.IsMoving){
+            if (Vector3.Distance(playerPos, targetPos) >=treshold && characterMovementController.IsMoving){
                 this.moveDir = new Vector3(targetPos.x-playerPos.x, targetPos.y - playerPos.y, 0f).normalized;
                 characterAnimationController.CharacterMovement(moveDir);
             }else{
                 this.moveDir = Vector3.zero;
                 //idle animation
                 characterAnimationController.CharacterDirection(lookingDir);
-            }*/
-
-            //FIXME throwing exception when 4th quadrant
-            SetTargetPosition(mousePos);
-            if (pathVectorList != null)
-            {
-                //exception handling
-                if (pathVectorList.Count != 0 && currentPathIndex != 0){
-                    Vector3 targetPos = pathVectorList[currentPathIndex];
-                }
-                
-                if (Vector3.Distance(transform.position, targetPos) >= treshold)
-                {
-                    this.moveDir = (targetPos - transform.position).normalized;
-                    float distanceBefore = Vector3.Distance(transform.position, targetPos);
-                    characterAnimationController.CharacterMovement(moveDir);
-                }else{
-                    currentPathIndex++;
-                    if (currentPathIndex >= pathVectorList.Count)
-                    {
-                        StopMoving();
-                        this.moveDir = Vector3.zero;
-                        characterAnimationController.CharacterDirection(lookingDir);
-                    }
-
-                }
             }
         } 
 
@@ -146,26 +127,13 @@ public class PlayerController : MonoBehaviour
             dash = true;
         } 
     }
-    //TODO doc
-    private void StopMoving(){
-        pathVectorList = null;
-    }
 
-    //TODO doc
-    public void SetTargetPosition(Vector3 targetPosition){
-        currentPathIndex = 0;
-        pathVectorList = pathFinding.FindPath(this.transform.position ,targetPos);
-
-        if (pathVectorList != null && pathVectorList.Count > 1) {
-            pathVectorList.RemoveAt(0);
-        }
-    }
-    /*
-        Dash function. Teleports RB in the mouse direction when. This function
-        workis with physics so must be used within FixedUpdate(). Cast Raycast before actual
-        dashing, to prevent going through the walls. If wall is detected, move character to 
-        collided raycast point instead.
-    */
+    /// <summary>
+    /// Dash function. Teleports RB in the mouse direction when. This function
+    /// workis with physics so must be used within FixedUpdate(). Cast Raycast before actual
+    /// dashing, to prevent going through the walls. If wall is detected, move character to 
+    /// collided raycast point instead.
+    /// </summary>
     private void Dash(){
         float dashAmount = 5f;
         Vector3 dashDir = Vector3.zero;
@@ -188,5 +156,70 @@ public class PlayerController : MonoBehaviour
         rigidbody2d.MovePosition(dashPosition);
         this.transform.position = dashPosition; //otherwise character will walk back to its last "pressed" position
         dash = false;
+    }
+
+/*  *   *   *   *   *   *   *   *   *   *
+        P A T H  F I N D I N G
+*   *   *   *   *   *   *   *   *   *   */
+    /// <summary>
+    /// Uses Pathfinding controller to find shortest path to clicked position.
+    /// </summary>
+    private void FindPath(){
+        if (findPath == false)
+        {
+            return;
+        }
+        var v = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(v);
+        Vector3 playerPos = this.transform.position;
+        playerPos.y += 0.4f; //pivot is normalized to y: 0.1 but for controls purpose consider as middle y: 0.5
+
+        float x = mousePos.x - playerPos.x;
+        float y = mousePos.y - playerPos.y;
+        
+        this.lookingDir = new Vector3(x,y).normalized;
+
+        if (pathVectorList != null)
+        {
+            //exception handling
+            Vector3 targetPos = pathVectorList[currentPathIndex];
+            
+            if (Vector3.Distance(transform.position, targetPos) >= treshold)
+            {
+                this.moveDir = (targetPos - transform.position).normalized;
+                float distanceBefore = Vector3.Distance(transform.position, targetPos);
+                characterAnimationController.CharacterMovement(moveDir);
+            }else{
+                currentPathIndex++;
+                if (currentPathIndex >= pathVectorList.Count)
+                {
+                    StopMoving();
+                    characterAnimationController.CharacterDirection(lookingDir);
+                    findPath = false;
+                }
+
+            }
+        }
+    }
+
+    /// <summary>
+    /// Used to stop movement when using pathfinding algorithm.
+    /// </summary>
+    private void StopMoving(){
+        pathVectorList = null;
+        this.moveDir = Vector3.zero;
+    }
+
+    /// <summary>
+    /// Set pathfinding target position to reach.
+    /// </summary>
+    /// <param name="targetPosition"></param>
+    public void SetTargetPosition(Vector3 targetPosition){
+        currentPathIndex = 0;
+        pathVectorList = pathFinding.FindPathVector(this.transform.position ,targetPosition);
+
+        if (pathVectorList != null && pathVectorList.Count > 1) {
+            pathVectorList.RemoveAt(0);
+        }
     }
 }

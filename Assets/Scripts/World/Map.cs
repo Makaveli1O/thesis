@@ -226,7 +226,10 @@ public class Map : MonoBehaviour
         return;
     }
 
-    //TODO doc
+    /// <summary>
+    /// Save freshly generated key object into JSON attached to this seed.
+    /// </summary>
+    /// <param name="usedPositions">Positions of key objects (4)</param>
     private void SaveKeyObjects(List<TDTile> usedPositions){
         SaveKeyObjects saveObj = new SaveKeyObjects(usedPositions);
         gameHandler.Save<SaveKeyObjects>(saveObj, ObjType.KeyObjects, new Vector3(0,0,0));  //3rd argument irrelevant here
@@ -258,7 +261,12 @@ public class Map : MonoBehaviour
         }
     }
 
-    //TODO doc
+    /// <summary>
+    /// Check whenever given position is suitable for spawning entity ontop of it.
+    /// </summary>
+    /// <param name="absolute">Absolute tile position</param>
+    /// <param name="chunkKey">Position of chunk.</param>
+    /// <returns></returns>
     public bool isSpawnable(int2 absolute, int2 chunkKey){
         int2 relative = TileRelativePos(absolute);
         TDTile tile = GetTile(relative, chunkKey);
@@ -747,7 +755,12 @@ public class Map : MonoBehaviour
         AppendBiomeList(map.chunks[key].sample[tile_coords.x, tile_coords.y], biomeToReturn);
         return biomeToReturn;
     }
-    //FIXME add doc
+    
+    /// <summary>
+    /// Appends list of biome to processed list.
+    /// </summary>
+    /// <param name="tile">Tile that is being processed.</param>
+    /// <param name="biome">Biome of the tile.</param>
     private void AppendBiomeList(TDTile tile, BiomePreset biome){
         switch (biome.type)
         {

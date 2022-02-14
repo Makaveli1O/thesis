@@ -25,9 +25,9 @@ public class PathFinding : MonoBehaviour
 
     //TODO doc
     //FIXME pretypovanie prerobit
-    public List<Vector3> FindPath(Vector3 start, Vector3 target){
+    public List<Vector3> FindPathVector(Vector3 start, Vector3 target){
         List<TDTile> path = FindPath(new int2((int)start.x,(int) start.y), new int2((int)target.x, (int)target.y));
-
+        
         //path not found
         if (path == null)
         {
@@ -46,7 +46,6 @@ public class PathFinding : MonoBehaviour
         //get correct tile ref
         this.startTile = mapRef.GetTile(mapRef.TileRelativePos(startPos), mapRef.TileChunkPos(startPos));
         this.targetTile = mapRef.GetTile(mapRef.TileRelativePos(targetPos), mapRef.TileChunkPos(targetPos));
-
         //invalid path
         if (startTile == null || targetTile == null)
         {

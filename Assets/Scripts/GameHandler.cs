@@ -16,7 +16,15 @@ public class GameHandler : MonoBehaviour
         SaveSystem.Init();
         SAVE_FOLDER = Application.dataPath + "/Saves/";
     }
-    //TODO doc
+    
+    /// <summary>
+    /// Saves given object to JSON file. ObjType object are used to save specific object type. Files are
+    /// classified by world seed number.
+    /// </summary>
+    /// <param name="saveObj">Object to be saved</param>
+    /// <param name="key">Type of object</param>
+    /// <param name="position">Position ( used in player and objects)</param>
+    /// <typeparam name="T"></typeparam>
      public void Save<T>(T saveObj, ObjType key, Vector3 position){
         string json = JsonUtility.ToJson(saveObj);
 
@@ -30,7 +38,15 @@ public class GameHandler : MonoBehaviour
             SaveSystem.Save(json,key+"_"+position.x+","+position.y+".json", world_seed.ToString());
         }
     }
-//TODO doc
+
+    /// <summary>
+    /// Load specific object from JSON file.
+    /// </summary>
+    /// <param name="key">Type of object to search for.</param>
+    /// <param name="x_pos">X position of object(optional)</param>
+    /// <param name="y_pos">Y position of object(optional)</param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns>Loaded object or null</returns>
     public T Load<T>(ObjType key, int x_pos = -1, int y_pos = -1){
         //read saved json
         string saveString = null;
@@ -52,7 +68,10 @@ public class GameHandler : MonoBehaviour
         return returnValue;
     }
 }
-//TODO doc
+
+/// <summary>
+/// Class holding positional information about to save.
+/// </summary>
 [System.Serializable]
 public class SavePosition
 {
@@ -61,7 +80,10 @@ public class SavePosition
         this.pos = pos;
     }
 }
-//TODO comment
+
+/// <summary>
+/// Class representing key object to save in regular form.
+/// </summary>
 [System.Serializable]
 public class SaveKeyObjects
 {
@@ -78,6 +100,9 @@ public class SaveKeyObjects
     }
 }
 
+/// <summary>
+/// Class for saving chunks.(only necessary intel)
+/// </summary>
 [System.Serializable]
 public class SaveChunk
 {
@@ -88,6 +113,9 @@ public class SaveChunk
     }
 }
 
+/// <summary>
+/// Determining type of saving object to adjust behaviour when saving and loading.
+/// </summary>
 public enum ObjType{
     Player,
     Entity,

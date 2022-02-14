@@ -518,8 +518,12 @@ public class BiomePreset : ScriptableObject
         Debug.Log("No tree found");
         return null;
     }
-    //TODO docstring
-
+    
+    /// <summary>
+    /// Get specific object of this biome, from given name.
+    /// </summary>
+    /// <param name="name">Name of desired object.</param>
+    /// <returns></returns>
     public Sprite GetObj(string name){
         foreach (Objects itm in objects){
             if(itm.type == "miscellaneous"){
@@ -536,7 +540,10 @@ public class BiomePreset : ScriptableObject
         return null;
     }
 
-    //TODO docstring
+    /// <summary>
+    /// Returns random object from this biome.
+    /// </summary>
+    /// <returns>Returns random object from this biome.</returns>
     public Sprite GetRandomObj(){
             foreach (Objects itm in objects)
             {
