@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
-using Random = UnityEngine.Random;
-using System;
-
 //TODO
 //make changing the seed to have bigger impact. Maps looks too similar ( play with precipitation height seed derivation)
 
@@ -267,10 +264,13 @@ public class Map : MonoBehaviour
     /// <param name="absolute">Absolute tile position</param>
     /// <param name="chunkKey">Position of chunk.</param>
     /// <returns></returns>
-    public bool isSpawnable(int2 absolute, int2 chunkKey){
-        int2 relative = TileRelativePos(absolute);
-        TDTile tile = GetTile(relative, chunkKey);
-        //TODO spawnable conditions
+    /// FIXME need more in depth possibly
+    public bool isSpawnable(TDTile tile){
+        //skip ocean, water or beach
+        if (tile.biome == biomes[4] || tile.biome == biomes[6] || tile.biome == biomes[5])
+        {
+            return false;
+        }
 
         return true;
     }

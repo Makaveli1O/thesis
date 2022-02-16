@@ -23,8 +23,13 @@ public class PathFinding : MonoBehaviour
         }
     }
 
-    //TODO doc
     //FIXME pretypovanie prerobit
+    /// <summary>
+    /// Converts found path from FindPath into Vector3s
+    /// </summary>
+    /// <param name="start">Start point(player pos)</param>
+    /// <param name="target">End point (mouse pos)</param>
+    /// <returns>List of Vector3 path</returns>
     public List<Vector3> FindPathVector(Vector3 start, Vector3 target){
         List<TDTile> path = FindPath(new int2((int)start.x,(int) start.y), new int2((int)target.x, (int)target.y));
         
@@ -41,7 +46,15 @@ public class PathFinding : MonoBehaviour
             return vectorPath;
         }
     }
-    //TODO doc
+    
+    /// <summary>
+    /// Performs A* algorithm to find shortest path, avoiding obstacles. Each tile has
+    /// isWalkable attribute which is used to determine walkable and not walkable tiles. This solution is not
+    /// properly optimalized but it might not be necessary.
+    /// </summary>
+    /// <param name="startPos">Starting point</param>
+    /// <param name="targetPos">Ending point</param>
+    /// <returns>A* found path list of TDTiles</returns>
     public List<TDTile> FindPath(int2 startPos, int2 targetPos){
         //get correct tile ref
         this.startTile = mapRef.GetTile(mapRef.TileRelativePos(startPos), mapRef.TileChunkPos(startPos));
@@ -102,7 +115,13 @@ public class PathFinding : MonoBehaviour
         return null;
     }
 
-    //TODO doc
+    /// <summary>
+    /// Retraces path back to original starting tile. Each tile was marked with
+    /// cameFrom that points to previously visited tile.
+    /// </summary>
+    /// <param name="startTile">Starting tile</param>
+    /// <param name="endTile">Ending tile</param>
+    /// <returns>Retraced a* path.</returns>
     private List<TDTile> RetracePath(TDTile startTile, TDTile endTile){
         List<TDTile> path = new List<TDTile>();
         TDTile currentTile = endTile;
@@ -118,8 +137,13 @@ public class PathFinding : MonoBehaviour
         return path;
     }
 
-    //14 y + 10(x - y)
-    //TODO doc
+    
+    /// <summary>
+    /// Calculates cost distance with //14 y + 10(x - y) formula asigned to a* algo.
+    /// </summary>
+    /// <param name="a">1St tile</param>
+    /// <param name="b">2nd tile</param>
+    /// <returns>Distance cost value.</returns>
     private int GetDistance(TDTile a, TDTile b) {
         int xDistance = Mathf.Abs(a.pos.x - b.pos.x);
         int yDistance = Mathf.Abs(a.pos.y - b.pos.y);

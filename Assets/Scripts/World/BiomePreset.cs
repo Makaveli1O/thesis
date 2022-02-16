@@ -14,6 +14,7 @@ public class BiomePreset : ScriptableObject
     public Sprite[] specialTiles;
     public EdgeTile[] edgeTiles;
     public Objects[] objects;
+    public EnemyPreset[] enemies;
     public float height;
     public float temperature; //min
     public float maxTemperature;

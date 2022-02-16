@@ -12,7 +12,7 @@ public class ChunkCreator : MonoBehaviour
 {
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
-    Map mapReference;
+    public Map mapReference;
     ChunkLoader chunkLoader;
     ObjectPool treePool;
     ObjectPool objectPool;
@@ -535,18 +535,28 @@ public class ChunkCreator : MonoBehaviour
         while (spawned < randomNum)
         {
             int2 spawnPos = new int2(Random.Range(chunkKey.x, chunkTopCoords.x), Random.Range(chunkKey.y, chunkTopCoords.y));
+            TDTile tile = mapReference.GetTile(mapReference.TileRelativePos(spawnPos), mapReference.TileChunkPos(spawnPos));
             //check if tile is fine to spawn entity on
-            if(mapReference.isSpawnable(spawnPos, chunkKey)){
-                Spawn(new Vector3(spawnPos.x, spawnPos.y, 0));
+            if(mapReference.isSpawnable(tile)){
+                Spawn(tile);
                 spawned++;
             }
         }
         return true;
     }
     //TODO doc
-    private void Spawn(Vector3 pos){
-        //GameObject obj = Instantiate(entity, pos, Quaternion.identity);
+    private void Spawn(TDTile tile){
+        //convert to vector position
+        Vector3 pos = new Vector3(tile.pos.x, tile.pos.y , 0);
+        //get available object
         GameObject entity = this.entityPool.GetPooledObject();
+        EnemyController ec = entity.GetComponent<EnemyController>();
+        //set correct enemy
+        ec.preset = tile.biome.enemies[Random.Range(0, tile.biome.enemies.Length-1)];
+        //set wander anchor point
+        ec.anchorPoint = pos;
+
+        //set position and activate
         entity.transform.position = pos;
         entity.SetActive(true);
         spawnedEntities.Add(entity);

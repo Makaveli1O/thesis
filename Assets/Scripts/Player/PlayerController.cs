@@ -54,7 +54,6 @@ public class PlayerController : MonoBehaviour
             SetTargetPosition(mousePos);
             
         }
-        
     }
 
     // Fixed Update -> work with rigidbody here
