@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /*
 
 Character Animation controller
 
 */
+
+//FIXME docs to c# comments
 public class CharacterAnimationController : MonoBehaviour
 {
     private Animator animator;
@@ -34,7 +34,7 @@ public class CharacterAnimationController : MonoBehaviour
         Turns character to corresponding position.
     */
     public void CharacterDirection(Vector3 lookingDir){
-           QuadrantRotation(lookingDir,"idle");
+        QuadrantRotation(lookingDir,"idle");
     }
 
     /*

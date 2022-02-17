@@ -267,7 +267,7 @@ public class Map : MonoBehaviour
     /// FIXME need more in depth possibly
     public bool isSpawnable(TDTile tile){
         //skip ocean, water or beach
-        if (tile.biome == biomes[4] || tile.biome == biomes[6] || tile.biome == biomes[5])
+        if (tile.biome == biomes[4] || tile.biome == biomes[6] || tile.biome == biomes[5] || !tile.IsWalkable)
         {
             return false;
         }

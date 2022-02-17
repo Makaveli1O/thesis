@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     private SpriteRenderer sr;
     private PathFinding pf;
     private Rigidbody2D rb;
+    private CharacterAnimationController animationController;
     private Map mapRef;
     //wander
     private bool combat = false;
@@ -35,6 +36,7 @@ public class EnemyController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         pf = GetComponent<PathFinding>();
         rb = GetComponent<Rigidbody2D>();
+        animationController = GetComponent<CharacterAnimationController>();
         rb.freezeRotation = true;
         var m = GameObject.FindGameObjectWithTag("Map");
         try
@@ -59,7 +61,7 @@ public class EnemyController : MonoBehaviour
         //start wandering right after enable
         if (OnEnableCount != 0)
         {
-            ChangeDirection();
+            //ChangeDirection();
             observeTime = GetRandomObserveTime();
         }
         OnEnableCount++;
@@ -100,6 +102,8 @@ public class EnemyController : MonoBehaviour
             //stop and observer after wander
             if (observeTime > 0)
             {
+                //animate idle
+                animationController.CharacterDirection(moveDir);
                 moveDir = Vector3.zero; //stop
                 observeTime -= Time.deltaTime;
             //then find new direction towards anchor point and move
@@ -115,6 +119,8 @@ public class EnemyController : MonoBehaviour
     private void ChangeDirection(){
         Vector3 targetPos = RandomPointInRadius();
         moveDir = new Vector3(targetPos.x-this.gameObject.transform.position.x, targetPos.y - this.gameObject.transform.position.y, 0f).normalized;
+        //animate movement
+        animationController.CharacterMovement(moveDir);
     }
 
     //TODO doc
@@ -131,7 +137,7 @@ public class EnemyController : MonoBehaviour
     private void TileController(){
         int2 coords = new int2((int)this.gameObject.transform.position.x,(int)this.gameObject.transform.position.y);
         TDTile tile = mapRef.GetTile(mapRef.TileRelativePos(coords), mapRef.TileChunkPos(coords));
-        if (!tile.IsWalkable)
+        if (!tile.IsWalkable || tile == null)
         {
             ChangeDirection();
         }   

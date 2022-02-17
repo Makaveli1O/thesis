@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
      <Compile Include="Assets\Scripts\Helper.cs" />
      <Compile Include="Assets\Scripts\Characters\CharacterMovementController.cs" />
+     <Compile Include="Assets\Scripts\Enemies\EnemyPreset.cs" />
      <Compile Include="Assets\Scripts\GameHandler.cs" />
      <Compile Include="Assets\Scripts\World\WorldChunk.cs" />
      <Compile Include="Assets\Scripts\World\MapGeneratorEditor.cs" />
@@ -59,7 +60,7 @@
      <Compile Include="Assets\Scripts\World\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\Characters\PathFinding.cs" />
      <Compile Include="Assets\Scripts\World\ChunkGenerator.cs" />
-     <Compile Include="Assets\Scripts\Enemies\EnemyPreset.cs" />
+     <Compile Include="Assets\Scripts\Characters\characterAnimationControllerBACKUP.cs" />
      <None Include="Assets\zMatrix.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Programy\unity\2020.3.12f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
