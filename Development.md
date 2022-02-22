@@ -117,7 +117,7 @@ When player stands on tile that is cosidered to be hillEdge tile, proper method 
 
 # Enemies
 ### Pathfinding
-A* algorithm is used to find shortest path. Characters/PathFinding.cs 
+A* algorithm is used to find shortest path. Characters/PathFinding.cs. A* ignores path between two walls connected only through the corner.
 
 ### Spawning
 Each rendered chunk has 3 ObjectPools attached. One of them is entity object pool handling spawning creatures within rendered chunks. EntitySpawner within ChunkCreator is used to spawn in random positions near player. These positions are checked by isSpawnable function.
